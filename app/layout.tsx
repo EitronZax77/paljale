@@ -6,7 +6,7 @@ export const viewport: Viewport = {
 };
 
 export const metadata: Metadata = {
-  title: "PALJALE | Herramientas Digitales Gratuita y Seguras",
+  title: "PALJALE | Herramientas Digitales",
   description: "Plataforma gratuita para unir, extraer y comprimir PDFs, editar imágenes, convertir formatos y generar códigos QR al instante.",
   keywords: ["PALJALE", "unir pdf", "comprimir pdf", "convertir imagen", "generador qr", "herramientas gratis"],
   authors: [{ name: "PALJALE Team" }],

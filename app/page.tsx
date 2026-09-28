@@ -52,7 +52,7 @@ export default function Home() {
         </div>
 
         <h1 className="text-4xl md:text-6xl font-extrabold tracking-tight text-gray-900 mb-6">
-          Herramientas Digitales <span className="bg-gradient-to-r from-rose-600 to-orange-500 bg-clip-text text-transparent">Sin Límites</span>
+          Herramientas Digitales
         </h1>
         <p className="text-gray-600 mb-12 text-lg max-w-xl">
           Gestiona, une, comprime y convierte tus documentos PDF, imágenes y códigos QR al instante, gratis y con total seguridad.
