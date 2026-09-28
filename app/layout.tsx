@@ -1,10 +1,22 @@
-import type { Metadata } from "next";
-import Script from "next/script";
+import type { Metadata, Viewport } from "next";
 import "./globals.css";
 
+export const viewport: Viewport = {
+  themeColor: "#e11d48",
+};
+
 export const metadata: Metadata = {
-  title: "PALJALE | Herramientas Digitales Gratuitas",
-  description: "Edita PDFs, convierte imágenes y genera códigos QR gratis y sin registro.",
+  title: "PALJALE | Herramientas Digitales Gratuita y Seguras",
+  description: "Plataforma gratuita para unir, extraer y comprimir PDFs, editar imágenes, convertir formatos y generar códigos QR al instante.",
+  keywords: ["PALJALE", "unir pdf", "comprimir pdf", "convertir imagen", "generador qr", "herramientas gratis"],
+  authors: [{ name: "PALJALE Team" }],
+  openGraph: {
+    title: "PALJALE | Herramientas Digitales Sin Límites",
+    description: "Gestiona, une, comprime y convierte tus documentos PDF, imágenes y códigos QR al instante.",
+    type: "website",
+    locale: "es_MX",
+    siteName: "PALJALE",
+  },
 };
 
 export default function RootLayout({
@@ -15,26 +27,9 @@ export default function RootLayout({
   return (
     <html lang="es">
       <head>
-        {/* Google Analytics con el componente Script oficial de Next.js */}
-        <Script
-          async
-          src="https://www.googletagmanager.com/gtag/js?id=G-XBT7CN70H7"
-          strategy="afterInteractive"
-        />
-        <Script
-          id="google-analytics"
-          strategy="afterInteractive"
-          dangerouslySetInnerHTML={{
-            __html: `
-              window.dataLayer = window.dataLayer || [];
-              function gtag(){dataLayer.push(arguments);}
-              gtag('js', new Date());
-              gtag('config', 'G-XBT7CN70H7');
-            `,
-          }}
-        />
+        <link rel="icon" href="/favicon.ico" sizes="any" />
       </head>
-      <body className="antialiased">
+      <body className="antialiased bg-slate-50 text-slate-900">
         {children}
       </body>
     </html>

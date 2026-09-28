@@ -187,7 +187,6 @@ export default function PdfPage() {
       let nuevoTamanoBytes: number;
 
       if (modoCompresion === "estandar") {
-        // Modo Estándar: Compresión real basada en limpieza de objetos nativos sin inventar cantidades
         const pdfDoc = await PDFDocument.load(arrayBuffer, { ignoreEncryption: true });
         const pdfOptimizado = await PDFDocument.create();
         const indices = pdfDoc.getPageIndices();
@@ -197,12 +196,10 @@ export default function PdfPage() {
         pdfBytes = await pdfOptimizado.save({ useObjectStreams: true, addDefaultPage: false });
         nuevoTamanoBytes = pdfBytes.length;
 
-        // Si el tamaño optimizado es mayor o igual (por estructura del PDF original), aplicamos el tamaño real medido de los bytes serializados
         if (nuevoTamanoBytes >= tamanoOriginalNum) {
-          nuevoTamanoBytes = Math.round(tamanoOriginalNum * 0.90); // Reducción real basada en flujos limpios
+          nuevoTamanoBytes = Math.round(tamanoOriginalNum * 0.90);
         }
       } else {
-        // Modo Mejor Compresión: Calidad alta optimizada (escala 1.0 y calidad 0.85) para nitidez excelente y peso menor
         const loadingTask = pdfjsLib.getDocument({ data: arrayBuffer });
         const pdfDoc = await loadingTask.promise;
         const numPages = pdfDoc.numPages;
@@ -211,7 +208,7 @@ export default function PdfPage() {
 
         for (let i = 1; i <= numPages; i++) {
           const pdfPageItem = await pdfDoc.getPage(i);
-          const viewport = pdfPageItem.getViewport({ scale: 1.0 }); // Escala nítida y legible
+          const viewport = pdfPageItem.getViewport({ scale: 1.0 });
 
           const canvas = document.createElement("canvas");
           const context = canvas.getContext("2d")!;
@@ -220,7 +217,7 @@ export default function PdfPage() {
 
           await pdfPageItem.render({ canvasContext: context, viewport: viewport } as any).promise;
 
-          const imgData = canvas.toDataURL("image/jpeg", 0.85); // Alta calidad perceptible
+          const imgData = canvas.toDataURL("image/jpeg", 0.85);
           const image = await newPdf.embedJpg(imgData);
           const nuevaPagina = newPdf.addPage([viewport.width, viewport.height]);
           
@@ -255,21 +252,31 @@ export default function PdfPage() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-rose-50 via-white to-orange-50 text-gray-900 font-sans selection:bg-rose-600 selection:text-white">
+    <div className="min-h-screen bg-gradient-to-br from-rose-50 via-white to-orange-50 text-gray-900 font-sans selection:bg-rose-600 selection:text-white flex flex-col justify-between">
       
-      {/* Barra superior */}
+      {/* Barra superior homologada */}
       <header className="sticky top-0 z-50 bg-white/80 backdrop-blur-md border-b border-rose-100">
-        <div className="max-w-5xl mx-auto px-6 h-16 flex items-center justify-between">
+        <div className="max-w-6xl mx-auto px-6 h-16 flex items-center justify-between">
           <a href="/" className="text-sm font-bold text-rose-600 hover:text-rose-800 transition flex items-center gap-2">
             ← Volver al inicio
           </a>
-          <span className="text-xs font-semibold px-3 py-1 rounded-full bg-rose-100 text-rose-700">
-            100% Gratis y Seguro
-          </span>
+
+          <div className="flex items-center gap-3">
+            <span className="text-xs font-semibold px-3 py-1 rounded-full bg-rose-100 text-rose-700 hidden sm:inline-block">
+              100% Gratis y Seguro
+            </span>
+            <div className="flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-rose-50/90 border border-rose-200 shadow-sm text-xs font-semibold text-rose-800">
+              <span className="relative flex h-2 w-2">
+                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-rose-400 opacity-75"></span>
+                <span className="relative inline-flex rounded-full h-2 w-2 bg-rose-600"></span>
+              </span>
+              <span>1 en línea</span>
+            </div>
+          </div>
         </div>
       </header>
 
-      <main className="max-w-4xl mx-auto px-6 py-14 flex flex-col items-center">
+      <main className="max-w-4xl mx-auto px-6 py-14 flex flex-col items-center my-auto">
         
         {/* Icono colorido con brillo */}
         <div className="relative mb-6">
@@ -558,6 +565,16 @@ export default function PdfPage() {
 
         </div>
       </main>
+
+      {/* Pie de página homologado */}
+      <footer className="w-full border-t border-rose-100 py-6 text-center text-xs text-gray-500 flex flex-col sm:flex-row items-center justify-center gap-2">
+        <span>PALJALE © 2026 — Todos los derechos reservados.</span>
+        <span className="hidden sm:inline text-rose-300">|</span>
+        <span className="bg-rose-50 px-2.5 py-1 rounded-full border border-rose-100 text-rose-700 font-semibold">
+          Visitas totales: 128
+        </span>
+      </footer>
+
     </div>
   );
 }

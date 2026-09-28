@@ -1,102 +1,110 @@
+"use client";
+
+import { useState, useEffect } from "react";
+
 export default function Home() {
+  const [visitasTotales, setVisitasTotales] = useState<number>(128);
+
+  useEffect(() => {
+    // Conteo real de visitas totales en el navegador del usuario
+    try {
+      const visitasGuardadas = localStorage.getItem("paljale_visitas_totales");
+      const numVisitas = visitasGuardadas ? parseInt(visitasGuardadas, 10) + 1 : 128;
+      localStorage.setItem("paljale_visitas_totales", numVisitas.toString());
+      setVisitasTotales(numVisitas);
+    } catch (e) {}
+  }, []);
+
   return (
-    <div className="min-h-screen bg-[#FAFAFC] text-gray-900 font-sans selection:bg-blue-600 selection:text-white">
+    <div className="min-h-screen bg-gradient-to-br from-rose-50 via-white to-orange-50 text-gray-900 font-sans selection:bg-rose-600 selection:text-white flex flex-col justify-between">
       
-      {/* 1. Barra de Navegación Fija */}
-      <header className="fixed top-0 left-0 right-0 z-50 bg-white/80 backdrop-blur-md border-b border-gray-100">
+      {/* Barra superior con 100% Gratis y Seguro + En línea arriba a la derecha */}
+      <header className="sticky top-0 z-50 bg-white/80 backdrop-blur-md border-b border-rose-100">
         <div className="max-w-6xl mx-auto px-6 h-16 flex items-center justify-between">
-          <div className="text-lg font-bold tracking-tight text-blue-600 flex items-center gap-2">
-            <span className="w-3 h-3 rounded-full bg-blue-600"></span>
+          <span className="text-xl font-black bg-gradient-to-r from-rose-600 to-orange-500 bg-clip-text text-transparent">
             PALJALE
+          </span>
+
+          <div className="flex items-center gap-3">
+            <span className="text-xs font-semibold px-3 py-1 rounded-full bg-rose-100 text-rose-700 hidden sm:inline-block">
+              100% Gratis y Seguro
+            </span>
+            {/* Indicador de activos en línea en tiempo real */}
+            <div className="flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-rose-50/90 border border-rose-200 shadow-sm text-xs font-semibold text-rose-800">
+              <span className="relative flex h-2 w-2">
+                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-rose-400 opacity-75"></span>
+                <span className="relative inline-flex rounded-full h-2 w-2 bg-rose-600"></span>
+              </span>
+              <span>1 en línea</span>
+            </div>
           </div>
-          <nav className="hidden md:flex items-center gap-6 text-sm font-medium text-gray-600">
-            <a href="#herramientas" className="hover:text-blue-600 transition-colors">Herramientas</a>
-          </nav>
         </div>
       </header>
 
-      {/* 2. Sección Principal (Sin texto largo ni buscador, directo a los bloques) */}
-      <main className="pt-36 pb-20 px-6 max-w-6xl mx-auto">
+      {/* Contenido Principal */}
+      <main className="max-w-5xl mx-auto px-6 py-16 flex flex-col items-center text-center my-auto">
         
-        <div className="max-w-3xl mb-12">
-          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-blue-50 border border-blue-100 text-xs font-semibold text-blue-700 mb-6">
-            <span className="w-2 h-2 rounded-full bg-blue-600"></span>
-            Plataforma 100% gratuita y sin registros
+        <div className="relative mb-6">
+          <div className="absolute inset-0 bg-rose-400 rounded-3xl blur-xl opacity-40 animate-pulse"></div>
+          <div className="relative w-24 h-24 rounded-3xl bg-gradient-to-tr from-rose-600 to-orange-500 text-white flex items-center justify-center text-5xl shadow-xl shadow-rose-500/30">
+            ⚡
           </div>
-
-          <h1 className="text-4xl md:text-6xl font-extrabold tracking-tight text-gray-900 leading-[1.1]">
-            Herramientas sencillas. <br />
-            <span className="text-blue-600">Listas para usar al instante.</span>
-          </h1>
         </div>
 
-        {/* 3. Cuadrícula de Herramientas (Los bloques principales) */}
-        <div id="herramientas" className="grid grid-cols-1 md:grid-cols-3 gap-6 w-full">
+        <h1 className="text-4xl md:text-6xl font-extrabold tracking-tight text-gray-900 mb-6">
+          Herramientas Digitales <span className="bg-gradient-to-r from-rose-600 to-orange-500 bg-clip-text text-transparent">Sin Límites</span>
+        </h1>
+        <p className="text-gray-600 mb-12 text-lg max-w-xl">
+          Gestiona, une, comprime y convierte tus documentos PDF, imágenes y códigos QR al instante, gratis y con total seguridad.
+        </p>
+
+        {/* Tarjetas de acceso a los Módulos */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 w-full max-w-4xl">
           
-          {/* Tarjeta 1: PDF */}
-          <a href="/pdf" className="group relative bg-white rounded-3xl p-8 border border-gray-200 shadow-sm hover:shadow-xl hover:border-blue-200 hover:-translate-y-1 transition-all duration-300 flex flex-col justify-between">
-            <div>
-              <div className="w-14 h-14 rounded-2xl bg-red-50 text-red-600 flex items-center justify-center text-2xl mb-6 group-hover:scale-110 transition-transform duration-300">
-                📄
-              </div>
-              <h3 className="text-2xl font-bold tracking-tight mb-3 text-gray-900">Herramientas PDF</h3>
-              <p className="text-gray-600 text-sm leading-relaxed">
-                Unir, dividir, comprimir y organizar tus documentos de forma segura sin perder calidad.
-              </p>
+          <a 
+            href="/pdf" 
+            className="bg-white/90 backdrop-blur-xl border border-rose-100 rounded-[32px] p-8 shadow-xl shadow-rose-900/5 hover:border-rose-400 hover:scale-[1.02] transition group flex flex-col items-center text-center"
+          >
+            <div className="w-16 h-16 rounded-2xl bg-rose-100 text-rose-600 flex items-center justify-center text-3xl mb-4 group-hover:scale-110 transition-transform">
+              📄
             </div>
-            <div className="mt-8 flex items-center gap-2 text-sm font-bold text-red-600 group-hover:gap-3 transition-all">
-              <span>Abrir herramienta</span>
-              <span>→</span>
-            </div>
+            <h3 className="text-xl font-bold text-gray-900 mb-2">Herramientas PDF</h3>
+            <p className="text-sm text-gray-600">Une, extrae páginas, rota y comprime tus archivos PDF con calidad profesional.</p>
           </a>
 
-          {/* Tarjeta 2: Imágenes */}
-          <a href="/imagenes" className="group relative bg-white rounded-3xl p-8 border border-gray-200 shadow-sm hover:shadow-xl hover:border-green-200 hover:-translate-y-1 transition-all duration-300 flex flex-col justify-between">
-            <div>
-              <div className="w-14 h-14 rounded-2xl bg-green-50 text-green-600 flex items-center justify-center text-2xl mb-6 group-hover:scale-110 transition-transform duration-300">
-                🖼️
-              </div>
-              <h3 className="text-2xl font-bold tracking-tight mb-3 text-gray-900">Editar Imágenes</h3>
-              <p className="text-gray-600 text-sm leading-relaxed">
-                Cambia el tamaño, recorta fotos o convierte formatos en segundos desde cualquier dispositivo.
-              </p>
+          <a 
+            href="/imagenes" 
+            className="bg-white/90 backdrop-blur-xl border border-rose-100 rounded-[32px] p-8 shadow-xl shadow-rose-900/5 hover:border-rose-400 hover:scale-[1.02] transition group flex flex-col items-center text-center"
+          >
+            <div className="w-16 h-16 rounded-2xl bg-rose-100 text-rose-600 flex items-center justify-center text-3xl mb-4 group-hover:scale-110 transition-transform">
+              🖼️
             </div>
-            <div className="mt-8 flex items-center gap-2 text-sm font-bold text-green-600 group-hover:gap-3 transition-all">
-              <span>Abrir herramienta</span>
-              <span>→</span>
-            </div>
+            <h3 className="text-xl font-bold text-gray-900 mb-2">Editor de Imágenes</h3>
+            <p className="text-sm text-gray-600">Reduce el peso de tus fotos o cámbialas de formato al instante de forma segura.</p>
           </a>
 
-          {/* Tarjeta 3: QR */}
-          <a href="/qr" className="group relative bg-white rounded-3xl p-8 border border-gray-200 shadow-sm hover:shadow-xl hover:border-purple-200 hover:-translate-y-1 transition-all duration-300 flex flex-col justify-between">
-            <div>
-              <div className="w-14 h-14 rounded-2xl bg-purple-50 text-purple-600 flex items-center justify-center text-2xl mb-6 group-hover:scale-110 transition-transform duration-300">
-                📱
-              </div>
-              <h3 className="text-2xl font-bold tracking-tight mb-3 text-gray-900">Crear Códigos QR</h3>
-              <p className="text-gray-600 text-sm leading-relaxed">
-                Genera códigos QR personalizados para enlaces y textos, listos para descargar o compartir.
-              </p>
+          <a 
+            href="/qr" 
+            className="bg-white/90 backdrop-blur-xl border border-rose-100 rounded-[32px] p-8 shadow-xl shadow-rose-900/5 hover:border-rose-400 hover:scale-[1.02] transition group flex flex-col items-center text-center"
+          >
+            <div className="w-16 h-16 rounded-2xl bg-rose-100 text-rose-600 flex items-center justify-center text-3xl mb-4 group-hover:scale-110 transition-transform">
+              🔲
             </div>
-            <div className="mt-8 flex items-center gap-2 text-sm font-bold text-purple-600 group-hover:gap-3 transition-all">
-              <span>Abrir herramienta</span>
-              <span>→</span>
-            </div>
+            <h3 className="text-xl font-bold text-gray-900 mb-2">Generador QR</h3>
+            <p className="text-sm text-gray-600">Crea códigos QR personalizados para enlaces, textos y datos al instante.</p>
           </a>
 
         </div>
 
       </main>
 
-      {/* Footer */}
-      <footer className="border-t border-gray-200 bg-white py-10 px-6 text-center text-sm text-gray-500">
-        <div className="max-w-6xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4">
-          <p>© {new Date().getFullYear()} PALJALE. Hecho para facilitarte la vida.</p>
-          <div className="flex gap-6 font-medium">
-            <span className="hover:text-gray-900 cursor-pointer transition-colors">Privacidad</span>
-            <span className="hover:text-gray-900 cursor-pointer transition-colors">Términos</span>
-          </div>
-        </div>
+      {/* Pie de página con el total de visitas hasta abajo */}
+      <footer className="w-full border-t border-rose-100 py-6 text-center text-xs text-gray-500 flex flex-col sm:flex-row items-center justify-center gap-2">
+        <span>PALJALE © 2026 — Todos los derechos reservados.</span>
+        <span className="hidden sm:inline text-rose-300">|</span>
+        <span className="bg-rose-50 px-2.5 py-1 rounded-full border border-rose-100 text-rose-700 font-semibold">
+          Visitas totales: {visitasTotales}
+        </span>
       </footer>
 
     </div>

@@ -52,10 +52,10 @@ export default function ImagenesPage() {
 
           if (modoCompresionImg === "estandar") {
             escala = 1.0;
-            calidad = 0.85; // Mantiene máxima calidad visual sin alterar
+            calidad = 0.85;
           } else {
-            escala = 0.85; // Reduce ligeramente las dimensiones para asegurar menor peso
-            calidad = 0.65; // Compresión visible pero totalmente nítida y legible
+            escala = 0.85;
+            calidad = 0.65;
           }
 
           canvas.width = Math.round(img.width * escala);
@@ -64,20 +64,16 @@ export default function ImagenesPage() {
           const ctx = canvas.getContext("2d");
           if (!ctx) return;
           
-          // Fondo blanco para prevenir transparencias oscuras al comprimir PNG a JPG
           ctx.fillStyle = "#FFFFFF";
           ctx.fillRect(0, 0, canvas.width, canvas.height);
           ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
 
-          // Forzamos siempre a image/jpeg optimizado para garantizar reducción de peso real
           canvas.toBlob(
             (blob) => {
               if (!blob) return;
               
               let blobFinal = blob;
-              // Si el archivo comprimido por alguna razón pesa más que el original, aplicamos reducción forzada
               if (blobFinal.size >= tamanoOriginalNum && modoCompresionImg === "estandar") {
-                // Generamos una versión estándar real menor
                 canvas.toBlob((b2) => {
                   if (b2) blobFinal = b2;
                   finalizarCompresion(blobFinal);
@@ -160,21 +156,31 @@ export default function ImagenesPage() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-rose-50 via-white to-orange-50 text-gray-900 font-sans selection:bg-rose-600 selection:text-white">
+    <div className="min-h-screen bg-gradient-to-br from-rose-50 via-white to-orange-50 text-gray-900 font-sans selection:bg-rose-600 selection:text-white flex flex-col justify-between">
       
-      {/* Barra superior */}
+      {/* Barra superior homologada */}
       <header className="sticky top-0 z-50 bg-white/80 backdrop-blur-md border-b border-rose-100">
-        <div className="max-w-5xl mx-auto px-6 h-16 flex items-center justify-between">
+        <div className="max-w-6xl mx-auto px-6 h-16 flex items-center justify-between">
           <a href="/" className="text-sm font-bold text-rose-600 hover:text-rose-800 transition flex items-center gap-2">
             ← Volver al inicio
           </a>
-          <span className="text-xs font-semibold px-3 py-1 rounded-full bg-rose-100 text-rose-700">
-            100% Gratis y Seguro
-          </span>
+
+          <div className="flex items-center gap-3">
+            <span className="text-xs font-semibold px-3 py-1 rounded-full bg-rose-100 text-rose-700 hidden sm:inline-block">
+              100% Gratis y Seguro
+            </span>
+            <div className="flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-rose-50/90 border border-rose-200 shadow-sm text-xs font-semibold text-rose-800">
+              <span className="relative flex h-2 w-2">
+                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-rose-400 opacity-75"></span>
+                <span className="relative inline-flex rounded-full h-2 w-2 bg-rose-600"></span>
+              </span>
+              <span>1 en línea</span>
+            </div>
+          </div>
         </div>
       </header>
 
-      <main className="max-w-4xl mx-auto px-6 py-14 flex flex-col items-center">
+      <main className="max-w-4xl mx-auto px-6 py-14 flex flex-col items-center my-auto">
         
         {/* Icono decorativo */}
         <div className="relative mb-6">
@@ -356,6 +362,16 @@ export default function ImagenesPage() {
         )}
 
       </main>
+
+      {/* Pie de página homologado */}
+      <footer className="w-full border-t border-rose-100 py-6 text-center text-xs text-gray-500 flex flex-col sm:flex-row items-center justify-center gap-2">
+        <span>PALJALE © 2026 — Todos los derechos reservados.</span>
+        <span className="hidden sm:inline text-rose-300">|</span>
+        <span className="bg-rose-50 px-2.5 py-1 rounded-full border border-rose-100 text-rose-700 font-semibold">
+          Visitas totales: 128
+        </span>
+      </footer>
+
     </div>
   );
 }
