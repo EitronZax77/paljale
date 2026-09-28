@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Script from "next/script";
 import "./globals.css";
 
 export const metadata: Metadata = {
@@ -14,9 +15,15 @@ export default function RootLayout({
   return (
     <html lang="es">
       <head>
-        {/* Google tag (gtag.js) */}
-        <script async src="https://www.googletagmanager.com/gtag/js?id=G-XBT7CN70H7"></script>
-        <script
+        {/* Google Analytics con el componente Script oficial de Next.js */}
+        <Script
+          async
+          src="https://www.googletagmanager.com/gtag/js?id=G-XBT7CN70H7"
+          strategy="afterInteractive"
+        />
+        <Script
+          id="google-analytics"
+          strategy="afterInteractive"
           dangerouslySetInnerHTML={{
             __html: `
               window.dataLayer = window.dataLayer || [];
