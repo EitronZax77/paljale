@@ -1,82 +1,104 @@
 export default function Home() {
   return (
-    <div className="min-h-screen bg-gray-50 text-gray-800 font-sans">
+    <div className="min-h-screen bg-[#FAFAFC] text-gray-900 font-sans selection:bg-blue-600 selection:text-white">
       
-      {/* 1. Barra de Navegación (Header) */}
-      <header className="bg-white shadow-sm py-4 px-6 flex items-center justify-between">
-        <div className="text-2xl font-black text-blue-600 tracking-tighter">
-          PALJALE
+      {/* 1. Barra de Navegación Fija */}
+      <header className="fixed top-0 left-0 right-0 z-50 bg-white/80 backdrop-blur-md border-b border-gray-100">
+        <div className="max-w-6xl mx-auto px-6 h-16 flex items-center justify-between">
+          <div className="text-lg font-bold tracking-tight text-blue-600 flex items-center gap-2">
+            <span className="w-3 h-3 rounded-full bg-blue-600"></span>
+            PALJALE
+          </div>
+          <nav className="hidden md:flex items-center gap-6 text-sm font-medium text-gray-600">
+            <a href="#herramientas" className="hover:text-blue-600 transition-colors">Herramientas</a>
+          </nav>
         </div>
-        <nav className="hidden md:flex gap-6 text-sm font-medium text-gray-500">
-          <span className="cursor-pointer hover:text-blue-600 transition">Herramientas</span>
-          <span className="cursor-pointer hover:text-blue-600 transition">Nosotros</span>
-        </nav>
       </header>
 
-      {/* 2. Sección Principal (Hero & Buscador) */}
-      <main className="max-w-5xl mx-auto px-6 py-16 flex flex-col items-center">
+      {/* 2. Sección Principal (Sin texto largo ni buscador, directo a los bloques) */}
+      <main className="pt-36 pb-20 px-6 max-w-6xl mx-auto">
         
-        <h1 className="text-4xl md:text-6xl font-extrabold text-center mb-6 text-gray-900 leading-tight">
-          Todas las herramientas que necesitas,<br/> 
-          <span className="text-blue-600">en un solo lugar.</span>
-        </h1>
-        
-        <p className="text-lg text-gray-500 mb-10 text-center max-w-2xl">
-          Edita PDFs, convierte imágenes, genera códigos QR y más. 
-          100% gratis, rápido y directamente en tu navegador.
-        </p>
+        <div className="max-w-3xl mb-12">
+          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-blue-50 border border-blue-100 text-xs font-semibold text-blue-700 mb-6">
+            <span className="w-2 h-2 rounded-full bg-blue-600"></span>
+            Plataforma 100% gratuita y sin registros
+          </div>
 
-        {/* Buscador */}
-        <div className="w-full max-w-2xl relative mb-20">
-          <input 
-            type="text" 
-            placeholder="¿Qué necesitas hacer hoy? (ej. unir pdf, qr...)" 
-            className="w-full py-4 px-6 rounded-full border border-gray-300 shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-lg bg-white"
-          />
-          <button className="absolute right-2 top-2 bg-blue-600 text-white px-8 py-2 rounded-full font-bold hover:bg-blue-700 transition">
-            Buscar
-          </button>
+          <h1 className="text-4xl md:text-6xl font-extrabold tracking-tight text-gray-900 leading-[1.1]">
+            Herramientas sencillas. <br />
+            <span className="text-blue-600">Listas para usar al instante.</span>
+          </h1>
         </div>
 
-        {/* 3. Cuadrícula de Herramientas (Preview del MVP) */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 w-full">
+        {/* 3. Cuadrícula de Herramientas (Los bloques principales) */}
+        <div id="herramientas" className="grid grid-cols-1 md:grid-cols-3 gap-6 w-full">
           
-          {/* Tarjeta 1: PDF (AHORA CON ENLACE) */}
-          <a href="/pdf" className="bg-white p-6 rounded-2xl shadow-sm border border-gray-100 hover:shadow-lg hover:-translate-y-1 transition-all cursor-pointer block">
-            <div className="bg-red-200 w-14 h-14 rounded-xl flex items-center justify-center text-red-500 text-2xl mb-4">
-              📄
+          {/* Tarjeta 1: PDF */}
+          <a href="/pdf" className="group relative bg-white rounded-3xl p-8 border border-gray-200 shadow-sm hover:shadow-xl hover:border-blue-200 hover:-translate-y-1 transition-all duration-300 flex flex-col justify-between">
+            <div>
+              <div className="w-14 h-14 rounded-2xl bg-red-50 text-red-600 flex items-center justify-center text-2xl mb-6 group-hover:scale-110 transition-transform duration-300">
+                📄
+              </div>
+              <h3 className="text-2xl font-bold tracking-tight mb-3 text-gray-900">Herramientas PDF</h3>
+              <p className="text-gray-600 text-sm leading-relaxed">
+                Unir, dividir, comprimir y organizar tus documentos de forma segura sin perder calidad.
+              </p>
             </div>
-            <h3 className="text-xl font-bold mb-2">Herramientas PDF</h3>
-            <p className="text-gray-500 text-sm leading-relaxed">
-              Unir, dividir, comprimir y convertir documentos PDF fácilmente sin perder calidad.
-            </p>
+            <div className="mt-8 flex items-center gap-2 text-sm font-bold text-red-600 group-hover:gap-3 transition-all">
+              <span>Abrir herramienta</span>
+              <span>→</span>
+            </div>
           </a>
 
-          {/* Tarjeta 2: Imágenes (AHORA CON ENLACE) */}
-          <a href="/imagenes" className="bg-white p-6 rounded-2xl shadow-sm border border-gray-100 hover:shadow-lg hover:-translate-y-1 transition-all cursor-pointer block">
-            <div className="bg-green-200 w-14 h-14 rounded-xl flex items-center justify-center text-green-500 text-2xl mb-4">
-              🖼️
+          {/* Tarjeta 2: Imágenes */}
+          <a href="/imagenes" className="group relative bg-white rounded-3xl p-8 border border-gray-200 shadow-sm hover:shadow-xl hover:border-green-200 hover:-translate-y-1 transition-all duration-300 flex flex-col justify-between">
+            <div>
+              <div className="w-14 h-14 rounded-2xl bg-green-50 text-green-600 flex items-center justify-center text-2xl mb-6 group-hover:scale-110 transition-transform duration-300">
+                🖼️
+              </div>
+              <h3 className="text-2xl font-bold tracking-tight mb-3 text-gray-900">Editar Imágenes</h3>
+              <p className="text-gray-600 text-sm leading-relaxed">
+                Cambia el tamaño, recorta fotos o convierte formatos en segundos desde cualquier dispositivo.
+              </p>
             </div>
-            <h3 className="text-xl font-bold mb-2">Imágenes</h3>
-            <p className="text-gray-500 text-sm leading-relaxed">
-              Comprimir, redimensionar, recortar y cambiar el formato de tus fotos en segundos.
-            </p>
+            <div className="mt-8 flex items-center gap-2 text-sm font-bold text-green-600 group-hover:gap-3 transition-all">
+              <span>Abrir herramienta</span>
+              <span>→</span>
+            </div>
           </a>
 
-          {/* Tarjeta 3: QR (AHORA CON ENLACE) */}
-          <a href="/qr" className="bg-white p-6 rounded-2xl shadow-sm border border-gray-100 hover:shadow-lg hover:-translate-y-1 transition-all cursor-pointer block">
-            <div className="bg-purple-200 w-14 h-14 rounded-xl flex items-center justify-center text-purple-500 text-2xl mb-4">
-              📱
+          {/* Tarjeta 3: QR */}
+          <a href="/qr" className="group relative bg-white rounded-3xl p-8 border border-gray-200 shadow-sm hover:shadow-xl hover:border-purple-200 hover:-translate-y-1 transition-all duration-300 flex flex-col justify-between">
+            <div>
+              <div className="w-14 h-14 rounded-2xl bg-purple-50 text-purple-600 flex items-center justify-center text-2xl mb-6 group-hover:scale-110 transition-transform duration-300">
+                📱
+              </div>
+              <h3 className="text-2xl font-bold tracking-tight mb-3 text-gray-900">Crear Códigos QR</h3>
+              <p className="text-gray-600 text-sm leading-relaxed">
+                Genera códigos QR personalizados para enlaces y textos, listos para descargar o compartir.
+              </p>
             </div>
-            <h3 className="text-xl font-bold mb-2">Códigos QR</h3>
-            <p className="text-gray-500 text-sm leading-relaxed">
-              Genera códigos QR personalizados para enlaces, textos, Wi-Fi y tarjetas de contacto.
-            </p>
+            <div className="mt-8 flex items-center gap-2 text-sm font-bold text-purple-600 group-hover:gap-3 transition-all">
+              <span>Abrir herramienta</span>
+              <span>→</span>
+            </div>
           </a>
 
         </div>
 
       </main>
+
+      {/* Footer */}
+      <footer className="border-t border-gray-200 bg-white py-10 px-6 text-center text-sm text-gray-500">
+        <div className="max-w-6xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4">
+          <p>© {new Date().getFullYear()} PALJALE. Hecho para facilitarte la vida.</p>
+          <div className="flex gap-6 font-medium">
+            <span className="hover:text-gray-900 cursor-pointer transition-colors">Privacidad</span>
+            <span className="hover:text-gray-900 cursor-pointer transition-colors">Términos</span>
+          </div>
+        </div>
+      </footer>
+
     </div>
   );
 }
