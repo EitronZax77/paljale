@@ -157,45 +157,48 @@ export default function ImagenesPage() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-rose-50 via-white to-orange-50 text-gray-900 font-sans selection:bg-rose-600 selection:text-white flex flex-col justify-between">
+    <div className="min-h-screen bg-[#060D14] text-gray-100 font-sans selection:bg-cyan-500 selection:text-black flex flex-col justify-between overflow-x-hidden">
       
-      {/* Barra superior homologada */}
-      <header className="sticky top-0 z-50 bg-white/80 backdrop-blur-md border-b border-rose-100">
-        <div className="max-w-6xl mx-auto px-6 h-16 flex items-center justify-between">
-          <Link href="/" className="text-2xl md:text-3xl font-black tracking-wider bg-gradient-to-r from-rose-600 via-rose-500 to-orange-500 bg-clip-text text-transparent drop-shadow-sm hover:opacity-90 transition">
+      {/* Barra superior homologada al estilo Tesla/Apple */}
+      <header className="sticky top-0 z-50 bg-[#060D14]/90 backdrop-blur-xl border-b border-cyan-900/40">
+        <div className="w-full px-6 md:px-12 h-20 flex items-center justify-between">
+          <Link href="/" className="text-2xl md:text-3xl font-black tracking-wider bg-gradient-to-r from-rose-500 via-orange-400 to-cyan-400 bg-clip-text text-transparent drop-shadow-[0_0_20px_rgba(244,63,94,0.3)]">
             PALJALE
+          </Link>
+          <Link href="/" className="text-sm font-semibold text-cyan-400 hover:underline">
+            ← Volver al inicio
           </Link>
         </div>
       </header>
 
-      <main className="max-w-4xl mx-auto px-6 py-14 flex flex-col items-center my-auto">
+      <main className="w-full max-w-4xl mx-auto px-6 py-16 flex flex-col items-center my-auto">
         
-        {/* Icono decorativo */}
+        {/* Icono decorativo futurista */}
         <div className="relative mb-6">
-          <div className="absolute inset-0 bg-rose-400 rounded-3xl blur-xl opacity-40 animate-pulse"></div>
-          <div className="relative w-20 h-20 rounded-3xl bg-gradient-to-tr from-rose-600 to-orange-500 text-white flex items-center justify-center text-4xl shadow-lg shadow-rose-500/30">
+          <div className="absolute inset-0 bg-cyan-500 rounded-3xl blur-xl opacity-20 animate-pulse"></div>
+          <div className="relative w-20 h-20 rounded-3xl bg-[#0a1622] border border-cyan-500/30 text-cyan-400 flex items-center justify-center text-4xl shadow-[0_0_20px_rgba(6,182,212,0.2)]">
             🖼️
           </div>
         </div>
 
-        <h1 className="text-4xl md:text-5xl font-extrabold tracking-tight text-gray-900 mb-4 text-center">
+        <h1 className="text-3xl md:text-5xl font-extrabold tracking-tight text-white mb-4 text-center drop-shadow-[0_0_15px_rgba(6,182,212,0.6)] text-cyan-300">
           Editor y Procesador de Imágenes
         </h1>
-        <p className="text-gray-600 mb-8 text-center text-lg max-w-lg">
-          Reduce el peso de tus fotos o cámbialas de formato al instante.
+        <p className="text-gray-300 font-bold mb-10 text-center text-base md:text-lg max-w-lg">
+          Reduce el peso de tus fotos o cámbialas de formato al instante con precisión corporativa.
         </p>
 
         {/* Selector directo de Herramientas */}
-        <div className="flex flex-wrap justify-center bg-white/80 backdrop-blur-md p-1.5 rounded-2xl border border-rose-100 shadow-sm mb-10 gap-2">
+        <div className="flex flex-wrap justify-center bg-[#0a1622]/90 backdrop-blur-md p-1.5 rounded-2xl border border-cyan-500/20 shadow-lg mb-12 gap-2">
           <button 
             onClick={() => setHerramienta("comprimir")}
-            className={`px-6 py-2.5 rounded-xl font-bold text-sm transition-all ${herramienta === "comprimir" ? "bg-rose-600 text-white shadow-md shadow-rose-600/20" : "text-gray-600 hover:text-gray-900"}`}
+            className={`px-6 py-2.5 rounded-xl font-bold text-sm transition-all ${herramienta === "comprimir" ? "bg-cyan-500 text-black shadow-[0_0_15px_rgba(6,182,212,0.4)]" : "text-gray-400 hover:text-white"}`}
           >
             🗜️ Compresor de Imágenes
           </button>
           <button 
             onClick={() => setHerramienta("convertir")}
-            className={`px-6 py-2.5 rounded-xl font-bold text-sm transition-all ${herramienta === "convertir" ? "bg-rose-600 text-white shadow-md shadow-rose-600/20" : "text-gray-600 hover:text-gray-900"}`}
+            className={`px-6 py-2.5 rounded-xl font-bold text-sm transition-all ${herramienta === "convertir" ? "bg-cyan-500 text-black shadow-[0_0_15px_rgba(6,182,212,0.4)]" : "text-gray-400 hover:text-white"}`}
           >
             🔄 Conversor de Formatos
           </button>
@@ -203,8 +206,8 @@ export default function ImagenesPage() {
 
         {/* ================= SECCIÓN COMPRESOR ================= */}
         {herramienta === "comprimir" && (
-          <div className="w-full max-w-xl bg-white/90 backdrop-blur-xl border border-rose-100 rounded-[32px] p-8 md:p-12 shadow-xl shadow-rose-900/5 flex flex-col items-center">
-            <h2 className="text-2xl font-bold text-gray-900 mb-6">Compresor de Imágenes</h2>
+          <div className="w-full max-w-xl bg-[#0a1622]/80 backdrop-blur-2xl border border-cyan-500/20 rounded-[32px] p-8 md:p-12 shadow-[0_0_30px_rgba(0,0,0,0.5)] flex flex-col items-center">
+            <h2 className="text-2xl font-bold text-white mb-6">Compresor de Imágenes</h2>
             
             {!imagenComprimir ? (
               <label 
@@ -216,33 +219,33 @@ export default function ImagenesPage() {
                   if (e.dataTransfer.files?.[0]) manejarArchivoComprimir(e.dataTransfer.files[0]); 
                 }}
                 className={`w-full flex flex-col items-center justify-center border-2 border-dashed rounded-3xl p-10 cursor-pointer transition-all group mb-6 ${
-                  arrastrandoComprimir ? 'border-rose-600 bg-rose-100/50 scale-[1.02]' : 'border-rose-200 bg-rose-50/30 hover:bg-rose-50/60'
+                  arrastrandoComprimir ? 'border-cyan-400 bg-cyan-500/10 scale-[1.02]' : 'border-cyan-500/30 bg-[#060D14]/50 hover:bg-cyan-500/5'
                 }`}
               >
-                <div className="w-16 h-16 rounded-2xl bg-rose-100 text-rose-600 flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">📸</div>
-                <span className="text-lg font-bold text-gray-800 mb-1">Arrastra tu imagen o haz clic</span>
+                <div className="w-16 h-16 rounded-2xl bg-cyan-500/10 border border-cyan-500/30 text-cyan-400 flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">📸</div>
+                <span className="text-lg font-bold text-white mb-1">Arrastra tu imagen o haz clic</span>
                 <span className="text-sm text-gray-400">PNG, JPG, WebP</span>
                 <input type="file" className="hidden" accept="image/*" onChange={(e) => e.target.files?.[0] && manejarArchivoComprimir(e.target.files[0])} />
               </label>
             ) : (
               <div className="w-full flex flex-col items-center">
-                <div className="w-full bg-rose-50/60 p-4 rounded-2xl mb-6 text-sm text-gray-700 flex justify-between items-center">
-                  <span className="truncate max-w-[200px]">Archivo: <strong className="text-gray-900">{imagenComprimir.name}</strong></span>
-                  <span className="bg-rose-200/60 px-2.5 py-1 rounded-lg font-semibold text-rose-800">{tamanoOriginalImg}</span>
+                <div className="w-full bg-[#060D14] border border-cyan-900/50 p-4 rounded-2xl mb-6 text-sm text-gray-300 flex justify-between items-center">
+                  <span className="truncate max-w-[200px]">Archivo: <strong className="text-white">{imagenComprimir.name}</strong></span>
+                  <span className="bg-cyan-500/10 text-cyan-400 border border-cyan-500/30 px-2.5 py-1 rounded-lg font-semibold">{tamanoOriginalImg}</span>
                 </div>
 
                 <div className="w-full mb-6">
-                  <label className="block text-xs font-bold text-gray-600 uppercase tracking-wider mb-2">Nivel de Compresión:</label>
+                  <label className="block text-xs font-bold text-gray-400 uppercase tracking-wider mb-2">Nivel de Compresión:</label>
                   <div className="grid grid-cols-2 gap-2">
                     <button 
                       onClick={() => setModoCompresionImg("estandar")} 
-                      className={`py-3 rounded-xl font-bold text-xs border transition-all ${modoCompresionImg === "estandar" ? "bg-rose-600 text-white border-rose-600 shadow-md shadow-rose-600/20" : "bg-white text-gray-700 border-rose-200 hover:bg-rose-50"}`}
+                      className={`py-3 rounded-xl font-bold text-xs border transition-all ${modoCompresionImg === "estandar" ? "bg-cyan-500 text-black border-cyan-400 shadow-[0_0_15px_rgba(6,182,212,0.3)]" : "bg-[#060D14] text-gray-300 border-cyan-900/50 hover:border-cyan-500/30"}`}
                     >
                       ⚡ Estándar (Calidad Original)
                     </button>
                     <button 
                       onClick={() => setModoCompresionImg("mejor")} 
-                      className={`py-3 rounded-xl font-bold text-xs border transition-all ${modoCompresionImg === "mejor" ? "bg-rose-600 text-white border-rose-600 shadow-md shadow-rose-600/20" : "bg-white text-gray-700 border-rose-200 hover:bg-rose-50"}`}
+                      className={`py-3 rounded-xl font-bold text-xs border transition-all ${modoCompresionImg === "mejor" ? "bg-cyan-500 text-black border-cyan-400 shadow-[0_0_15px_rgba(6,182,212,0.3)]" : "bg-[#060D14] text-gray-300 border-cyan-900/50 hover:border-cyan-500/30"}`}
                     >
                       🔥 Mejor Compresión (Menor Peso)
                     </button>
@@ -250,24 +253,24 @@ export default function ImagenesPage() {
                 </div>
 
                 {modoCompresionImg === "mejor" && (
-                  <div className="w-full bg-amber-50 border border-amber-200 text-amber-900 text-xs p-3 rounded-2xl mb-6 text-center">
+                  <div className="w-full bg-cyan-950/40 border border-cyan-500/30 text-cyan-300 text-xs p-3 rounded-2xl mb-6 text-center">
                     💡 <strong>Aviso:</strong> Reduce significativamente el peso manteniendo la imagen clara y perfectamente visible.
                   </div>
                 )}
 
                 {!imagenComprimidaUrl ? (
-                  <button onClick={ejecutarCompresion} disabled={procesandoImg} className="w-full bg-gradient-to-r from-rose-600 to-orange-600 text-white font-bold py-4 px-6 rounded-2xl shadow-lg shadow-rose-600/25">
+                  <button onClick={ejecutarCompresion} disabled={procesandoImg} className="w-full bg-gradient-to-r from-cyan-500 to-blue-600 text-black font-bold py-4 px-6 rounded-2xl shadow-[0_0_20px_rgba(6,182,212,0.3)] hover:opacity-90 transition">
                     {procesandoImg ? "Comprimiendo..." : "Comprimir Imagen Ahora"}
                   </button>
                 ) : (
                   <div className="w-full flex flex-col gap-3">
-                    <div className="bg-rose-100 text-rose-900 text-center py-3 rounded-2xl font-bold text-sm">
+                    <div className="bg-cyan-500/10 border border-cyan-500/30 text-cyan-300 text-center py-3 rounded-2xl font-bold text-sm">
                       ✨ ¡Imagen comprimida con éxito! ({tamanoOriginalImg} → {tamanoNuevoImg})
                     </div>
-                    <a href={imagenComprimidaUrl} download={`PALJALE_Comprimido.jpg`} className="w-full bg-gradient-to-r from-rose-600 to-orange-600 text-white font-bold py-4 px-6 rounded-2xl text-center shadow-lg">
+                    <a href={imagenComprimidaUrl} download={`PALJALE_Comprimido.jpg`} className="w-full bg-gradient-to-r from-cyan-500 to-blue-600 text-black font-bold py-4 px-6 rounded-2xl text-center shadow-[0_0_20px_rgba(6,182,212,0.3)] hover:opacity-90 transition">
                       Descargar Imagen Comprimida
                     </a>
-                    <button onClick={() => { setImagenComprimir(null); setImagenComprimidaUrl(null); }} className="text-sm text-gray-500 mt-2">Comprimir otra imagen</button>
+                    <button onClick={() => { setImagenComprimir(null); setImagenComprimidaUrl(null); }} className="text-sm text-gray-400 hover:text-white mt-2">Comprimir otra imagen</button>
                   </div>
                 )}
               </div>
@@ -277,8 +280,8 @@ export default function ImagenesPage() {
 
         {/* ================= SECCIÓN CONVERSOR DE FORMATOS ================= */}
         {herramienta === "convertir" && (
-          <div className="w-full max-w-xl bg-white/90 backdrop-blur-xl border border-rose-100 rounded-[32px] p-8 md:p-12 shadow-xl shadow-rose-900/5 flex flex-col items-center">
-            <h2 className="text-2xl font-bold text-gray-900 mb-6">Conversor de Formatos</h2>
+          <div className="w-full max-w-xl bg-[#0a1622]/80 backdrop-blur-2xl border border-cyan-500/20 rounded-[32px] p-8 md:p-12 shadow-[0_0_30px_rgba(0,0,0,0.5)] flex flex-col items-center">
+            <h2 className="text-2xl font-bold text-white mb-6">Conversor de Formatos</h2>
             
             {!imagenConvertir ? (
               <label 
@@ -290,39 +293,39 @@ export default function ImagenesPage() {
                   if (e.dataTransfer.files?.[0]) manejarArchivoConvertir(e.dataTransfer.files[0]); 
                 }}
                 className={`w-full flex flex-col items-center justify-center border-2 border-dashed rounded-3xl p-10 cursor-pointer transition-all group mb-6 ${
-                  arrastrandoConvertir ? 'border-rose-600 bg-rose-100/50 scale-[1.02]' : 'border-rose-200 bg-rose-50/30 hover:bg-rose-50/60'
+                  arrastrandoConvertir ? 'border-cyan-400 bg-cyan-500/10 scale-[1.02]' : 'border-cyan-500/30 bg-[#060D14]/50 hover:bg-cyan-500/5'
                 }`}
               >
-                <div className="w-16 h-16 rounded-2xl bg-rose-100 text-rose-600 flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">🔄</div>
-                <span className="text-lg font-bold text-gray-800 mb-1">Arrastra tu imagen o haz clic</span>
+                <div className="w-16 h-16 rounded-2xl bg-cyan-500/10 border border-cyan-500/30 text-cyan-400 flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">🔄</div>
+                <span className="text-lg font-bold text-white mb-1">Arrastra tu imagen o haz clic</span>
                 <span className="text-sm text-gray-400">Cualquier formato de imagen</span>
                 <input type="file" className="hidden" accept="image/*" onChange={(e) => e.target.files?.[0] && manejarArchivoConvertir(e.target.files[0])} />
               </label>
             ) : (
               <div className="w-full flex flex-col items-center">
-                <div className="w-full bg-rose-50/60 p-4 rounded-2xl mb-6 text-sm text-gray-700 flex justify-between items-center">
-                  <span className="truncate max-w-[240px]">Archivo: <strong className="text-gray-900">{imagenConvertir.name}</strong></span>
-                  <button onClick={() => setImagenConvertir(null)} className="text-red-500 font-bold text-xs">Cambiar</button>
+                <div className="w-full bg-[#060D14] border border-cyan-900/50 p-4 rounded-2xl mb-6 text-sm text-gray-300 flex justify-between items-center">
+                  <span className="truncate max-w-[240px]">Archivo: <strong className="text-white">{imagenConvertir.name}</strong></span>
+                  <button onClick={() => setImagenConvertir(null)} className="text-rose-400 font-bold text-xs hover:underline">Cambiar</button>
                 </div>
 
                 <div className="w-full mb-6">
-                  <label className="block text-xs font-bold text-gray-600 uppercase tracking-wider mb-2">Convertir a formato:</label>
+                  <label className="block text-xs font-bold text-gray-400 uppercase tracking-wider mb-2">Convertir a formato:</label>
                   <div className="grid grid-cols-3 gap-2">
                     <button 
                       onClick={() => { setFormatoDestino("image/jpeg"); setNombreFormato("JPG"); }} 
-                      className={`py-3 rounded-xl font-bold text-xs border ${formatoDestino === "image/jpeg" ? "bg-rose-600 text-white border-rose-600" : "bg-white text-gray-700 border-rose-200"}`}
+                      className={`py-3 rounded-xl font-bold text-xs border ${formatoDestino === "image/jpeg" ? "bg-cyan-500 text-black border-cyan-400 shadow-[0_0_15px_rgba(6,182,212,0.3)]" : "bg-[#060D14] text-gray-300 border-cyan-900/50"}`}
                     >
                       JPG
                     </button>
                     <button 
                       onClick={() => { setFormatoDestino("image/png"); setNombreFormato("PNG"); }} 
-                      className={`py-3 rounded-xl font-bold text-xs border ${formatoDestino === "image/png" ? "bg-rose-600 text-white border-rose-600" : "bg-white text-gray-700 border-rose-200"}`}
+                      className={`py-3 rounded-xl font-bold text-xs border ${formatoDestino === "image/png" ? "bg-cyan-500 text-black border-cyan-400 shadow-[0_0_15px_rgba(6,182,212,0.3)]" : "bg-[#060D14] text-gray-300 border-cyan-900/50"}`}
                     >
                       PNG
                     </button>
                     <button 
                       onClick={() => { setFormatoDestino("image/webp"); setNombreFormato("WEBP"); }} 
-                      className={`py-3 rounded-xl font-bold text-xs border ${formatoDestino === "image/webp" ? "bg-rose-600 text-white border-rose-600" : "bg-white text-gray-700 border-rose-200"}`}
+                      className={`py-3 rounded-xl font-bold text-xs border ${formatoDestino === "image/webp" ? "bg-cyan-500 text-black border-cyan-400 shadow-[0_0_15px_rgba(6,182,212,0.3)]" : "bg-[#060D14] text-gray-300 border-cyan-900/50"}`}
                     >
                       WebP
                     </button>
@@ -330,18 +333,18 @@ export default function ImagenesPage() {
                 </div>
 
                 {!imagenConvertidaUrl ? (
-                  <button onClick={ejecutarConversion} disabled={procesandoConv} className="w-full bg-gradient-to-r from-rose-600 to-orange-600 text-white font-bold py-4 px-6 rounded-2xl shadow-lg shadow-rose-600/25">
+                  <button onClick={ejecutarConversion} disabled={procesandoConv} className="w-full bg-gradient-to-r from-cyan-500 to-blue-600 text-black font-bold py-4 px-6 rounded-2xl shadow-[0_0_20px_rgba(6,182,212,0.3)] hover:opacity-90 transition">
                     {procesandoConv ? "Convirtiendo..." : `Convertir a ${nombreFormato}`}
                   </button>
                 ) : (
                   <div className="w-full flex flex-col gap-3">
-                    <div className="bg-rose-100 text-rose-900 text-center py-3 rounded-2xl font-bold text-sm">
+                    <div className="bg-cyan-500/10 border border-cyan-500/30 text-cyan-300 text-center py-3 rounded-2xl font-bold text-sm">
                       ✨ ¡Imagen convertida a {nombreFormato} con éxito!
                     </div>
-                    <a href={imagenConvertidaUrl} download={`PALJALE_Convertido.${nombreFormato.toLowerCase()}`} className="w-full bg-gradient-to-r from-rose-600 to-orange-600 text-white font-bold py-4 px-6 rounded-2xl text-center shadow-lg">
+                    <a href={imagenConvertidaUrl} download={`PALJALE_Convertido.${nombreFormato.toLowerCase()}`} className="w-full bg-gradient-to-r from-cyan-500 to-blue-600 text-black font-bold py-4 px-6 rounded-2xl text-center shadow-[0_0_20px_rgba(6,182,212,0.3)] hover:opacity-90 transition">
                       Descargar Imagen en {nombreFormato}
                     </a>
-                    <button onClick={() => { setImagenConvertir(null); setImagenConvertidaUrl(null); }} className="text-sm text-gray-500 mt-2">Convertir otra imagen</button>
+                    <button onClick={() => { setImagenConvertir(null); setImagenConvertidaUrl(null); }} className="text-sm text-gray-400 hover:text-white mt-2">Convertir otra imagen</button>
                   </div>
                 )}
               </div>
@@ -351,11 +354,11 @@ export default function ImagenesPage() {
 
       </main>
 
-      {/* Pie de página homologado */}
-      <footer className="w-full border-t border-rose-100 py-6 text-center text-xs text-gray-500 flex flex-col sm:flex-row items-center justify-center gap-2">
+      {/* Pie de página tecnológico */}
+      <footer className="w-full border-t border-cyan-900/40 py-8 text-center text-xs text-gray-500 flex flex-col sm:flex-row items-center justify-center gap-2 bg-[#04080c]">
         <span>PALJALE © 2026 — Todos los derechos reservados.</span>
-        <span className="hidden sm:inline text-rose-300">|</span>
-        <span className="bg-rose-50 px-2.5 py-1 rounded-full border border-rose-100 text-rose-700 font-semibold">
+        <span className="hidden sm:inline text-cyan-800">|</span>
+        <span className="bg-cyan-950/50 px-3 py-1 rounded-full border border-cyan-900/50 text-cyan-400 font-semibold">
           Visitas totales: 128
         </span>
       </footer>

@@ -1,8 +1,8 @@
 "use client";
 
 import { useState, useEffect, useRef } from "react";
-import { QRCodeCanvas } from "qrcode.react";
 import Link from "next/link";
+import { QRCodeCanvas } from "qrcode.react";
 
 export default function QrPage() {
   const [textoQr, setTextoQr] = useState<string>("");
@@ -58,37 +58,40 @@ export default function QrPage() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-rose-50 via-white to-orange-50 text-gray-900 font-sans selection:bg-rose-600 selection:text-white flex flex-col justify-between">
+    <div className="min-h-screen bg-[#060D14] text-gray-100 font-sans selection:bg-cyan-500 selection:text-black flex flex-col justify-between overflow-x-hidden">
       
-      {/* Barra superior homologada */}
-      <header className="sticky top-0 z-50 bg-white/80 backdrop-blur-md border-b border-rose-100">
-        <div className="max-w-6xl mx-auto px-6 h-16 flex items-center justify-between">
-          <Link href="/" className="text-2xl md:text-3xl font-black tracking-wider bg-gradient-to-r from-rose-600 via-rose-500 to-orange-500 bg-clip-text text-transparent drop-shadow-sm hover:opacity-90 transition">
+      {/* Barra superior homologada al estilo Tesla/Apple */}
+      <header className="sticky top-0 z-50 bg-[#060D14]/90 backdrop-blur-xl border-b border-cyan-900/40">
+        <div className="w-full px-6 md:px-12 h-20 flex items-center justify-between">
+          <Link href="/" className="text-2xl md:text-3xl font-black tracking-wider bg-gradient-to-r from-rose-500 via-orange-400 to-cyan-400 bg-clip-text text-transparent drop-shadow-[0_0_20px_rgba(244,63,94,0.3)]">
             PALJALE
+          </Link>
+          <Link href="/" className="text-sm font-semibold text-cyan-400 hover:underline">
+            ← Volver al inicio
           </Link>
         </div>
       </header>
 
-      <main className="max-w-4xl mx-auto px-6 py-14 flex flex-col items-center my-auto">
+      <main className="w-full max-w-4xl mx-auto px-6 py-16 flex flex-col items-center my-auto">
         
-        {/* Icono decorativo */}
+        {/* Icono decorativo futurista */}
         <div className="relative mb-6">
-          <div className="absolute inset-0 bg-rose-400 rounded-3xl blur-xl opacity-40 animate-pulse"></div>
-          <div className="relative w-20 h-20 rounded-3xl bg-gradient-to-tr from-rose-600 to-orange-500 text-white flex items-center justify-center text-4xl shadow-lg shadow-rose-500/30">
+          <div className="absolute inset-0 bg-cyan-500 rounded-3xl blur-xl opacity-20 animate-pulse"></div>
+          <div className="relative w-20 h-20 rounded-3xl bg-[#0a1622] border border-cyan-500/30 text-cyan-400 flex items-center justify-center text-4xl shadow-[0_0_20px_rgba(6,182,212,0.2)]">
             🔲
           </div>
         </div>
 
-        <h1 className="text-4xl md:text-5xl font-extrabold tracking-tight text-gray-900 mb-4 text-center">
+        <h1 className="text-3xl md:text-5xl font-extrabold tracking-tight text-white mb-4 text-center drop-shadow-[0_0_15px_rgba(6,182,212,0.6)] text-cyan-300">
           Generador de Código QR
         </h1>
-        <p className="text-gray-600 mb-8 text-center text-lg max-w-lg">
-          Escribe un enlace o texto y tu código QR se creará al instante.
+        <p className="text-gray-300 font-bold mb-10 text-center text-base md:text-lg max-w-lg">
+          Escribe un enlace o texto y tu código QR se creará al instante con alta velocidad de lectura.
         </p>
 
-        <div className="w-full max-w-xl bg-white/90 backdrop-blur-xl border border-rose-100 rounded-[32px] p-8 md:p-12 shadow-xl shadow-rose-900/5 flex flex-col items-center">
+        <div className="w-full max-w-xl bg-[#0a1622]/80 backdrop-blur-2xl border border-cyan-500/20 rounded-[32px] p-8 md:p-12 shadow-[0_0_30px_rgba(0,0,0,0.5)] flex flex-col items-center">
           <div className="w-full mb-6">
-            <label className="block text-xs font-bold text-gray-600 uppercase tracking-wider mb-2">
+            <label className="block text-xs font-bold text-gray-400 uppercase tracking-wider mb-2">
               INGRESA TU ENLACE O TEXTO:
             </label>
             <input 
@@ -96,12 +99,12 @@ export default function QrPage() {
               value={textoQr} 
               onChange={(e) => setTextoQr(e.target.value)}
               placeholder="Ejemplo: https://mi-sitio.com"
-              className="w-full py-3.5 px-4 rounded-2xl border border-rose-200 bg-white font-medium text-gray-800 focus:outline-none focus:ring-2 focus:ring-rose-500 shadow-sm"
+              className="w-full py-3.5 px-4 rounded-2xl border border-cyan-900/50 bg-[#060D14] font-medium text-white focus:outline-none focus:ring-2 focus:ring-cyan-500 shadow-sm"
             />
           </div>
 
           {/* Vista previa en tiempo real del código QR */}
-          <div ref={qrRef} className="p-6 bg-white rounded-3xl border border-rose-100 shadow-md mb-6 flex items-center justify-center min-h-[224px] min-w-[224px]">
+          <div ref={qrRef} className="p-6 bg-white rounded-3xl border border-cyan-500/30 shadow-[0_0_20px_rgba(6,182,212,0.15)] mb-6 flex items-center justify-center min-h-[224px] min-w-[224px]">
             {montado && (
               <QRCodeCanvas 
                 value={textoQr.trim() !== "" ? textoQr : "https://paljale.com"} 
@@ -115,13 +118,13 @@ export default function QrPage() {
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 w-full">
             <button 
               onClick={descargarQr} 
-              className="w-full bg-gradient-to-r from-rose-600 to-orange-600 text-white font-bold py-4 px-6 rounded-2xl shadow-lg shadow-rose-600/25 hover:opacity-95 transition"
+              className="w-full bg-gradient-to-r from-cyan-500 to-blue-600 text-black font-bold py-4 px-6 rounded-2xl shadow-[0_0_20px_rgba(6,182,212,0.3)] hover:opacity-90 transition"
             >
               Descargar Código QR
             </button>
             <button 
               onClick={compartirQr} 
-              className="w-full bg-white border border-rose-200 text-rose-700 font-bold py-4 px-6 rounded-2xl hover:bg-rose-50 transition shadow-sm"
+              className="w-full bg-[#060D14] border border-cyan-500/30 text-cyan-400 font-bold py-4 px-6 rounded-2xl hover:bg-cyan-500/10 transition shadow-sm"
             >
               Compartir QR 🔗
             </button>
@@ -130,11 +133,11 @@ export default function QrPage() {
 
       </main>
 
-      {/* Pie de página homologado */}
-      <footer className="w-full border-t border-rose-100 py-6 text-center text-xs text-gray-500 flex flex-col sm:flex-row items-center justify-center gap-2">
+      {/* Pie de página tecnológico */}
+      <footer className="w-full border-t border-cyan-900/40 py-8 text-center text-xs text-gray-500 flex flex-col sm:flex-row items-center justify-center gap-2 bg-[#04080c]">
         <span>PALJALE © 2026 — Todos los derechos reservados.</span>
-        <span className="hidden sm:inline text-rose-300">|</span>
-        <span className="bg-rose-50 px-2.5 py-1 rounded-full border border-rose-100 text-rose-700 font-semibold">
+        <span className="hidden sm:inline text-cyan-800">|</span>
+        <span className="bg-cyan-950/50 px-3 py-1 rounded-full border border-cyan-900/50 text-cyan-400 font-semibold">
           Visitas totales: 128
         </span>
       </footer>

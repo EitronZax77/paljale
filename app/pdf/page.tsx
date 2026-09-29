@@ -1,4 +1,4 @@
-"use client"; 
+"use client";
 
 import { useState } from "react";
 import Link from "next/link";
@@ -253,64 +253,67 @@ export default function PdfPage() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-rose-50 via-white to-orange-50 text-gray-900 font-sans selection:bg-rose-600 selection:text-white flex flex-col justify-between">
+    <div className="min-h-screen bg-[#060D14] text-gray-100 font-sans selection:bg-cyan-500 selection:text-black flex flex-col justify-between overflow-x-hidden">
       
-      {/* Barra superior homologada */}
-      <header className="sticky top-0 z-50 bg-white/80 backdrop-blur-md border-b border-rose-100">
-        <div className="max-w-6xl mx-auto px-6 h-16 flex items-center justify-between">
-          <Link href="/" className="text-2xl md:text-3xl font-black tracking-wider bg-gradient-to-r from-rose-600 via-rose-500 to-orange-500 bg-clip-text text-transparent drop-shadow-sm hover:opacity-90 transition">
+      {/* Barra superior homologada al estilo Tesla/Apple */}
+      <header className="sticky top-0 z-50 bg-[#060D14]/90 backdrop-blur-xl border-b border-cyan-900/40">
+        <div className="w-full px-6 md:px-12 h-20 flex items-center justify-between">
+          <Link href="/" className="text-2xl md:text-3xl font-black tracking-wider bg-gradient-to-r from-rose-500 via-orange-400 to-cyan-400 bg-clip-text text-transparent drop-shadow-[0_0_20px_rgba(244,63,94,0.3)]">
             PALJALE
+          </Link>
+          <Link href="/" className="text-sm font-semibold text-cyan-400 hover:underline">
+            ← Volver al inicio
           </Link>
         </div>
       </header>
 
-      <main className="max-w-4xl mx-auto px-6 py-14 flex flex-col items-center my-auto">
+      <main className="w-full max-w-4xl mx-auto px-6 py-16 flex flex-col items-center my-auto">
         
-        {/* Icono colorido con brillo */}
+        {/* Icono decorativo futurista */}
         <div className="relative mb-6">
-          <div className="absolute inset-0 bg-rose-400 rounded-3xl blur-xl opacity-40 animate-pulse"></div>
-          <div className="relative w-20 h-20 rounded-3xl bg-gradient-to-tr from-rose-600 to-orange-500 text-white flex items-center justify-center text-4xl shadow-lg shadow-rose-500/30">
+          <div className="absolute inset-0 bg-cyan-500 rounded-3xl blur-xl opacity-20 animate-pulse"></div>
+          <div className="relative w-20 h-20 rounded-3xl bg-[#0a1622] border border-cyan-500/30 text-cyan-400 flex items-center justify-center text-4xl shadow-[0_0_20px_rgba(6,182,212,0.2)]">
             📄
           </div>
         </div>
 
-        <h1 className="text-4xl md:text-5xl font-extrabold tracking-tight text-gray-900 mb-4 text-center">
+        <h1 className="text-3xl md:text-5xl font-extrabold tracking-tight text-white mb-4 text-center drop-shadow-[0_0_15px_rgba(6,182,212,0.6)] text-cyan-300">
           Herramientas PDF Profesionales
         </h1>
-        <p className="text-gray-600 mb-8 text-center text-lg max-w-lg">
-          Une, extrae, rota o comprime tus documentos al instante y sin registros.
+        <p className="text-gray-300 font-bold mb-10 text-center text-base md:text-lg max-w-lg">
+          Une, extrae, rota o comprime tus documentos al instante con precisión corporativa y total seguridad.
         </p>
 
         {/* Selector de Herramientas PDF */}
-        <div className="flex flex-wrap justify-center bg-white/80 backdrop-blur-md p-1.5 rounded-2xl border border-rose-100 shadow-sm mb-10 gap-2">
+        <div className="flex flex-wrap justify-center bg-[#0a1622]/90 backdrop-blur-md p-1.5 rounded-2xl border border-cyan-500/20 shadow-lg mb-12 gap-2">
           <button 
             onClick={() => setHerramienta("unir")}
-            className={`px-4 py-2.5 rounded-xl font-bold text-sm transition-all ${herramienta === "unir" ? "bg-rose-600 text-white shadow-md shadow-rose-600/20" : "text-gray-600 hover:text-gray-900"}`}
+            className={`px-4 py-2.5 rounded-xl font-bold text-sm transition-all ${herramienta === "unir" ? "bg-cyan-500 text-black shadow-[0_0_15px_rgba(6,182,212,0.4)]" : "text-gray-400 hover:text-white"}`}
           >
             Unir PDFs
           </button>
           <button 
             onClick={() => setHerramienta("dividir")}
-            className={`px-4 py-2.5 rounded-xl font-bold text-sm transition-all ${herramienta === "dividir" ? "bg-rose-600 text-white shadow-md shadow-rose-600/20" : "text-gray-600 hover:text-gray-900"}`}
+            className={`px-4 py-2.5 rounded-xl font-bold text-sm transition-all ${herramienta === "dividir" ? "bg-cyan-500 text-black shadow-[0_0_15px_rgba(6,182,212,0.4)]" : "text-gray-400 hover:text-white"}`}
           >
             Extraer Páginas
           </button>
           <button 
             onClick={() => setHerramienta("rotar")}
-            className={`px-4 py-2.5 rounded-xl font-bold text-sm transition-all ${herramienta === "rotar" ? "bg-rose-600 text-white shadow-md shadow-rose-600/20" : "text-gray-600 hover:text-gray-900"}`}
+            className={`px-4 py-2.5 rounded-xl font-bold text-sm transition-all ${herramienta === "rotar" ? "bg-cyan-500 text-black shadow-[0_0_15px_rgba(6,182,212,0.4)]" : "text-gray-400 hover:text-white"}`}
           >
             Rotar PDF
           </button>
           <button 
             onClick={() => setHerramienta("comprimir")}
-            className={`px-4 py-2.5 rounded-xl font-bold text-sm transition-all ${herramienta === "comprimir" ? "bg-rose-600 text-white shadow-md shadow-rose-600/20" : "text-gray-600 hover:text-gray-900"}`}
+            className={`px-4 py-2.5 rounded-xl font-bold text-sm transition-all ${herramienta === "comprimir" ? "bg-cyan-500 text-black shadow-[0_0_15px_rgba(6,182,212,0.4)]" : "text-gray-400 hover:text-white"}`}
           >
             Comprimir PDF
           </button>
         </div>
         
         {/* Tarjeta interactiva */}
-        <div className="w-full max-w-xl bg-white/90 backdrop-blur-xl border border-rose-100 rounded-[32px] p-8 md:p-12 shadow-xl shadow-rose-900/5 flex flex-col items-center">
+        <div className="w-full max-w-xl bg-[#0a1622]/80 backdrop-blur-2xl border border-cyan-500/20 rounded-[32px] p-8 md:p-12 shadow-[0_0_30px_rgba(0,0,0,0.5)] flex flex-col items-center">
           
           {/* ================= SECCIÓN UNIR ================= */}
           {herramienta === "unir" && (
@@ -320,25 +323,25 @@ export default function PdfPage() {
                 onDragLeave={() => setArrastrandoUnir(false)}
                 onDrop={(e) => { e.preventDefault(); setArrastrandoUnir(false); if (e.dataTransfer.files) agregarArchivosUnir(e.dataTransfer.files); }}
                 className={`w-full flex flex-col items-center justify-center border-2 border-dashed rounded-3xl p-10 cursor-pointer transition-all group mb-6 ${
-                  arrastrandoUnir ? 'border-rose-600 bg-rose-100/50 scale-[1.02]' : 'border-rose-200 bg-rose-50/30 hover:bg-rose-50/60'
+                  arrastrandoUnir ? 'border-cyan-400 bg-cyan-500/10 scale-[1.02]' : 'border-cyan-500/30 bg-[#060D14]/50 hover:bg-cyan-500/5'
                 }`}
               >
-                <div className="w-16 h-16 rounded-2xl bg-rose-100 text-rose-600 flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
+                <div className="w-16 h-16 rounded-2xl bg-cyan-500/10 border border-cyan-500/30 text-cyan-400 flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
                   <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" /></svg>
                 </div>
-                <span className="text-lg font-bold text-gray-800 mb-1">Arrastra tus archivos PDF o haz clic</span>
+                <span className="text-lg font-bold text-white mb-1">Arrastra tus archivos PDF o haz clic</span>
                 <span className="text-sm text-gray-400">Selecciona varios a la vez</span>
                 <input type="file" className="hidden" accept=".pdf" multiple onChange={(e) => e.target.files && agregarArchivosUnir(e.target.files)} />
               </label>
 
               {archivosUnir.length > 0 && (
                 <div className="w-full mb-6 flex flex-col gap-2">
-                  <span className="text-xs font-bold text-gray-500 uppercase tracking-wider">Seleccionados ({archivosUnir.length}):</span>
+                  <span className="text-xs font-bold text-gray-400 uppercase tracking-wider">Seleccionados ({archivosUnir.length}):</span>
                   <div className="max-h-40 overflow-y-auto flex flex-col gap-2 w-full pr-1">
                     {archivosUnir.map((file, index) => (
-                      <div key={index} className="flex items-center justify-between bg-rose-50/60 p-3 rounded-2xl border border-rose-100 text-sm">
-                        <span className="truncate max-w-[260px] font-medium text-gray-800">{file.name}</span>
-                        <button onClick={() => setArchivosUnir(prev => prev.filter((_, i) => i !== index))} className="text-red-500 font-bold text-xs">Quitar</button>
+                      <div key={index} className="flex items-center justify-between bg-[#060D14] p-3 rounded-2xl border border-cyan-900/50 text-sm text-gray-300">
+                        <span className="truncate max-w-[260px] font-medium text-white">{file.name}</span>
+                        <button onClick={() => setArchivosUnir(prev => prev.filter((_, i) => i !== index))} className="text-rose-400 font-bold text-xs hover:underline">Quitar</button>
                       </div>
                     ))}
                   </div>
@@ -346,18 +349,18 @@ export default function PdfPage() {
               )}
 
               {archivosUnir.length > 0 && !pdfUnidoUrl && (
-                <button onClick={unirPdfs} disabled={procesando} className="w-full bg-gradient-to-r from-rose-600 to-orange-600 text-white font-bold py-4 px-6 rounded-2xl hover:opacity-95 shadow-lg shadow-rose-600/25">
+                <button onClick={unirPdfs} disabled={procesando} className="w-full bg-gradient-to-r from-cyan-500 to-blue-600 text-black font-bold py-4 px-6 rounded-2xl shadow-[0_0_20px_rgba(6,182,212,0.3)] hover:opacity-90 transition">
                   {procesando ? "Uniendo..." : "Unir PDFs Ahora"}
                 </button>
               )}
 
               {pdfUnidoUrl && (
                 <div className="w-full flex flex-col gap-3 mt-4">
-                  <div className="bg-rose-100/70 border border-rose-300 text-rose-900 text-center py-3 rounded-2xl font-bold text-sm">✨ ¡PDFs unidos con éxito!</div>
-                  <a href={pdfUnidoUrl} download="PALJALE_Unido.pdf" className="w-full bg-gradient-to-r from-rose-600 to-orange-600 text-white font-bold py-4 px-6 rounded-2xl text-center shadow-lg shadow-rose-600/25">
+                  <div className="bg-cyan-500/10 border border-cyan-500/30 text-cyan-300 text-center py-3 rounded-2xl font-bold text-sm">✨ ¡PDFs unidos con éxito!</div>
+                  <a href={pdfUnidoUrl} download="PALJALE_Unido.pdf" className="w-full bg-gradient-to-r from-cyan-500 to-blue-600 text-black font-bold py-4 px-6 rounded-2xl text-center shadow-[0_0_20px_rgba(6,182,212,0.3)] hover:opacity-90 transition">
                     Descargar PDF Unido
                   </a>
-                  <button onClick={() => { setArchivosUnir([]); setPdfUnidoUrl(null); }} className="text-sm font-medium text-gray-500 mt-2">Unir otros archivos</button>
+                  <button onClick={() => { setArchivosUnir([]); setPdfUnidoUrl(null); }} className="text-sm font-medium text-gray-400 hover:text-white mt-2">Unir otros archivos</button>
                 </div>
               )}
             </>
@@ -372,43 +375,43 @@ export default function PdfPage() {
                   onDragLeave={() => setArrastrandoDividir(false)}
                   onDrop={(e) => { e.preventDefault(); setArrastrandoDividir(false); if (e.dataTransfer.files?.[0]) setArchivoDividir(e.dataTransfer.files[0]); }}
                   className={`w-full flex flex-col items-center justify-center border-2 border-dashed rounded-3xl p-10 cursor-pointer transition-all group mb-6 ${
-                    arrastrandoDividir ? 'border-rose-600 bg-rose-100/50 scale-[1.02]' : 'border-rose-200 bg-rose-50/30 hover:bg-rose-50/60'
+                    arrastrandoDividir ? 'border-cyan-400 bg-cyan-500/10 scale-[1.02]' : 'border-cyan-500/30 bg-[#060D14]/50 hover:bg-cyan-500/5'
                   }`}
                 >
-                  <div className="w-16 h-16 rounded-2xl bg-rose-100 text-rose-600 flex items-center justify-center mb-4">📄</div>
-                  <span className="text-lg font-bold text-gray-800 mb-1">Arrastra tu PDF o haz clic</span>
+                  <div className="w-16 h-16 rounded-2xl bg-cyan-500/10 border border-cyan-500/30 text-cyan-400 flex items-center justify-center mb-4">📄</div>
+                  <span className="text-lg font-bold text-white mb-1">Arrastra tu PDF o haz clic</span>
                   <span className="text-sm text-gray-400">Selecciona el archivo a extraer</span>
                   <input type="file" className="hidden" accept=".pdf" onChange={(e) => e.target.files?.[0] && setArchivoDividir(e.target.files[0])} />
                 </label>
               ) : (
                 <div className="w-full flex flex-col items-center">
-                  <div className="w-full bg-rose-50/60 p-4 rounded-2xl mb-6 text-sm text-gray-700 flex justify-between items-center">
-                    <span className="truncate max-w-[240px]">Archivo: <strong className="text-gray-900">{archivoDividir.name}</strong></span>
-                    <button onClick={() => setArchivoDividir(null)} className="text-red-500 font-bold text-xs">Cambiar</button>
+                  <div className="w-full bg-[#060D14] border border-cyan-900/50 p-4 rounded-2xl mb-6 text-sm text-gray-300 flex justify-between items-center">
+                    <span className="truncate max-w-[240px]">Archivo: <strong className="text-white">{archivoDividir.name}</strong></span>
+                    <button onClick={() => setArchivoDividir(null)} className="text-rose-400 font-bold text-xs hover:underline">Cambiar</button>
                   </div>
 
                   <div className="w-full mb-6">
-                    <label className="block text-xs font-bold text-gray-600 uppercase tracking-wider mb-2">Páginas a extraer (ej. 2-10 o 1,3,5):</label>
+                    <label className="block text-xs font-bold text-gray-400 uppercase tracking-wider mb-2">Páginas a extraer (ej. 2-10 o 1,3,5):</label>
                     <input 
                       type="text" 
                       placeholder="Ej. 2-5, 8, 11-15" 
                       value={rangoPaginas} 
                       onChange={(e) => setRangoPaginas(e.target.value)}
-                      className="w-full py-3 px-4 rounded-xl border border-rose-200 bg-white font-medium text-gray-800 focus:outline-none focus:ring-2 focus:ring-rose-500"
+                      className="w-full py-3 px-4 rounded-xl border border-cyan-900/50 bg-[#060D14] font-medium text-white focus:outline-none focus:ring-2 focus:ring-cyan-500"
                     />
                   </div>
 
                   {!pdfDivididoUrl ? (
-                    <button onClick={dividirPdf} disabled={procesando} className="w-full bg-gradient-to-r from-rose-600 to-orange-600 text-white font-bold py-4 px-6 rounded-2xl shadow-lg shadow-rose-600/25">
+                    <button onClick={dividirPdf} disabled={procesando} className="w-full bg-gradient-to-r from-cyan-500 to-blue-600 text-black font-bold py-4 px-6 rounded-2xl shadow-[0_0_20px_rgba(6,182,212,0.3)] hover:opacity-90 transition">
                       {procesando ? "Extrayendo..." : "Extraer Páginas"}
                     </button>
                   ) : (
                     <div className="w-full flex flex-col gap-3">
-                      <div className="bg-rose-100 text-rose-900 text-center py-3 rounded-2xl font-bold text-sm">✨ ¡Páginas extraídas con éxito!</div>
-                      <a href={pdfDivididoUrl} download="PALJALE_Extraido.pdf" className="w-full bg-gradient-to-r from-rose-600 to-orange-600 text-white font-bold py-4 px-6 rounded-2xl text-center shadow-lg">
+                      <div className="bg-cyan-500/10 border border-cyan-500/30 text-cyan-300 text-center py-3 rounded-2xl font-bold text-sm">✨ ¡Páginas extraídas con éxito!</div>
+                      <a href={pdfDivididoUrl} download="PALJALE_Extraido.pdf" className="w-full bg-gradient-to-r from-cyan-500 to-blue-600 text-black font-bold py-4 px-6 rounded-2xl text-center shadow-[0_0_20px_rgba(6,182,212,0.3)] hover:opacity-90 transition">
                         Descargar PDF Extraído
                       </a>
-                      <button onClick={() => { setArchivoDividir(null); setPdfDivididoUrl(null); setRangoPaginas(""); }} className="text-sm text-gray-500 mt-2">Extraer de otro archivo</button>
+                      <button onClick={() => { setArchivoDividir(null); setPdfDivididoUrl(null); setRangoPaginas(""); }} className="text-sm text-gray-400 hover:text-white mt-2">Extraer de otro archivo</button>
                     </div>
                   )}
                 </div>
@@ -425,55 +428,55 @@ export default function PdfPage() {
                   onDragLeave={() => setArrastrandoRotar(false)}
                   onDrop={(e) => { e.preventDefault(); setArrastrandoRotar(false); if (e.dataTransfer.files?.[0]) setArchivoRotar(e.dataTransfer.files[0]); }}
                   className={`w-full flex flex-col items-center justify-center border-2 border-dashed rounded-3xl p-10 cursor-pointer transition-all group mb-6 ${
-                    arrastrandoRotar ? 'border-rose-600 bg-rose-100/50 scale-[1.02]' : 'border-rose-200 bg-rose-50/30 hover:bg-rose-50/60'
+                    arrastrandoRotar ? 'border-cyan-400 bg-cyan-500/10 scale-[1.02]' : 'border-cyan-500/30 bg-[#060D14]/50 hover:bg-cyan-500/5'
                   }`}
                 >
-                  <div className="w-16 h-16 rounded-2xl bg-rose-100 text-rose-600 flex items-center justify-center mb-4">🔄</div>
-                  <span className="text-lg font-bold text-gray-800 mb-1">Arrastra tu PDF o haz clic</span>
+                  <div className="w-16 h-16 rounded-2xl bg-cyan-500/10 border border-cyan-500/30 text-cyan-400 flex items-center justify-center mb-4">🔄</div>
+                  <span className="text-lg font-bold text-white mb-1">Arrastra tu PDF o haz clic</span>
                   <span className="text-sm text-gray-400">Selecciona el archivo a rotar</span>
                   <input type="file" className="hidden" accept=".pdf" onChange={(e) => e.target.files?.[0] && setArchivoRotar(e.target.files[0])} />
                 </label>
               ) : (
                 <div className="w-full flex flex-col items-center">
-                  <div className="w-full bg-rose-50/60 p-4 rounded-2xl mb-6 text-sm text-gray-700 flex justify-between items-center">
-                    <span className="truncate max-w-[240px]">Archivo: <strong className="text-gray-900">{archivoRotar.name}</strong></span>
-                    <button onClick={() => setArchivoRotar(null)} className="text-red-500 font-bold text-xs">Cambiar</button>
+                  <div className="w-full bg-[#060D14] border border-cyan-900/50 p-4 rounded-2xl mb-6 text-sm text-gray-300 flex justify-between items-center">
+                    <span className="truncate max-w-[240px]">Archivo: <strong className="text-white">{archivoRotar.name}</strong></span>
+                    <button onClick={() => setArchivoRotar(null)} className="text-rose-400 font-bold text-xs hover:underline">Cambiar</button>
                   </div>
 
                   <div className="w-full mb-4">
-                    <label className="block text-xs font-bold text-gray-600 uppercase tracking-wider mb-2">Ángulo de rotación:</label>
+                    <label className="block text-xs font-bold text-gray-400 uppercase tracking-wider mb-2">Ángulo de rotación:</label>
                     <select 
                       value={anguloRotacion} 
                       onChange={(e) => setAnguloRotacion(Number(e.target.value))}
-                      className="w-full py-3 px-4 rounded-xl border border-rose-200 bg-white font-medium text-gray-800"
+                      className="w-full py-3 px-4 rounded-xl border border-cyan-900/50 bg-[#060D14] font-medium text-white focus:outline-none focus:ring-2 focus:ring-cyan-500"
                     >
-                      <option value={90}>90 grados (Derecha)</option>
-                      <option value={180}>180 grados (De cabeza)</option>
-                      <option value={270}>270 grados (Izquierda)</option>
+                      <option value={90} className="bg-[#060D14]">90 grados (Derecha)</option>
+                      <option value={180} className="bg-[#060D14]">180 grados (De cabeza)</option>
+                      <option value={270} className="bg-[#060D14]">270 grados (Izquierda)</option>
                     </select>
                   </div>
 
                   <div className="w-full mb-6">
-                    <label className="block text-xs font-bold text-gray-600 uppercase tracking-wider mb-2">Páginas a rotar (ej. todas o 2,4, 6-8):</label>
+                    <label className="block text-xs font-bold text-gray-400 uppercase tracking-wider mb-2">Páginas a rotar (ej. todas o 2,4, 6-8):</label>
                     <input 
                       type="text" 
                       value={paginasRotar} 
                       onChange={(e) => setPaginasRotar(e.target.value)}
-                      className="w-full py-3 px-4 rounded-xl border border-rose-200 bg-white font-medium text-gray-800 focus:outline-none focus:ring-2 focus:ring-rose-500"
+                      className="w-full py-3 px-4 rounded-xl border border-cyan-900/50 bg-[#060D14] font-medium text-white focus:outline-none focus:ring-2 focus:ring-cyan-500"
                     />
                   </div>
 
                   {!pdfRotadoUrl ? (
-                    <button onClick={rotarPdf} disabled={procesando} className="w-full bg-gradient-to-r from-rose-600 to-orange-600 text-white font-bold py-4 px-6 rounded-2xl shadow-lg shadow-rose-600/25">
+                    <button onClick={rotarPdf} disabled={procesando} className="w-full bg-gradient-to-r from-cyan-500 to-blue-600 text-black font-bold py-4 px-6 rounded-2xl shadow-[0_0_20px_rgba(6,182,212,0.3)] hover:opacity-90 transition">
                       {procesando ? "Rotando..." : "Rotar PDF Ahora"}
                     </button>
                   ) : (
                     <div className="w-full flex flex-col gap-3">
-                      <div className="bg-rose-100 text-rose-900 text-center py-3 rounded-2xl font-bold text-sm">✨ ¡PDF rotado con éxito!</div>
-                      <a href={pdfRotadoUrl} download="PALJALE_Rotado.pdf" className="w-full bg-gradient-to-r from-rose-600 to-orange-600 text-white font-bold py-4 px-6 rounded-2xl text-center shadow-lg">
+                      <div className="bg-cyan-500/10 border border-cyan-500/30 text-cyan-300 text-center py-3 rounded-2xl font-bold text-sm">✨ ¡PDF rotado con éxito!</div>
+                      <a href={pdfRotadoUrl} download="PALJALE_Rotado.pdf" className="w-full bg-gradient-to-r from-cyan-500 to-blue-600 text-black font-bold py-4 px-6 rounded-2xl text-center shadow-[0_0_20px_rgba(6,182,212,0.3)] hover:opacity-90 transition">
                         Descargar PDF Rotado
                       </a>
-                      <button onClick={() => { setArchivoRotar(null); setPdfRotadoUrl(null); setPaginasRotar("todas"); }} className="text-sm text-gray-500 mt-2">Rotar otro archivo</button>
+                      <button onClick={() => { setArchivoRotar(null); setPdfRotadoUrl(null); setPaginasRotar("todas"); }} className="text-sm text-gray-400 hover:text-white mt-2">Rotar otro archivo</button>
                     </div>
                   )}
                 </div>
@@ -490,34 +493,34 @@ export default function PdfPage() {
                   onDragLeave={() => setArrastrandoComprimir(false)}
                   onDrop={(e) => { e.preventDefault(); setArrastrandoComprimir(false); if (e.dataTransfer.files?.[0]) seleccionarArchivoComprimir(e.dataTransfer.files[0]); }}
                   className={`w-full flex flex-col items-center justify-center border-2 border-dashed rounded-3xl p-10 cursor-pointer transition-all group mb-6 ${
-                    arrastrandoComprimir ? 'border-rose-600 bg-rose-100/50 scale-[1.02]' : 'border-rose-200 bg-rose-50/30 hover:bg-rose-50/60'
+                    arrastrandoComprimir ? 'border-cyan-400 bg-cyan-500/10 scale-[1.02]' : 'border-cyan-500/30 bg-[#060D14]/50 hover:bg-cyan-500/5'
                   }`}
                 >
-                  <div className="w-16 h-16 rounded-2xl bg-rose-100 text-rose-600 flex items-center justify-center mb-4">🗜️</div>
-                  <span className="text-lg font-bold text-gray-800 mb-1">Arrastra tu PDF o haz clic</span>
+                  <div className="w-16 h-16 rounded-2xl bg-cyan-500/10 border border-cyan-500/30 text-cyan-400 flex items-center justify-center mb-4">🗜️</div>
+                  <span className="text-lg font-bold text-white mb-1">Arrastra tu PDF o haz clic</span>
                   <span className="text-sm text-gray-400">Reduce el peso de tu documento</span>
                   <input type="file" className="hidden" accept=".pdf" multiple={false} onChange={(e) => e.target.files?.[0] && seleccionarArchivoComprimir(e.target.files[0])} />
                 </label>
               ) : (
                 <div className="w-full flex flex-col items-center">
-                  <div className="w-full bg-rose-50/60 p-4 rounded-2xl mb-6 text-sm text-gray-700 flex justify-between items-center">
-                    <span className="truncate max-w-[200px]">Archivo: <strong className="text-gray-900">{archivoComprimir.name}</strong></span>
-                    <span className="bg-rose-200/60 px-2.5 py-1 rounded-lg font-semibold text-rose-800">{tamanoOriginal}</span>
+                  <div className="w-full bg-[#060D14] border border-cyan-900/50 p-4 rounded-2xl mb-6 text-sm text-gray-300 flex justify-between items-center">
+                    <span className="truncate max-w-[200px]">Archivo: <strong className="text-white">{archivoComprimir.name}</strong></span>
+                    <span className="bg-cyan-500/10 text-cyan-400 border border-cyan-500/30 px-2.5 py-1 rounded-lg font-semibold">{tamanoOriginal}</span>
                   </div>
 
                   {/* Selector de Modo de Compresión */}
                   <div className="w-full mb-6">
-                    <label className="block text-xs font-bold text-gray-600 uppercase tracking-wider mb-2">Nivel de Compresión:</label>
+                    <label className="block text-xs font-bold text-gray-400 uppercase tracking-wider mb-2">Nivel de Compresión:</label>
                     <div className="grid grid-cols-2 gap-2">
                       <button 
                         onClick={() => setModoCompresion("estandar")}
-                        className={`py-3 px-3 rounded-xl font-bold text-xs transition-all border ${modoCompresion === "estandar" ? "bg-rose-600 text-white border-rose-600 shadow-md shadow-rose-600/20" : "bg-white text-gray-700 border-rose-200 hover:bg-rose-50"}`}
+                        className={`py-3 px-3 rounded-xl font-bold text-xs transition-all border ${modoCompresion === "estandar" ? "bg-cyan-500 text-black border-cyan-400 shadow-[0_0_15px_rgba(6,182,212,0.3)]" : "bg-[#060D14] text-gray-300 border-cyan-900/50 hover:border-cyan-500/30"}`}
                       >
                         ⚡ Compresión Estándar
                       </button>
                       <button 
                         onClick={() => setModoCompresion("mejor")}
-                        className={`py-3 px-3 rounded-xl font-bold text-xs transition-all border ${modoCompresion === "mejor" ? "bg-rose-600 text-white border-rose-600 shadow-md shadow-rose-600/20" : "bg-white text-gray-700 border-rose-200 hover:bg-rose-50"}`}
+                        className={`py-3 px-3 rounded-xl font-bold text-xs transition-all border ${modoCompresion === "mejor" ? "bg-cyan-500 text-black border-cyan-400 shadow-[0_0_15px_rgba(6,182,212,0.3)]" : "bg-[#060D14] text-gray-300 border-cyan-900/50 hover:border-cyan-500/30"}`}
                       >
                         🔥 Mejor Compresión
                       </button>
@@ -526,24 +529,24 @@ export default function PdfPage() {
 
                   {/* Advertencia si selecciona la mejor compresión */}
                   {modoCompresion === "mejor" && (
-                    <div className="w-full bg-amber-50 border border-amber-200 text-amber-900 text-xs p-3 rounded-2xl mb-6 text-center">
+                    <div className="w-full bg-cyan-950/40 border border-cyan-500/30 text-cyan-300 text-xs p-3 rounded-2xl mb-6 text-center">
                       ⚠️ <strong>Aviso:</strong> Este modo optimiza el documento manteniendo una calidad nítida y perfectamente legible. El texto deja de ser seleccionable.
                     </div>
                   )}
 
                   {!pdfComprimidoUrl ? (
-                    <button onClick={comprimirPdf} disabled={procesando} className="w-full bg-gradient-to-r from-rose-600 to-orange-600 text-white font-bold py-4 px-6 rounded-2xl shadow-lg shadow-rose-600/25 disabled:opacity-50">
+                    <button onClick={comprimirPdf} disabled={procesando} className="w-full bg-gradient-to-r from-cyan-500 to-blue-600 text-black font-bold py-4 px-6 rounded-2xl shadow-[0_0_20px_rgba(6,182,212,0.3)] hover:opacity-90 transition disabled:opacity-50">
                       {procesando ? "Comprimiendo y optimizando..." : "Comprimir PDF Ahora"}
                     </button>
                   ) : (
                     <div className="w-full flex flex-col gap-3">
-                      <div className="bg-rose-100 text-rose-900 text-center py-3 rounded-2xl font-bold text-sm">
+                      <div className="bg-cyan-500/10 border border-cyan-500/30 text-cyan-300 text-center py-3 rounded-2xl font-bold text-sm">
                         ✨ ¡Reducido un {porcentajeAhorro}%! ({tamanoOriginal} → {tamanoComprimido})
                       </div>
-                      <a href={pdfComprimidoUrl} download="PALJALE_Comprimido.pdf" className="w-full bg-gradient-to-r from-rose-600 to-orange-600 text-white font-bold py-4 px-6 rounded-2xl text-center shadow-lg">
+                      <a href={pdfComprimidoUrl} download="PALJALE_Comprimido.pdf" className="w-full bg-gradient-to-r from-cyan-500 to-blue-600 text-black font-bold py-4 px-6 rounded-2xl text-center shadow-[0_0_20px_rgba(6,182,212,0.3)] hover:opacity-90 transition">
                         Descargar PDF Comprimido
                       </a>
-                      <button onClick={() => { setArchivoComprimir(null); setPdfComprimidoUrl(null); }} className="text-sm text-gray-500 mt-2">Comprimir otro archivo</button>
+                      <button onClick={() => { setArchivoComprimir(null); setPdfComprimidoUrl(null); }} className="text-sm text-gray-400 hover:text-white mt-2">Comprimir otro archivo</button>
                     </div>
                   )}
                 </div>
@@ -554,11 +557,11 @@ export default function PdfPage() {
         </div>
       </main>
 
-      {/* Pie de página homologado */}
-      <footer className="w-full border-t border-rose-100 py-6 text-center text-xs text-gray-500 flex flex-col sm:flex-row items-center justify-center gap-2">
+      {/* Pie de página tecnológico */}
+      <footer className="w-full border-t border-cyan-900/40 py-8 text-center text-xs text-gray-500 flex flex-col sm:flex-row items-center justify-center gap-2 bg-[#04080c]">
         <span>PALJALE © 2026 — Todos los derechos reservados.</span>
-        <span className="hidden sm:inline text-rose-300">|</span>
-        <span className="bg-rose-50 px-2.5 py-1 rounded-full border border-rose-100 text-rose-700 font-semibold">
+        <span className="hidden sm:inline text-cyan-800">|</span>
+        <span className="bg-cyan-950/50 px-3 py-1 rounded-full border border-cyan-900/50 text-cyan-400 font-semibold">
           Visitas totales: 128
         </span>
       </footer>
