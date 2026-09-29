@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import ContadorVisitas from "@/components/ContadorVisitas";
 
 export default function Home() {
   const [visitasTotales, setVisitasTotales] = useState<number>(128);
@@ -100,12 +101,10 @@ export default function Home() {
 
       {/* Pie de página con el total de visitas hasta abajo */}
       <footer className="w-full border-t border-rose-100 py-6 text-center text-xs text-gray-500 flex flex-col sm:flex-row items-center justify-center gap-2">
-        <span>PALJALE © 2026 — Todos los derechos reservados.</span>
-        <span className="hidden sm:inline text-rose-300">|</span>
-        <span className="bg-rose-50 px-2.5 py-1 rounded-full border border-rose-100 text-rose-700 font-semibold">
-          Visitas totales: {visitasTotales}
-        </span>
-      </footer>
+      <span>PALJALE © 2026 — Todos los derechos reservados.</span>
+      <span className="hidden sm:inline text-rose-300">|</span>
+      <ContadorVisitas />
+    </footer>
 
     </div>
   );
