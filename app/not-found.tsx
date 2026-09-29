@@ -13,7 +13,7 @@ export default function NotFound() {
             PALJALE
           </Link>
         </div>
-      </header>
+      </header> 
 
       {/* Contenido principal 404 */}
       <main className="max-w-md mx-auto px-6 py-16 flex flex-col items-center text-center my-auto">

@@ -3,6 +3,7 @@
 import { useState, useEffect, useRef } from "react";
 import Link from "next/link";
 import { QRCodeCanvas } from "qrcode.react";
+import ContadorVisitas from "@/components/ContadorVisitas";
 
 export default function QrPage() {
   const [textoQr, setTextoQr] = useState<string>("");
@@ -133,13 +134,11 @@ export default function QrPage() {
 
       </main>
 
-      {/* Pie de página tecnológico */}
+      {/* Pie de página tecnológico corregido y limpio */}
       <footer className="w-full border-t border-cyan-900/40 py-8 text-center text-xs text-gray-500 flex flex-col sm:flex-row items-center justify-center gap-2 bg-[#04080c]">
         <span>PALJALE © 2026 — Todos los derechos reservados.</span>
         <span className="hidden sm:inline text-cyan-800">|</span>
-        <span className="bg-cyan-950/50 px-3 py-1 rounded-full border border-cyan-900/50 text-cyan-400 font-semibold">
-          Visitas totales: 128
-        </span>
+        <ContadorVisitas />
       </footer>
 
     </div>
