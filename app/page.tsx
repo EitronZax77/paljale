@@ -19,26 +19,12 @@ export default function Home() {
   return (
     <div className="min-h-screen bg-gradient-to-br from-rose-50 via-white to-orange-50 text-gray-900 font-sans selection:bg-rose-600 selection:text-white flex flex-col justify-between">
       
-      {/* Barra superior con 100% Gratis y Seguro + En línea arriba a la derecha */}
+      {/* Barra superior */}
       <header className="sticky top-0 z-50 bg-white/80 backdrop-blur-md border-b border-rose-100">
         <div className="max-w-6xl mx-auto px-6 h-16 flex items-center justify-between">
-          <span className="text-xl font-black bg-gradient-to-r from-rose-600 to-orange-500 bg-clip-text text-transparent">
+          <span className="text-2xl md:text-3xl font-black tracking-wider bg-gradient-to-r from-rose-600 via-rose-500 to-orange-500 bg-clip-text text-transparent drop-shadow-sm">
             PALJALE
           </span>
-
-          <div className="flex items-center gap-3">
-            <span className="text-xs font-semibold px-3 py-1 rounded-full bg-rose-100 text-rose-700 hidden sm:inline-block">
-              100% Gratis y Seguro
-            </span>
-            {/* Indicador de activos en línea en tiempo real */}
-            <div className="flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-rose-50/90 border border-rose-200 shadow-sm text-xs font-semibold text-rose-800">
-              <span className="relative flex h-2 w-2">
-                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-rose-400 opacity-75"></span>
-                <span className="relative inline-flex rounded-full h-2 w-2 bg-rose-600"></span>
-              </span>
-              <span>1 en línea</span>
-            </div>
-          </div>
         </div>
       </header>
 
