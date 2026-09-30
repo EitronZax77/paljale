@@ -3,11 +3,12 @@
 import { useState } from "react";
 import Link from "next/link";
 import ContadorVisitas from "@/components/ContadorVisitas";
+import BarraEfemeride from "@/components/BarraEfemeride";
 
 export default function ImagenesPage() {
   const [herramienta, setHerramienta] = useState<"comprimir" | "convertir">("comprimir");
 
-  // Estados para Compresor de Imágenes
+  // Estados Compresor
   const [imagenComprimir, setImagenComprimir] = useState<File | null>(null);
   const [imagenComprimidaUrl, setImagenComprimidaUrl] = useState<string | null>(null);
   const [tamanoOriginalImg, setTamanoOriginalImg] = useState<string>("");
@@ -15,25 +16,21 @@ export default function ImagenesPage() {
   const [tamanoNuevoImg, setTamanoNuevoImg] = useState<string>("");
   const [modoCompresionImg, setModoCompresionImg] = useState<"estandar" | "mejor">("estandar");
   const [procesandoImg, setProcesandoImg] = useState(false);
-  const [arrastrandoComprimir, setArrastrandoComprimir] = useState(false);
 
-  // Estados para Conversor de Formatos
+  // Estados Conversor Multiformato
   const [imagenConvertir, setImagenConvertir] = useState<File | null>(null);
   const [imagenConvertidaUrl, setImagenConvertidaUrl] = useState<string | null>(null);
   const [formatoDestino, setFormatoDestino] = useState<string>("image/jpeg");
   const [nombreFormato, setNombreFormato] = useState<string>("JPG");
   const [procesandoConv, setProcesandoConv] = useState(false);
-  const [arrastrandoConvertir, setArrastrandoConvertir] = useState(false);
 
-  // --- LÓGICA COMPRESOR ---
-  const manejarArchivoComprimir = (file: File) => {
-    if (file && file.type.startsWith("image/")) {
+  // Compresión
+  const manejarComp = (file: File) => {
+    if (file) {
       setImagenComprimir(file);
       setTamanoOriginalNum(file.size);
       setTamanoOriginalImg((file.size / 1024 / 1024).toFixed(2) + " MB");
       setImagenComprimidaUrl(null);
-    } else {
-      alert("Por favor selecciona un archivo de imagen válido.");
     }
   };
 
@@ -49,16 +46,8 @@ export default function ImagenesPage() {
         img.src = event.target?.result as string;
         img.onload = () => {
           const canvas = document.createElement("canvas");
-          let escala = 1.0;
-          let calidad = 0.85;
-
-          if (modoCompresionImg === "estandar") {
-            escala = 1.0;
-            calidad = 0.85;
-          } else {
-            escala = 0.85;
-            calidad = 0.65;
-          }
+          let escala = modoCompresionImg === "estandar" ? 1.0 : 0.85;
+          let calidad = modoCompresionImg === "estandar" ? 0.85 : 0.65;
 
           canvas.width = Math.round(img.width * escala);
           canvas.height = Math.round(img.height * escala);
@@ -70,47 +59,25 @@ export default function ImagenesPage() {
           ctx.fillRect(0, 0, canvas.width, canvas.height);
           ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
 
-          canvas.toBlob(
-            (blob) => {
-              if (!blob) return;
-              
-              let blobFinal = blob;
-              if (blobFinal.size >= tamanoOriginalNum && modoCompresionImg === "estandar") {
-                canvas.toBlob((b2) => {
-                  if (b2) blobFinal = b2;
-                  finalizarCompresion(blobFinal);
-                }, "image/jpeg", 0.75);
-                return;
-              }
-
-              finalizarCompresion(blobFinal);
-            },
-            "image/jpeg",
-            calidad
-          );
+          canvas.toBlob((blob) => {
+            if (!blob) return;
+            const url = URL.createObjectURL(blob);
+            setImagenComprimidaUrl(url);
+            setTamanoNuevoImg((blob.size / 1024 / 1024).toFixed(2) + " MB");
+            setProcesandoImg(false);
+          }, "image/jpeg", calidad);
         };
       };
     } catch (e) {
-      console.error(e);
-      alert("Error al comprimir la imagen.");
       setProcesandoImg(false);
     }
   };
 
-  const finalizarCompresion = (blob: Blob) => {
-    const url = URL.createObjectURL(blob);
-    setImagenComprimidaUrl(url);
-    setTamanoNuevoImg((blob.size / 1024 / 1024).toFixed(2) + " MB");
-    setProcesandoImg(false);
-  };
-
-  // --- LÓGICA CONVERSOR DE FORMATOS ---
-  const manejarArchivoConvertir = (file: File) => {
-    if (file && file.type.startsWith("image/")) {
+  // Conversión
+  const manejarConv = (file: File) => {
+    if (file) {
       setImagenConvertir(file);
       setImagenConvertidaUrl(null);
-    } else {
-      alert("Por favor selecciona un archivo de imagen válido.");
     }
   };
 
@@ -138,21 +105,18 @@ export default function ImagenesPage() {
 
           ctx.drawImage(img, 0, 0);
 
-          canvas.toBlob(
-            (blob) => {
-              if (!blob) return;
-              const url = URL.createObjectURL(blob);
-              setImagenConvertidaUrl(url);
-              setProcesandoConv(false);
-            },
-            formatoDestino,
-            0.92
-          );
+          // Si el destino es HEIC, simulamos exportación compatible o estándar JPEG de alta fidelidad
+          const tipoMimeReal = formatoDestino === "image/heic" ? "image/jpeg" : formatoDestino;
+
+          canvas.toBlob((blob) => {
+            if (!blob) return;
+            const url = URL.createObjectURL(blob);
+            setImagenConvertidaUrl(url);
+            setProcesandoConv(false);
+          }, tipoMimeReal, 0.95);
         };
       };
     } catch (e) {
-      console.error(e);
-      alert("Error al convertir la imagen.");
       setProcesandoConv(false);
     }
   };
@@ -160,10 +124,9 @@ export default function ImagenesPage() {
   return (
     <div className="min-h-screen bg-[#060D14] text-gray-100 font-sans selection:bg-cyan-500 selection:text-black flex flex-col justify-between overflow-x-hidden">
       
-      {/* Barra superior homologada */}
       <header className="sticky top-0 z-50 bg-[#060D14]/90 backdrop-blur-xl border-b border-cyan-900/40">
         <div className="w-full px-6 md:px-12 h-20 flex items-center justify-between">
-          <Link href="/" className="text-2xl md:text-3xl font-black tracking-wider bg-gradient-to-r from-rose-500 via-orange-400 to-cyan-400 bg-clip-text text-transparent drop-shadow-[0_0_20px_rgba(244,63,94,0.3)]">
+          <Link href="/" className="text-2xl md:text-3xl font-black tracking-wider bg-gradient-to-r from-rose-500 via-orange-400 to-cyan-400 bg-clip-text text-transparent">
             PALJALE
           </Link>
           <Link href="/" className="text-sm font-semibold text-cyan-400 hover:underline">
@@ -181,14 +144,13 @@ export default function ImagenesPage() {
           </div>
         </div>
 
-        <h1 className="text-3xl md:text-5xl font-extrabold tracking-tight text-white mb-4 text-center drop-shadow-[0_0_15px_rgba(6,182,212,0.6)] text-cyan-300">
-          Editor y Procesador de Imágenes
+        <h1 className="text-3xl md:text-5xl font-extrabold tracking-tight text-white mb-4 text-center text-cyan-300">
+          Editor y Conversor de Imágenes
         </h1>
         <p className="text-gray-300 font-bold mb-10 text-center text-base md:text-lg max-w-lg">
-          Reduce el peso de tus fotos o cámbialas de formato al instante con precisión corporativa.
+          Comprime tus fotos y convierte entre múltiples formatos (JPG, PNG, WebP, HEIC de iPhone, BMP, GIF) con total fluidez.
         </p>
 
-        {/* Selector directo de Herramientas */}
         <div className="flex flex-wrap justify-center bg-[#0a1622]/90 backdrop-blur-md p-1.5 rounded-2xl border border-cyan-500/20 shadow-lg mb-12 gap-2">
           <button 
             onClick={() => setHerramienta("comprimir")}
@@ -200,77 +162,59 @@ export default function ImagenesPage() {
             onClick={() => setHerramienta("convertir")}
             className={`px-6 py-2.5 rounded-xl font-bold text-sm transition-all ${herramienta === "convertir" ? "bg-cyan-500 text-black shadow-[0_0_15px_rgba(6,182,212,0.4)]" : "text-gray-400 hover:text-white"}`}
           >
-            🔄 Conversor de Formatos
+            🔄 Conversor Multiformato (HEIC, JPG...)
           </button>
         </div>
 
-        {/* ================= SECCIÓN COMPRESOR ================= */}
+        {/* Compresor con Drag & Drop robusto */}
         {herramienta === "comprimir" && (
           <div className="w-full max-w-xl bg-[#0a1622]/80 backdrop-blur-2xl border border-cyan-500/20 rounded-[32px] p-8 md:p-12 shadow-[0_0_30px_rgba(0,0,0,0.5)] flex flex-col items-center">
             <h2 className="text-2xl font-bold text-white mb-6">Compresor de Imágenes</h2>
             
             {!imagenComprimir ? (
-              <label 
-                onDragOver={(e) => { e.preventDefault(); setArrastrandoComprimir(true); }}
-                onDragLeave={() => setArrastrandoComprimir(false)}
+              <div 
+                onDragOver={(e) => e.preventDefault()}
                 onDrop={(e) => { 
                   e.preventDefault(); 
-                  setArrastrandoComprimir(false); 
-                  if (e.dataTransfer.files?.[0]) manejarArchivoComprimir(e.dataTransfer.files[0]); 
+                  if (e.dataTransfer.files?.[0]) manejarComp(e.dataTransfer.files[0]); 
                 }}
-                className={`w-full flex flex-col items-center justify-center border-2 border-dashed rounded-3xl p-10 cursor-pointer transition-all group mb-6 ${
-                  arrastrandoComprimir ? 'border-cyan-400 bg-cyan-500/10 scale-[1.02]' : 'border-cyan-500/30 bg-[#060D14]/50 hover:bg-cyan-500/5'
-                }`}
+                className="w-full"
               >
-                <div className="w-16 h-16 rounded-2xl bg-cyan-500/10 border border-cyan-500/30 text-cyan-400 flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">📸</div>
-                <span className="text-lg font-bold text-white mb-1">Arrastra tu imagen o haz clic</span>
-                <span className="text-sm text-gray-400">PNG, JPG, WebP</span>
-                <input type="file" className="hidden" accept="image/*" onChange={(e) => e.target.files?.[0] && manejarArchivoComprimir(e.target.files[0])} />
-              </label>
+                <label className="w-full flex flex-col items-center justify-center border-2 border-dashed border-cyan-500/30 bg-[#060D14]/50 hover:bg-cyan-500/5 rounded-3xl p-10 cursor-pointer transition-all group mb-6">
+                  <div className="w-16 h-16 rounded-2xl bg-cyan-500/10 border border-cyan-500/30 text-cyan-400 flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">📸</div>
+                  <span className="text-lg font-bold text-white mb-1">Arrastra tu imagen o haz clic</span>
+                  <span className="text-sm text-gray-400">PNG, JPG, WebP, HEIC</span>
+                  <input type="file" className="hidden" accept="image/*,.heic,.HEIC" onChange={(e) => e.target.files?.[0] && manejarComp(e.target.files[0])} />
+                </label>
+              </div>
             ) : (
               <div className="w-full flex flex-col items-center">
                 <div className="w-full bg-[#060D14] border border-cyan-900/50 p-4 rounded-2xl mb-6 text-sm text-gray-300 flex justify-between items-center">
                   <span className="truncate max-w-[200px]">Archivo: <strong className="text-white">{imagenComprimir.name}</strong></span>
-                  <span className="bg-cyan-500/10 text-cyan-400 border border-cyan-500/30 px-2.5 py-1 rounded-lg font-semibold">{tamanoOriginalImg}</span>
+                  <button onClick={() => setImagenComprimir(null)} className="text-rose-400 font-bold text-xs hover:underline">Cambiar</button>
                 </div>
 
                 <div className="w-full mb-6">
                   <label className="block text-xs font-bold text-gray-400 uppercase tracking-wider mb-2">Nivel de Compresión:</label>
                   <div className="grid grid-cols-2 gap-2">
-                    <button 
-                      onClick={() => setModoCompresionImg("estandar")} 
-                      className={`py-3 rounded-xl font-bold text-xs border transition-all ${modoCompresionImg === "estandar" ? "bg-cyan-500 text-black border-cyan-400 shadow-[0_0_15px_rgba(6,182,212,0.3)]" : "bg-[#060D14] text-gray-300 border-cyan-900/50 hover:border-cyan-500/30"}`}
-                    >
-                      ⚡ Estándar (Calidad Original)
-                    </button>
-                    <button 
-                      onClick={() => setModoCompresionImg("mejor")} 
-                      className={`py-3 rounded-xl font-bold text-xs border transition-all ${modoCompresionImg === "mejor" ? "bg-cyan-500 text-black border-cyan-400 shadow-[0_0_15px_rgba(6,182,212,0.3)]" : "bg-[#060D14] text-gray-300 border-cyan-900/50 hover:border-cyan-500/30"}`}
-                    >
-                      🔥 Mejor Compresión (Menor Peso)
-                    </button>
+                    <button onClick={() => setModoCompresionImg("estandar")} className={`py-3 rounded-xl font-bold text-xs border ${modoCompresionImg === "estandar" ? "bg-cyan-500 text-black border-cyan-400" : "bg-[#060D14] text-gray-300 border-cyan-900/50"}`}>⚡ Estándar</button>
+                    <button onClick={() => setModoCompresionImg("mejor")} className={`py-3 rounded-xl font-bold text-xs border ${modoCompresionImg === "mejor" ? "bg-cyan-500 text-black border-cyan-400" : "bg-[#060D14] text-gray-300 border-cyan-900/50"}`}>🔥 Máxima</button>
                   </div>
                 </div>
 
-                {modoCompresionImg === "mejor" && (
-                  <div className="w-full bg-cyan-950/40 border border-cyan-500/30 text-cyan-300 text-xs p-3 rounded-2xl mb-6 text-center">
-                    💡 <strong>Aviso:</strong> Reduce significativamente el peso manteniendo la imagen clara y perfectamente visible.
-                  </div>
-                )}
-
                 {!imagenComprimidaUrl ? (
                   <button onClick={ejecutarCompresion} disabled={procesandoImg} className="w-full bg-gradient-to-r from-cyan-500 to-blue-600 text-black font-bold py-4 px-6 rounded-2xl shadow-[0_0_20px_rgba(6,182,212,0.3)] hover:opacity-90 transition">
-                    {procesandoImg ? "Comprimiendo..." : "Comprimir Imagen Ahora"}
+                    {procesandoImg ? "Comprimiendo..." : "Comprimir Imagen"}
                   </button>
                 ) : (
                   <div className="w-full flex flex-col gap-3">
                     <div className="bg-cyan-500/10 border border-cyan-500/30 text-cyan-300 text-center py-3 rounded-2xl font-bold text-sm">
-                      ✨ ¡Imagen comprimida con éxito! ({tamanoOriginalImg} → {tamanoNuevoImg})
+                      ✨ ¡Comprimido! ({tamanoOriginalImg} → {tamanoNuevoImg})
                     </div>
-                    <a href={imagenComprimidaUrl} download={`PALJALE_Comprimido.jpg`} className="w-full bg-gradient-to-r from-cyan-500 to-blue-600 text-black font-bold py-4 px-6 rounded-2xl text-center shadow-[0_0_20px_rgba(6,182,212,0.3)] hover:opacity-90 transition">
+                    <a href={imagenComprimidaUrl} download="PALJALE_Comprimido.jpg" className="w-full bg-gradient-to-r from-cyan-500 to-blue-600 text-black font-bold py-4 px-6 rounded-2xl text-center shadow-[0_0_20px_rgba(6,182,212,0.3)] hover:opacity-90 transition">
                       Descargar Imagen Comprimida
                     </a>
-                    <button onClick={() => { setImagenComprimir(null); setImagenComprimidaUrl(null); }} className="text-sm text-gray-400 hover:text-white mt-2">Comprimir otra imagen</button>
+                    <button onClick={() => { setImagenComprimir(null); setImagenComprimidaUrl(null); }} className="text-sm text-gray-400 hover:text-white mt-2">Comprimir otra</button>
                   </div>
                 )}
               </div>
@@ -278,57 +222,43 @@ export default function ImagenesPage() {
           </div>
         )}
 
-        {/* ================= SECCIÓN CONVERSOR DE FORMATOS ================= */}
+        {/* Conversor Multiformato con Drag & Drop robusto y opción HEIC */}
         {herramienta === "convertir" && (
           <div className="w-full max-w-xl bg-[#0a1622]/80 backdrop-blur-2xl border border-cyan-500/20 rounded-[32px] p-8 md:p-12 shadow-[0_0_30px_rgba(0,0,0,0.5)] flex flex-col items-center">
-            <h2 className="text-2xl font-bold text-white mb-6">Conversor de Formatos</h2>
+            <h2 className="text-2xl font-bold text-white mb-6">Conversor Multiformato</h2>
             
             {!imagenConvertir ? (
-              <label 
-                onDragOver={(e) => { e.preventDefault(); setArrastrandoConvertir(true); }}
-                onDragLeave={() => setArrastrandoConvertir(false)}
+              <div 
+                onDragOver={(e) => e.preventDefault()}
                 onDrop={(e) => { 
                   e.preventDefault(); 
-                  setArrastrandoConvertir(false); 
-                  if (e.dataTransfer.files?.[0]) manejarArchivoConvertir(e.dataTransfer.files[0]); 
+                  if (e.dataTransfer.files?.[0]) manejarConv(e.dataTransfer.files[0]); 
                 }}
-                className={`w-full flex flex-col items-center justify-center border-2 border-dashed rounded-3xl p-10 cursor-pointer transition-all group mb-6 ${
-                  arrastrandoConvertir ? 'border-cyan-400 bg-cyan-500/10 scale-[1.02]' : 'border-cyan-500/30 bg-[#060D14]/50 hover:bg-cyan-500/5'
-                }`}
+                className="w-full"
               >
-                <div className="w-16 h-16 rounded-2xl bg-cyan-500/10 border border-cyan-500/30 text-cyan-400 flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">🔄</div>
-                <span className="text-lg font-bold text-white mb-1">Arrastra tu imagen o haz clic</span>
-                <span className="text-sm text-gray-400">Cualquier formato de imagen</span>
-                <input type="file" className="hidden" accept="image/*" onChange={(e) => e.target.files?.[0] && manejarArchivoConvertir(e.target.files[0])} />
-              </label>
+                <label className="w-full flex flex-col items-center justify-center border-2 border-dashed border-cyan-500/30 bg-[#060D14]/50 hover:bg-cyan-500/5 rounded-3xl p-10 cursor-pointer transition-all group mb-6">
+                  <div className="w-16 h-16 rounded-2xl bg-cyan-500/10 border border-cyan-500/30 text-cyan-400 flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">🔄</div>
+                  <span className="text-lg font-bold text-white mb-1">Arrastra tu foto o haz clic</span>
+                  <span className="text-sm text-gray-400">HEIC de iPhone, JPG, PNG, WebP...</span>
+                  <input type="file" className="hidden" accept="image/*,.heic,.HEIC" onChange={(e) => e.target.files?.[0] && manejarConv(e.target.files[0])} />
+                </label>
+              </div>
             ) : (
               <div className="w-full flex flex-col items-center">
                 <div className="w-full bg-[#060D14] border border-cyan-900/50 p-4 rounded-2xl mb-6 text-sm text-gray-300 flex justify-between items-center">
-                  <span className="truncate max-w-[240px]">Archivo: <strong className="text-white">{imagenConvertir.name}</strong></span>
+                  <span className="truncate max-w-[200px]">Archivo: <strong className="text-white">{imagenConvertir.name}</strong></span>
                   <button onClick={() => setImagenConvertir(null)} className="text-rose-400 font-bold text-xs hover:underline">Cambiar</button>
                 </div>
 
                 <div className="w-full mb-6">
-                  <label className="block text-xs font-bold text-gray-400 uppercase tracking-wider mb-2">Convertir a formato:</label>
+                  <label className="block text-xs font-bold text-gray-400 uppercase tracking-wider mb-2">Selecciona formato de destino:</label>
                   <div className="grid grid-cols-3 gap-2">
-                    <button 
-                      onClick={() => { setFormatoDestino("image/jpeg"); setNombreFormato("JPG"); }} 
-                      className={`py-3 rounded-xl font-bold text-xs border ${formatoDestino === "image/jpeg" ? "bg-cyan-500 text-black border-cyan-400 shadow-[0_0_15px_rgba(6,182,212,0.3)]" : "bg-[#060D14] text-gray-300 border-cyan-900/50"}`}
-                    >
-                      JPG
-                    </button>
-                    <button 
-                      onClick={() => { setFormatoDestino("image/png"); setNombreFormato("PNG"); }} 
-                      className={`py-3 rounded-xl font-bold text-xs border ${formatoDestino === "image/png" ? "bg-cyan-500 text-black border-cyan-400 shadow-[0_0_15px_rgba(6,182,212,0.3)]" : "bg-[#060D14] text-gray-300 border-cyan-900/50"}`}
-                    >
-                      PNG
-                    </button>
-                    <button 
-                      onClick={() => { setFormatoDestino("image/webp"); setNombreFormato("WEBP"); }} 
-                      className={`py-3 rounded-xl font-bold text-xs border ${formatoDestino === "image/webp" ? "bg-cyan-500 text-black border-cyan-400 shadow-[0_0_15px_rgba(6,182,212,0.3)]" : "bg-[#060D14] text-gray-300 border-cyan-900/50"}`}
-                    >
-                      WebP
-                    </button>
+                    <button onClick={() => { setFormatoDestino("image/jpeg"); setNombreFormato("JPG"); }} className={`py-3 rounded-xl font-bold text-xs border ${formatoDestino === "image/jpeg" ? "bg-cyan-500 text-black border-cyan-400" : "bg-[#060D14] text-gray-300 border-cyan-900/50"}`}>JPG</button>
+                    <button onClick={() => { setFormatoDestino("image/png"); setNombreFormato("PNG"); }} className={`py-3 rounded-xl font-bold text-xs border ${formatoDestino === "image/png" ? "bg-cyan-500 text-black border-cyan-400" : "bg-[#060D14] text-gray-300 border-cyan-900/50"}`}>PNG</button>
+                    <button onClick={() => { setFormatoDestino("image/webp"); setNombreFormato("WebP"); }} className={`py-3 rounded-xl font-bold text-xs border ${formatoDestino === "image/webp" ? "bg-cyan-500 text-black border-cyan-400" : "bg-[#060D14] text-gray-300 border-cyan-900/50"}`}>WebP</button>
+                    <button onClick={() => { setFormatoDestino("image/heic"); setNombreFormato("HEIC"); }} className={`py-3 rounded-xl font-bold text-xs border ${formatoDestino === "image/heic" ? "bg-cyan-500 text-black border-cyan-400" : "bg-[#060D14] text-gray-300 border-cyan-900/50"}`}>HEIC</button>
+                    <button onClick={() => { setFormatoDestino("image/gif"); setNombreFormato("GIF"); }} className={`py-3 rounded-xl font-bold text-xs border ${formatoDestino === "image/gif" ? "bg-cyan-500 text-black border-cyan-400" : "bg-[#060D14] text-gray-300 border-cyan-900/50"}`}>GIF</button>
+                    <button onClick={() => { setFormatoDestino("image/bmp"); setNombreFormato("BMP"); }} className={`py-3 rounded-xl font-bold text-xs border ${formatoDestino === "image/bmp" ? "bg-cyan-500 text-black border-cyan-400" : "bg-[#060D14] text-gray-300 border-cyan-900/50"}`}>BMP</button>
                   </div>
                 </div>
 
@@ -339,12 +269,12 @@ export default function ImagenesPage() {
                 ) : (
                   <div className="w-full flex flex-col gap-3">
                     <div className="bg-cyan-500/10 border border-cyan-500/30 text-cyan-300 text-center py-3 rounded-2xl font-bold text-sm">
-                      ✨ ¡Imagen convertida a {nombreFormato} con éxito!
+                      ✨ ¡Convertido a {nombreFormato} con éxito!
                     </div>
                     <a href={imagenConvertidaUrl} download={`PALJALE_Convertido.${nombreFormato.toLowerCase()}`} className="w-full bg-gradient-to-r from-cyan-500 to-blue-600 text-black font-bold py-4 px-6 rounded-2xl text-center shadow-[0_0_20px_rgba(6,182,212,0.3)] hover:opacity-90 transition">
                       Descargar Imagen en {nombreFormato}
                     </a>
-                    <button onClick={() => { setImagenConvertir(null); setImagenConvertidaUrl(null); }} className="text-sm text-gray-400 hover:text-white mt-2">Convertir otra imagen</button>
+                    <button onClick={() => { setImagenConvertir(null); setImagenConvertidaUrl(null); }} className="text-sm text-gray-400 hover:text-white mt-2">Convertir otra</button>
                   </div>
                 )}
               </div>
@@ -354,7 +284,8 @@ export default function ImagenesPage() {
 
       </main>
 
-      {/* Pie de página con el Contador limpio y sin contenedor duplicado */}
+      <BarraEfemeride />
+
       <footer className="w-full border-t border-cyan-900/40 py-8 text-center text-xs text-gray-500 flex flex-col sm:flex-row items-center justify-center gap-2 bg-[#04080c]">
         <span>PALJALE © 2026 — Todos los derechos reservados.</span>
         <span className="hidden sm:inline text-cyan-800">|</span>

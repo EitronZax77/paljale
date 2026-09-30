@@ -4,6 +4,7 @@ import { useState, useEffect, useRef } from "react";
 import Link from "next/link";
 import { QRCodeCanvas } from "qrcode.react";
 import ContadorVisitas from "@/components/ContadorVisitas";
+import BarraEfemeride from "@/components/BarraEfemeride";
 
 export default function QrPage() {
   const [textoQr, setTextoQr] = useState<string>("");
@@ -133,6 +134,9 @@ export default function QrPage() {
         </div>
 
       </main>
+
+      {/* Barra de efeméride dinámica con rebote (Afuera del footer, arriba de él) */}
+      <BarraEfemeride />
 
       {/* Pie de página tecnológico corregido y limpio */}
       <footer className="w-full border-t border-cyan-900/40 py-8 text-center text-xs text-gray-500 flex flex-col sm:flex-row items-center justify-center gap-2 bg-[#04080c]">

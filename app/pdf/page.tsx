@@ -5,6 +5,7 @@ import Link from "next/link";
 import { PDFDocument, degrees } from "pdf-lib";
 import * as pdfjsLib from "pdfjs-dist";
 import ContadorVisitas from "@/components/ContadorVisitas";
+import BarraEfemeride from "@/components/BarraEfemeride";
 
 if (typeof window !== "undefined") {
   pdfjsLib.GlobalWorkerOptions.workerSrc = `https://cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjsLib.version}/pdf.worker.min.mjs`;
@@ -557,6 +558,8 @@ export default function PdfPage() {
 
         </div>
       </main>
+
+      <BarraEfemeride />
 
       {/* Pie de página tecnológico corregido y limpio */}
       <footer className="w-full border-t border-cyan-900/40 py-8 text-center text-xs text-gray-500 flex flex-col sm:flex-row items-center justify-center gap-2 bg-[#04080c]">
