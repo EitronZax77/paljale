@@ -8,13 +8,43 @@ export default function BarraEfemeride() {
   const barraRef = useRef<HTMLDivElement>(null);
   const contenidoRef = useRef<HTMLDivElement>(null);
 
-  const [efemerideTexto] = useState({
-    icono1: "🌽",
-    icono2: "🌾",
-    fecha: "29 SEP 2026",
-    titulo: "DÍA NACIONAL DEL MAÍZ",
-    frase: "Raíz, cultura y sustento milenario de México.",
+  const [efemerideTexto, setEfemerideTexto] = useState({
+    icono1: "☕",
+    icono2: "🌍",
+    fecha: "01 OCT 2026",
+    titulo: "DÍA INTERNACIONAL DEL CAFÉ",
+    frase: "Cultura, energía y tradición global en cada taza.",
   });
+
+  useEffect(() => {
+    // Generar la fecha y efeméride tomando el día actual del dispositivo en tiempo real
+    const hoy = new Date();
+    const dia = hoy.getDate();
+    const mes = hoy.getMonth() + 1;
+    const anio = hoy.getFullYear();
+
+    const mesesNombres = ["ENE", "FEB", "MAR", "ABR", "MAY", "JUN", "JUL", "AGO", "SEP", "OCT", "NOV", "DIC"];
+    const nombreMes = mesesNombres[mes - 1];
+    const fechaFormateada = `${dia < 10 ? '0' + dia : dia} ${nombreMes} ${anio}`;
+
+    if (mes === 10 && dia === 1) {
+      setEfemerideTexto({
+        icono1: "☕",
+        icono2: "🏛️",
+        fecha: fechaFormateada,
+        titulo: "DÍA INTERNACIONAL DEL CAFÉ Y DEL ARQUITECTO",
+        frase: "Celebrando la innovación, el diseño urbano y la cultura cafetera.",
+      });
+    } else {
+      setEfemerideTexto({
+        icono1: "⚡",
+        icono2: "🚀",
+        fecha: fechaFormateada,
+        titulo: "EFEMÉRIDE DEL DÍA",
+        frase: "Innovación, tecnología y alto rendimiento sin límites.",
+      });
+    }
+  }, []);
 
   useEffect(() => {
     let animacionId: number;

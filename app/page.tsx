@@ -3,6 +3,7 @@
 import { useState, useEffect, useRef } from "react";
 import Link from "next/link";
 import ContadorVisitas from "@/components/ContadorVisitas";
+import BarraEfemeride from "@/components/BarraEfemeride";
 
 interface Figura {
   id: number;
@@ -42,19 +43,6 @@ export default function Home() {
     { id: 4, simbolo: "🔥", x: 35, y: 75, vx: 0.7, vy: 0.5, tamano: "text-5xl", color: "text-orange-400", intensidad: 1 },
     { id: 5, simbolo: "⚙️", x: 75, y: 60, vx: -0.6, vy: -0.6, tamano: "text-5xl", color: "text-rose-500", intensidad: 1 },
   ]);
-
-  const [posX, setPosX] = useState<number>(10);
-  const [velX, setVelX] = useState<number>(1.2);
-  const barraRef = useRef<HTMLDivElement>(null);
-  const contenidoRef = useRef<HTMLDivElement>(null);
-
-  const [efemerideTexto, setEfemerideTexto] = useState({
-    icono1: "🌽",
-    icono2: "🌾",
-    fecha: "29 SEP 2026",
-    titulo: "DÍA NACIONAL DEL MAÍZ",
-    frase: "Raíz, cultura y sustento milenario de México.",
-  });
 
   useEffect(() => {
     try {
@@ -123,30 +111,12 @@ export default function Home() {
         })
       );
 
-      if (barraRef.current && contenidoRef.current) {
-        const anchoContenedor = barraRef.current.clientWidth;
-        const anchoContenido = contenidoRef.current.clientWidth;
-        const limiteMaximo = anchoContenedor - anchoContenido - 10;
-
-        setPosX((prevX) => {
-          let siguienteX = prevX + velX;
-          if (siguienteX >= limiteMaximo) {
-            setVelX(-Math.abs(velX));
-            return limiteMaximo;
-          } else if (siguienteX <= 10) {
-            setVelX(Math.abs(velX));
-            return 10;
-          }
-          return siguienteX;
-        });
-      }
-
       animacionId = requestAnimationFrame(actualizarMovimiento);
     };
 
     animacionId = requestAnimationFrame(actualizarMovimiento);
     return () => cancelAnimationFrame(animacionId);
-  }, [velX]);
+  }, []);
 
   return (
     <div className="min-h-screen bg-[#060D14] text-gray-100 font-sans selection:bg-cyan-500 selection:text-black flex flex-col justify-between overflow-x-hidden">
@@ -298,28 +268,8 @@ export default function Home() {
 
       </main>
 
-      {/* Barra Inferior con Fecha, Efeméride Dinámica y Rebote Perfecto */}
-      <div ref={barraRef} className="w-full bg-[#03070b] border-t border-cyan-500/30 py-4 overflow-hidden relative shadow-[inset_0_0_25px_rgba(6,182,212,0.1)]">
-        <div className="w-full relative h-14 flex items-center">
-          <div 
-            ref={contenidoRef}
-            className="flex items-center gap-3 text-3xl select-none absolute whitespace-nowrap"
-            style={{ transform: `translateX(${posX}px)` }}
-          >
-            <div className="relative filter drop-shadow-[0_0_15px_rgba(6,182,212,0.8)] animate-bounce">
-              {efemerideTexto.icono1}
-            </div>
-            <div className="text-cyan-400 font-black text-xs md:text-sm uppercase tracking-wider bg-cyan-500/10 border border-cyan-500/30 px-5 py-2 rounded-full shadow-[0_0_20px_rgba(6,182,212,0.25)] flex items-center gap-2">
-              <span className="text-rose-400 font-extrabold">📅 {efemerideTexto.fecha}</span>
-              <span className="text-cyan-300 font-extrabold">| 📌 {efemerideTexto.titulo}:</span>
-              <span className="text-gray-200 font-medium">{efemerideTexto.frase}</span>
-            </div>
-            <div className="relative filter drop-shadow-[0_0_15px_rgba(244,63,94,0.8)] animate-bounce">
-              {efemerideTexto.icono2}
-            </div>
-          </div>
-        </div>
-      </div>
+      {/* Barra de Efeméride Dinámica Reutilizable */}
+      <BarraEfemeride />
 
       {/* Pie de página */}
       <footer className="w-full border-t border-cyan-900/40 py-8 text-center text-xs text-gray-500 flex flex-col sm:flex-row items-center justify-center gap-2 bg-[#04080c]">
