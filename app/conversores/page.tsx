@@ -1,157 +1,557 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
-import ContadorVisitas from "@/components/ContadorVisitas";
+import { FFmpeg } from "@ffmpeg/ffmpeg";
+import { fetchFile, toBlobURL } from "@ffmpeg/util";
 import BarraEfemeride from "@/components/BarraEfemeride";
 
+type FormatoSalida = "mp3" | "wav" | "aac";
+
+const MAX_MEDIA_MB = 50;
+const MAX_MEDIA_BYTES = MAX_MEDIA_MB * 1024 * 1024;
+
+function formatearTamano(bytes: number): string {
+  return `${(bytes / 1024 / 1024).toFixed(2)} MB`;
+}
+
+function obtenerExtension(nombre: string): string {
+  const partes = nombre.split(".");
+  return partes.length > 1
+    ? partes.pop()?.toLowerCase() ?? "bin"
+    : "bin";
+}
+
+function mimeSalida(formato: FormatoSalida): string {
+  switch (formato) {
+    case "wav":
+      return "audio/wav";
+    case "aac":
+      return "audio/aac";
+    default:
+      return "audio/mpeg";
+  }
+}
+
+function argumentosConversion(
+  entrada: string,
+  salida: string,
+  formato: FormatoSalida
+): string[] {
+  switch (formato) {
+    case "wav":
+      return [
+        "-i",
+        entrada,
+        "-vn",
+        "-acodec",
+        "pcm_s16le",
+        "-ar",
+        "44100",
+        "-ac",
+        "2",
+        salida,
+      ];
+
+    case "aac":
+      return [
+        "-i",
+        entrada,
+        "-vn",
+        "-c:a",
+        "aac",
+        "-b:a",
+        "192k",
+        salida,
+      ];
+
+    default:
+      return [
+        "-i",
+        entrada,
+        "-vn",
+        "-c:a",
+        "libmp3lame",
+        "-b:a",
+        "192k",
+        salida,
+      ];
+  }
+}
+
 export default function ConversoresPage() {
+  const ffmpegRef = useRef<FFmpeg | null>(null);
+
   const [archivo, setArchivo] = useState<File | null>(null);
-  const [tipoArchivo, setTipoArchivo] = useState<"audio" | "video" | "otro">("otro");
-  const [formatoDestino, setFormatoDestino] = useState<string>("mp3");
-  const [urlResultado, setUrlResultado] = useState<string | null>(null);
-  const [procesando, setProcesando] = useState<boolean>(false);
-  const [arrastrando, setArrastrando] = useState<boolean>(false);
+  const [formatoDestino, setFormatoDestino] =
+    useState<FormatoSalida>("mp3");
 
-  const manejarArchivo = (file: File) => {
-    if (!file) return;
-    setArchivo(file);
+  const [urlResultado, setUrlResultado] =
+    useState<string | null>(null);
+
+  const [procesando, setProcesando] = useState(false);
+  const [cargandoMotor, setCargandoMotor] =
+    useState(false);
+  const [motorListo, setMotorListo] = useState(false);
+
+  const [arrastrando, setArrastrando] =
+    useState(false);
+
+  const [mensajeEstado, setMensajeEstado] =
+    useState("Motor de conversión pendiente de carga.");
+
+  const [error, setError] = useState<string | null>(
+    null
+  );
+
+  useEffect(() => {
+    return () => {
+      if (urlResultado) {
+        URL.revokeObjectURL(urlResultado);
+      }
+    };
+  }, [urlResultado]);
+
+  const limpiarResultado = () => {
+    if (urlResultado) {
+      URL.revokeObjectURL(urlResultado);
+    }
+
     setUrlResultado(null);
+  };
 
-    if (file.type.startsWith("audio/")) {
-      setTipoArchivo("audio");
-      setFormatoDestino("mp3");
-    } else if (file.type.startsWith("video/")) {
-      setTipoArchivo("video");
-      setFormatoDestino("mp3");
-    } else {
-      setTipoArchivo("otro");
-      setFormatoDestino("mp3");
+  const cargarMotor = async () => {
+    if (motorListo || cargandoMotor) return;
+
+    setCargandoMotor(true);
+    setError(null);
+    setMensajeEstado(
+      "Cargando motor FFmpeg en el navegador..."
+    );
+
+    try {
+      const ffmpeg = new FFmpeg();
+
+      ffmpeg.on("log", ({ message }) => {
+        if (message.trim()) {
+          setMensajeEstado(message);
+        }
+      });
+
+      const baseURL =
+        "https://cdn.jsdelivr.net/npm/@ffmpeg/core@0.12.10/dist/umd";
+
+      await ffmpeg.load({
+        coreURL: await toBlobURL(
+          `${baseURL}/ffmpeg-core.js`,
+          "text/javascript"
+        ),
+        wasmURL: await toBlobURL(
+          `${baseURL}/ffmpeg-core.wasm`,
+          "application/wasm"
+        ),
+      });
+
+      ffmpegRef.current = ffmpeg;
+      setMotorListo(true);
+      setMensajeEstado(
+        "Motor FFmpeg listo para convertir."
+      );
+    } catch (err) {
+      console.error(
+        "Error al cargar FFmpeg:",
+        err
+      );
+
+      setError(
+        "No se pudo cargar el motor de conversión. Revisa tu conexión e inténtalo nuevamente."
+      );
+
+      setMensajeEstado(
+        "Motor FFmpeg no disponible."
+      );
+    } finally {
+      setCargandoMotor(false);
     }
   };
 
-  const ejecutarConversionAudio = () => {
-    if (!archivo) return;
-    setProcesando(true);
+  const manejarArchivo = (file: File) => {
+    const esAudio = file.type.startsWith("audio/");
+    const esVideo = file.type.startsWith("video/");
 
-    setTimeout(() => {
-      const blob = new Blob([archivo], { type: `audio/${formatoDestino}` });
-      setUrlResultado(URL.createObjectURL(blob));
+    if (!esAudio && !esVideo) {
+      setError(
+        "Selecciona un archivo de audio o video válido."
+      );
+      return;
+    }
+
+    if (file.size > MAX_MEDIA_BYTES) {
+      setError(
+        `El archivo supera el límite actual de ${MAX_MEDIA_MB} MB.`
+      );
+      return;
+    }
+
+    limpiarResultado();
+
+    setArchivo(file);
+    setFormatoDestino("mp3");
+    setError(null);
+  };
+
+  const ejecutarConversionAudio = async () => {
+    if (!archivo) {
+      setError(
+        "Selecciona primero un archivo."
+      );
+      return;
+    }
+
+    if (!motorListo) {
+      await cargarMotor();
+    }
+
+    const ffmpeg = ffmpegRef.current;
+
+    if (!ffmpeg) {
+      setError(
+        "El motor FFmpeg no está disponible."
+      );
+      return;
+    }
+
+    setProcesando(true);
+    setError(null);
+    limpiarResultado();
+
+    const extensionEntrada =
+      obtenerExtension(archivo.name);
+
+    const nombreEntrada =
+      `entrada.${extensionEntrada}`;
+
+    const nombreSalida =
+      `PALJALE_Audio.${formatoDestino}`;
+
+    try {
+      setMensajeEstado(
+        "Preparando archivo para conversión..."
+      );
+
+      await ffmpeg.writeFile(
+        nombreEntrada,
+        await fetchFile(archivo)
+      );
+
+      setMensajeEstado(
+        `Convirtiendo a ${formatoDestino.toUpperCase()}...`
+      );
+
+      const argumentos =
+        argumentosConversion(
+          nombreEntrada,
+          nombreSalida,
+          formatoDestino
+        );
+
+      const codigoSalida =
+        await ffmpeg.exec(argumentos);
+
+      if (codigoSalida !== 0) {
+        throw new Error(
+          `FFmpeg terminó con código ${codigoSalida}.`
+        );
+      }
+
+      const datos =
+        await ffmpeg.readFile(nombreSalida);
+
+      if (typeof datos === "string") {
+        throw new Error(
+          "FFmpeg devolvió un resultado inesperado."
+        );
+      }
+
+      const blob = new Blob(
+        [new Uint8Array(datos)],
+        {
+          type: mimeSalida(formatoDestino),
+        }
+      );
+
+      if (blob.size === 0) {
+        throw new Error(
+          "El archivo convertido quedó vacío."
+        );
+      }
+
+      setUrlResultado(
+        URL.createObjectURL(blob)
+      );
+
+      setMensajeEstado(
+        `Conversión completada: ${formatearTamano(
+          archivo.size
+        )} → ${formatearTamano(blob.size)}`
+      );
+
+      try {
+        await ffmpeg.deleteFile(nombreEntrada);
+        await ffmpeg.deleteFile(nombreSalida);
+      } catch {
+        // La limpieza temporal no debe bloquear
+        // una conversión ya completada.
+      }
+    } catch (err) {
+      console.error(
+        "Error al convertir multimedia:",
+        err
+      );
+
+      setError(
+        err instanceof Error
+          ? err.message
+          : "No se pudo completar la conversión."
+      );
+
+      setMensajeEstado(
+        "La conversión no pudo completarse."
+      );
+    } finally {
       setProcesando(false);
-    }, 1500);
+    }
   };
 
   return (
     <div className="min-h-screen bg-[#060D14] text-gray-100 font-sans selection:bg-cyan-500 selection:text-black flex flex-col justify-between overflow-x-hidden">
-      
       <header className="sticky top-0 z-50 bg-[#060D14]/90 backdrop-blur-xl border-b border-cyan-900/40">
         <div className="w-full px-6 md:px-12 h-20 flex items-center justify-between">
-          <Link href="/" className="text-2xl md:text-3xl font-black tracking-wider bg-gradient-to-r from-rose-500 via-orange-400 to-cyan-400 bg-clip-text text-transparent">
+          <Link
+            href="/"
+            className="text-2xl md:text-3xl font-black tracking-wider bg-gradient-to-r from-rose-500 via-orange-400 to-cyan-400 bg-clip-text text-transparent"
+          >
             PALJALE
           </Link>
-          <Link href="/" className="text-sm font-semibold text-cyan-400 hover:underline">
+
+          <Link
+            href="/"
+            className="text-sm font-semibold text-cyan-400 hover:underline"
+          >
             ← Volver al inicio
           </Link>
         </div>
       </header>
 
       <main className="w-full max-w-4xl mx-auto px-6 py-16 flex flex-col items-center my-auto">
-        
         <div className="relative mb-6">
-          <div className="absolute inset-0 bg-cyan-500 rounded-3xl blur-xl opacity-20 animate-pulse"></div>
+          <div className="absolute inset-0 bg-cyan-500 rounded-3xl blur-xl opacity-20 animate-pulse" />
+
           <div className="relative w-20 h-20 rounded-3xl bg-[#0a1622] border border-cyan-500/30 text-cyan-400 flex items-center justify-center text-4xl shadow-[0_0_20px_rgba(6,182,212,0.2)]">
             🎵
           </div>
         </div>
 
-        <h1 className="text-3xl md:text-5xl font-extrabold tracking-tight text-white mb-4 text-center text-cyan-300">
+        <h1 className="text-3xl md:text-5xl font-extrabold tracking-tight text-cyan-300 mb-4 text-center">
           Conversor de Audio y Multimedia
         </h1>
+
         <p className="text-gray-300 font-bold mb-10 text-center text-base md:text-lg max-w-xl">
-          Arrastra cualquier archivo de audio o video para transformarlo al formato que necesites de forma rápida y segura.
+          Convierte audio o extrae audio desde video
+          directamente en tu navegador usando FFmpeg.
         </p>
 
         <div className="w-full max-w-xl bg-[#0a1622]/80 backdrop-blur-2xl border border-cyan-500/20 rounded-[32px] p-8 md:p-12 shadow-[0_0_30px_rgba(0,0,0,0.5)] flex flex-col items-center">
-          
-          <h2 className="text-2xl font-bold text-white mb-6">Conversor General de Audio</h2>
+          <h2 className="text-2xl font-bold text-white mb-6">
+            Conversor real de audio
+          </h2>
+
+          {!motorListo && (
+            <button
+              type="button"
+              onClick={cargarMotor}
+              disabled={cargandoMotor}
+              className="w-full mb-6 bg-[#060D14] border border-cyan-500/30 text-cyan-300 font-bold py-3 px-4 rounded-2xl disabled:opacity-50"
+            >
+              {cargandoMotor
+                ? "Cargando motor..."
+                : "Cargar motor FFmpeg"}
+            </button>
+          )}
+
+          <div className="w-full mb-6 text-xs text-gray-400 border border-cyan-900/40 rounded-xl p-3 bg-[#060D14] break-words">
+            {mensajeEstado}
+          </div>
+
+          {error && (
+            <div className="w-full mb-6 border border-rose-500/30 bg-rose-500/10 text-rose-200 rounded-2xl px-4 py-3 text-sm">
+              {error}
+            </div>
+          )}
 
           {!archivo ? (
-            <label 
-              onDragOver={(e) => { e.preventDefault(); setArrastrando(true); }}
-              onDragLeave={() => setArrastrando(false)}
-              onDrop={(e) => { 
-                e.preventDefault(); 
-                setArrastrando(false); 
-                if (e.dataTransfer.files?.[0]) manejarArchivo(e.dataTransfer.files[0]); 
+            <label
+              onDragOver={(event) => {
+                event.preventDefault();
+                setArrastrando(true);
+              }}
+              onDragLeave={() =>
+                setArrastrando(false)
+              }
+              onDrop={(event) => {
+                event.preventDefault();
+                setArrastrando(false);
+
+                const file =
+                  event.dataTransfer.files?.[0];
+
+                if (file) {
+                  manejarArchivo(file);
+                }
               }}
               className={`w-full flex flex-col items-center justify-center border-2 border-dashed rounded-3xl p-10 cursor-pointer transition-all group mb-6 ${
-                arrastrando ? 'border-cyan-400 bg-cyan-500/10 scale-[1.02]' : 'border-cyan-500/30 bg-[#060D14]/50 hover:bg-cyan-500/5'
+                arrastrando
+                  ? "border-cyan-400 bg-cyan-500/10 scale-[1.02]"
+                  : "border-cyan-500/30 bg-[#060D14]/50 hover:bg-cyan-500/5"
               }`}
             >
               <div className="w-16 h-16 rounded-2xl bg-cyan-500/10 border border-cyan-500/30 text-cyan-400 flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
                 🎧
               </div>
-              <span className="text-lg font-bold text-white mb-1">Arrastra tu archivo de audio o video aquí</span>
-              <span className="text-sm text-gray-400">MP3, WAV, AAC, MP4, MOV...</span>
-              <input type="file" className="hidden" accept="audio/*,video/*" onChange={(e) => e.target.files?.[0] && manejarArchivo(e.target.files[0])} />
+
+              <span className="text-lg font-bold text-white mb-1 text-center">
+                Arrastra tu archivo de audio o video aquí
+              </span>
+
+              <span className="text-sm text-gray-400 text-center">
+                MP3, WAV, AAC, MP4, MOV, WebM y otros
+                compatibles · máximo {MAX_MEDIA_MB} MB
+              </span>
+
+              <input
+                type="file"
+                className="hidden"
+                accept="audio/*,video/*"
+                onChange={(event) => {
+                  const file =
+                    event.target.files?.[0];
+
+                  if (file) {
+                    manejarArchivo(file);
+                  }
+                }}
+              />
             </label>
           ) : (
             <div className="w-full flex flex-col items-center">
-              <div className="w-full bg-[#060D14] border border-cyan-900/50 p-4 rounded-2xl mb-6 text-sm text-gray-300 flex justify-between items-center">
-                <span className="truncate max-w-[220px]">Archivo: <strong className="text-white">{archivo.name}</strong></span>
-                <button onClick={() => setArchivo(null)} className="text-rose-400 font-bold text-xs hover:underline">Cambiar</button>
+              <div className="w-full bg-[#060D14] border border-cyan-900/50 p-4 rounded-2xl mb-6 text-sm text-gray-300 flex justify-between items-center gap-4">
+                <div className="min-w-0">
+                  <span className="block truncate">
+                    Archivo:{" "}
+                    <strong className="text-white">
+                      {archivo.name}
+                    </strong>
+                  </span>
+
+                  <span className="text-xs text-cyan-400">
+                    {formatearTamano(
+                      archivo.size
+                    )}
+                  </span>
+                </div>
+
+                <button
+                  type="button"
+                  onClick={() => {
+                    setArchivo(null);
+                    limpiarResultado();
+                    setError(null);
+                  }}
+                  className="text-rose-400 font-bold text-xs hover:underline"
+                >
+                  Cambiar
+                </button>
               </div>
 
-              {/* Opciones dinámicas que aparecen abajo según el archivo cargado */}
               <div className="w-full mb-6">
-                <label className="block text-xs font-bold text-gray-400 uppercase tracking-wider mb-2">Selecciona el formato de salida:</label>
+                <label className="block text-xs font-bold text-gray-400 uppercase tracking-wider mb-2">
+                  Formato de salida
+                </label>
+
                 <div className="grid grid-cols-3 gap-2">
-                  <button onClick={() => setFormatoDestino("mp3")} className={`py-3 rounded-xl font-bold text-xs border ${formatoDestino === "mp3" ? "bg-cyan-500 text-black border-cyan-400" : "bg-[#060D14] text-gray-300 border-cyan-900/50"}`}>MP3</button>
-                  <button onClick={() => setFormatoDestino("wav")} className={`py-3 rounded-xl font-bold text-xs border ${formatoDestino === "wav" ? "bg-cyan-500 text-black border-cyan-400" : "bg-[#060D14] text-gray-300 border-cyan-900/50"}`}>WAV</button>
-                  <button onClick={() => setFormatoDestino("aac")} className={`py-3 rounded-xl font-bold text-xs border ${formatoDestino === "aac" ? "bg-cyan-500 text-black border-cyan-400" : "bg-[#060D14] text-gray-300 border-cyan-900/50"}`}>AAC</button>
+                  {(
+                    ["mp3", "wav", "aac"] as const
+                  ).map((formato) => (
+                    <button
+                      key={formato}
+                      type="button"
+                      onClick={() => {
+                        setFormatoDestino(formato);
+                        limpiarResultado();
+                      }}
+                      className={`py-3 rounded-xl font-bold text-xs border ${
+                        formatoDestino === formato
+                          ? "bg-cyan-500 text-black border-cyan-400"
+                          : "bg-[#060D14] text-gray-300 border-cyan-900/50"
+                      }`}
+                    >
+                      {formato.toUpperCase()}
+                    </button>
+                  ))}
                 </div>
               </div>
 
               {!urlResultado ? (
-                <button 
-                  onClick={ejecutarConversionAudio} 
-                  disabled={procesando} 
-                  className="w-full bg-gradient-to-r from-cyan-500 to-blue-600 text-black font-bold py-4 px-6 rounded-2xl shadow-[0_0_20px_rgba(6,182,212,0.3)] hover:opacity-90 transition"
+                <button
+                  type="button"
+                  onClick={ejecutarConversionAudio}
+                  disabled={
+                    procesando || cargandoMotor
+                  }
+                  className="w-full bg-gradient-to-r from-cyan-500 to-blue-600 text-black font-bold py-4 px-6 rounded-2xl shadow-[0_0_20px_rgba(6,182,212,0.3)] hover:opacity-90 transition disabled:opacity-50"
                 >
-                  {procesando ? "Procesando conversión..." : `Convertir a ${formatoDestino.toUpperCase()}`}
+                  {procesando
+                    ? "Procesando conversión..."
+                    : `Convertir a ${formatoDestino.toUpperCase()}`}
                 </button>
               ) : (
                 <div className="w-full flex flex-col gap-3">
                   <div className="bg-cyan-500/10 border border-cyan-500/30 text-cyan-300 text-center py-3 rounded-2xl font-bold text-sm">
-                    ✨ ¡Conversión de audio completada!
+                    ✓ Conversión real completada
                   </div>
-                  <a 
-                    href={urlResultado} 
-                    download={`PALJALE_Audio.${formatoDestino}`} 
+
+                  <a
+                    href={urlResultado}
+                    download={`PALJALE_Audio.${formatoDestino}`}
                     className="w-full bg-gradient-to-r from-cyan-500 to-blue-600 text-black font-bold py-4 px-6 rounded-2xl text-center shadow-[0_0_20px_rgba(6,182,212,0.3)] hover:opacity-90 transition"
                   >
-                    Descargar Archivo {formatoDestino.toUpperCase()}
+                    Descargar{" "}
+                    {formatoDestino.toUpperCase()}
                   </a>
-                  <button onClick={() => { setArchivo(null); setUrlResultado(null); }} className="text-sm text-gray-400 hover:text-white mt-2">
+
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setArchivo(null);
+                      limpiarResultado();
+                      setError(null);
+                    }}
+                    className="text-sm text-gray-400 hover:text-white mt-2"
+                  >
                     Convertir otro archivo
                   </button>
                 </div>
               )}
             </div>
           )}
-
         </div>
-
       </main>
 
       <BarraEfemeride />
 
-      <footer className="w-full border-t border-cyan-900/40 py-8 text-center text-xs text-gray-500 flex flex-col sm:flex-row items-center justify-center gap-2 bg-[#04080c]">
-        <span>PALJALE © 2026 — Todos los derechos reservados.</span>
-        <span className="hidden sm:inline text-cyan-800">|</span>
-        <ContadorVisitas />
+      <footer className="w-full border-t border-cyan-900/40 py-8 text-center text-xs text-gray-500 bg-[#04080c]">
+        PALJALE © 2026 — Todos los derechos reservados.
       </footer>
-
     </div>
   );
 }
