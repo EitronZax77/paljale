@@ -2,8 +2,9 @@ import type {
   Metadata,
   Viewport,
 } from "next";
-import Script from "next/script";
 import AnalyticsTracker from "@/components/AnalyticsTracker";
+import CookieConsent from "@/components/CookieConsent";
+import LegalBar from "@/components/LegalBar";
 import { siteConfig } from "@/lib/site";
 import "./globals.css";
 
@@ -90,37 +91,9 @@ export default function RootLayout({
       <body className="antialiased bg-slate-50 text-slate-900">
         {children}
 
+        <LegalBar />
         <AnalyticsTracker />
-
-        <Script
-          src={`https://www.googletagmanager.com/gtag/js?id=${siteConfig.googleAnalyticsId}`}
-          strategy="afterInteractive"
-        />
-
-        <Script
-          id="google-analytics"
-          strategy="afterInteractive"
-        >
-          {`
-            window.dataLayer = window.dataLayer || [];
-
-            function gtag() {
-              dataLayer.push(arguments);
-            }
-
-            window.gtag = gtag;
-
-            gtag('js', new Date());
-
-            gtag(
-              'config',
-              '${siteConfig.googleAnalyticsId}',
-              {
-                anonymize_ip: true
-              }
-            );
-          `}
-        </Script>
+        <CookieConsent />
       </body>
     </html>
   );

@@ -4,6 +4,9 @@ import { useEffect } from "react";
 import { usePathname } from "next/navigation";
 import { trackEvent } from "@/lib/analytics";
 
+const CONSENT_KEY = "paljale_cookie_consent";
+const ANALYTICS_READY_EVENT = "paljale-analytics-ready";
+
 function obtenerNombreHerramienta(
   pathname: string
 ): string | null {
@@ -25,27 +28,62 @@ function obtenerNombreHerramienta(
   }
 }
 
+function analyticsPermitido(): boolean {
+  if (typeof window === "undefined") {
+    return false;
+  }
+
+  return (
+    window.localStorage.getItem(CONSENT_KEY) ===
+    "accepted"
+  );
+}
+
 export default function AnalyticsTracker() {
   const pathname = usePathname();
 
   useEffect(() => {
-    const herramienta =
-      obtenerNombreHerramienta(pathname);
+    const registrarApertura = () => {
+      if (!analyticsPermitido()) {
+        return;
+      }
 
-    if (!herramienta) {
-      return;
-    }
+      const herramienta =
+        obtenerNombreHerramienta(pathname);
 
-    trackEvent("tool_open", {
-      tool: herramienta,
-      path: pathname,
-    });
+      if (!herramienta) {
+        return;
+      }
+
+      trackEvent("tool_open", {
+        tool: herramienta,
+        path: pathname,
+      });
+    };
+
+    registrarApertura();
+
+    window.addEventListener(
+      ANALYTICS_READY_EVENT,
+      registrarApertura
+    );
+
+    return () => {
+      window.removeEventListener(
+        ANALYTICS_READY_EVENT,
+        registrarApertura
+      );
+    };
   }, [pathname]);
 
   useEffect(() => {
     const manejarCambioArchivo = (
       event: Event
     ) => {
+      if (!analyticsPermitido()) {
+        return;
+      }
+
       const target = event.target;
 
       if (
@@ -81,6 +119,10 @@ export default function AnalyticsTracker() {
     const manejarClick = (
       event: MouseEvent
     ) => {
+      if (!analyticsPermitido()) {
+        return;
+      }
+
       const target = event.target;
 
       if (!(target instanceof Element)) {

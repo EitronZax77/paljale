@@ -8,7 +8,16 @@ export default function sitemap(): MetadataRoute.Sitemap {
     "/imagenes",
     "/conversores",
     "/qr",
+    "/privacidad",
+    "/terminos",
+    "/contacto",
   ];
+
+  const rutasLegales = new Set([
+    "/privacidad",
+    "/terminos",
+    "/contacto",
+  ]);
 
   return rutas.map((ruta) => ({
     url: `${siteConfig.url}${ruta}`,
@@ -18,6 +27,8 @@ export default function sitemap(): MetadataRoute.Sitemap {
     priority:
       ruta === ""
         ? 1
-        : 0.8,
+        : rutasLegales.has(ruta)
+          ? 0.3
+          : 0.8,
   }));
 }
