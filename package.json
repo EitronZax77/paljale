@@ -15,14 +15,14 @@
     "@ffmpeg/util": "^0.12.2",
     "@next/third-parties": "^16.3.8",
     "browser-image-compression": "^2.0.2",
-    "mammoth": "^1.13.0",
     "next": "^16.3.8",
     "pdf-lib": "^1.17.1",
     "pdfjs-dist": "^6.3.289",
     "qrcode.react": "^4.2.0",
     "react": "19.2.8",
     "react-dom": "19.2.8",
-    "react-qr-code": "^2.2.0"
+    "react-qr-code": "^2.2.0",
+    "source-map-js": "^1.2.2"
   },
   "devDependencies": {
     "@tailwindcss/postcss": "^4",
