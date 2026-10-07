@@ -12,6 +12,10 @@ const eslintConfig = defineConfig([
     "build/**",
     "node_modules/**",
     "next-env.d.ts",
+
+    // Archivos de terceros servidos localmente.
+    "public/pdf.worker.min.mjs",
+    "public/ffmpeg/**",
   ]),
 ]);
 

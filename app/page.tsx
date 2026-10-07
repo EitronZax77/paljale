@@ -185,22 +185,38 @@ export default function Home() {
     let animacionId = 0;
     let contadorFrames = 0;
 
+    const mediaQuery = window.matchMedia(
+      "(prefers-reduced-motion: reduce)"
+    );
+
     const actualizarMovimiento = () => {
+      if (
+        document.hidden ||
+        mediaQuery.matches
+      ) {
+        animacionId =
+          requestAnimationFrame(actualizarMovimiento);
+        return;
+      }
+
       contadorFrames += 1;
 
       if (contadorFrames % 90 === 0) {
         setColorNeonIndex(
-          (indiceActual) => (indiceActual + 1) % COLORES_NEON.length
+          (indiceActual) =>
+            (indiceActual + 1) % COLORES_NEON.length
         );
       }
 
       setFigurasIzq(actualizarFiguras);
       setFigurasDer(actualizarFiguras);
 
-      animacionId = requestAnimationFrame(actualizarMovimiento);
+      animacionId =
+        requestAnimationFrame(actualizarMovimiento);
     };
 
-    animacionId = requestAnimationFrame(actualizarMovimiento);
+    animacionId =
+      requestAnimationFrame(actualizarMovimiento);
 
     return () => {
       cancelAnimationFrame(animacionId);
