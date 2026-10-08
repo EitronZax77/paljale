@@ -1,5 +1,6 @@
 import type { Metadata, Viewport } from "next";
 
+import { LanguageProvider } from "@/components/LanguageProvider";
 import AnalyticsTracker from "@/components/AnalyticsTracker";
 import CookieConsent from "@/components/CookieConsent";
 import DynamicTheme from "@/components/DynamicTheme";
@@ -90,6 +91,7 @@ export default function RootLayout({
   return (
     <html lang={siteConfig.language}>
       <body>
+        <LanguageProvider>
         <DynamicTheme />
 
         {children}
@@ -99,6 +101,7 @@ export default function RootLayout({
         <AnalyticsTracker />
 
         <CookieConsent />
+        </LanguageProvider>
       </body>
     </html>
   );

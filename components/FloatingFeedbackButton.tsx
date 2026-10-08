@@ -1,14 +1,16 @@
 "use client";
 
+import { useLanguage } from "@/components/LanguageProvider";
 import Link from "next/link";
 
 export default function FloatingFeedbackButton() {
+  const { language } = useLanguage();
   return (
     <div className="fixed bottom-6 right-6 z-[90]">
       <Link
         href="/contacto#opiniones"
-        aria-label="Enviar opinión o sugerencia"
-        title="Opiniones y sugerencias"
+        aria-label={language === "es" ? "Enviar opinión o sugerencia" : "Send feedback"}
+        title={language === "es" ? "Opiniones y sugerencias" : "Feedback and suggestions"}
         className="group flex h-14 w-14 items-center justify-center rounded-full bg-[#07152c] text-white shadow-[0_14px_35px_rgba(7,21,44,0.28)] transition duration-200 hover:-translate-y-1 hover:bg-[#0b2949] hover:shadow-[0_18px_45px_rgba(7,21,44,0.32)]"
       >
         <svg
@@ -33,7 +35,7 @@ export default function FloatingFeedbackButton() {
         </svg>
 
         <span className="pointer-events-none absolute right-16 whitespace-nowrap rounded-xl bg-[#07152c] px-3 py-2 text-xs font-bold text-white opacity-0 shadow-lg transition duration-200 group-hover:opacity-100 group-focus-visible:opacity-100">
-          Opiniones y sugerencias
+          {language === "es" ? "Opiniones y sugerencias" : "Feedback and suggestions"}
         </span>
       </Link>
     </div>

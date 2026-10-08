@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, type FormEvent } from "react";
+import { useLanguage } from "@/components/LanguageProvider";
 import Link from "next/link";
 
 type FeedbackStatus =
@@ -17,12 +18,12 @@ const ENDPOINT = /^[a-zA-Z0-9]+$/.test(FORM_ID)
   : "";
 
 const CATEGORIES = [
-  { value: "sugerencia", label: "Sugerencia de mejora" },
-  { value: "nueva-herramienta", label: "Proponer una herramienta" },
-  { value: "problema", label: "Reportar un problema" },
-  { value: "opinion", label: "Opinión o comentario general" },
-  { value: "privacidad", label: "Consulta sobre privacidad" },
-  { value: "otro", label: "Otro asunto" },
+  { value: "sugerencia", label: "Sugerencia de mejora", en: "Improvement suggestion" },
+  { value: "nueva-herramienta", label: "Proponer una herramienta", en: "Suggest a new tool" },
+  { value: "problema", label: "Reportar un problema", en: "Report an issue" },
+  { value: "opinion", label: "Opinión o comentario general", en: "General feedback" },
+  { value: "privacidad", label: "Consulta sobre privacidad", en: "Privacy question" },
+  { value: "otro", label: "Otro asunto", en: "Other" },
 ];
 
 const fieldClass =
@@ -33,6 +34,8 @@ const fieldClass =
   "focus:ring-4 focus:ring-[var(--pal-tint)]";
 
 export default function FeedbackForm() {
+  const { language } = useLanguage();
+  const en = language === "en";
   const [category, setCategory] = useState("sugerencia");
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
@@ -56,7 +59,7 @@ export default function FeedbackForm() {
 
     if (cleanMessage.length < 10 || cleanMessage.length > 2000) {
       setErrorMessage(
-        "Escribe un comentario de entre 10 y 2,000 caracteres."
+        en ? "Please write between 10 and 2,000 characters." : "Escribe un comentario de entre 10 y 2,000 caracteres."
       );
       setStatus("error");
       return;
@@ -102,8 +105,7 @@ export default function FeedbackForm() {
     } catch {
       setStatus("error");
       setErrorMessage(
-        "No fue posible enviar tu comentario. " +
-        "Inténtalo nuevamente más tarde."
+        en ? "Could not send your message. Please try again later." : "No fue posible enviar tu comentario. Inténtalo nuevamente más tarde."
       );
     }
   }
@@ -142,11 +144,10 @@ export default function FeedbackForm() {
             id="feedback-title"
             className="text-xl font-extrabold text-[var(--pal-text)] sm:text-2xl"
           >
-            Tu opinión nos ayuda a mejorar
+            {en ? "Your feedback helps us improve" : "Tu opinión nos ayuda a mejorar"}
           </h2>
           <p className="mt-2 text-sm leading-6 text-slate-600">
-            Comparte tus ideas, comentarios o problemas que hayas
-            encontrado al utilizar PALJALE.
+            {en ? "Share your ideas, comments, or issues you experienced while using PALJALE." : "Comparte tus ideas, comentarios o problemas que hayas encontrado al utilizar PALJALE."}
           </p>
         </div>
       </div>
@@ -157,13 +158,11 @@ export default function FeedbackForm() {
           className="rounded-2xl border border-emerald-200 bg-emerald-50 p-6"
         >
           <h3 className="text-lg font-extrabold text-emerald-900">
-            ¡Muchas gracias por compartir tu opinión!
+            {en ? "Thank you for sharing your feedback!" : "¡Muchas gracias por compartir tu opinión!"}
           </h3>
 
           <p className="mt-3 text-sm leading-7 text-emerald-800">
-            Hemos recibido tu comentario. Tu experiencia e ideas
-            nos ayudan a identificar mejoras y crear herramientas
-            que realmente sean útiles para nuestra comunidad.
+            {en ? "We have received your feedback. Your ideas help us improve and build useful tools for our community." : "Hemos recibido tu comentario. Tu experiencia e ideas nos ayudan a identificar mejoras y crear herramientas que realmente sean útiles para nuestra comunidad."}
           </p>
 
           <button
@@ -171,7 +170,7 @@ export default function FeedbackForm() {
             onClick={() => setStatus("idle")}
             className="mt-5 rounded-xl bg-emerald-800 px-5 py-3 text-sm font-bold text-white transition hover:bg-emerald-900"
           >
-            Enviar otro comentario
+            {en ? "Send another message" : "Enviar otro comentario"}
           </button>
         </div>
       ) : (
@@ -181,7 +180,7 @@ export default function FeedbackForm() {
               htmlFor="feedback-category"
               className="text-sm font-bold text-[var(--pal-text)]"
             >
-              Categoría
+              {en ? "Category" : "Categoría"}
             </label>
 
             <select
@@ -194,7 +193,7 @@ export default function FeedbackForm() {
             >
               {CATEGORIES.map((item) => (
                 <option key={item.value} value={item.value}>
-                  {item.label}
+                  {en ? item.en : item.label}
                 </option>
               ))}
             </select>
@@ -206,9 +205,9 @@ export default function FeedbackForm() {
                 htmlFor="feedback-name"
                 className="text-sm font-bold text-[var(--pal-text)]"
               >
-                Tu nombre
+                {en ? "Your name" : "Tu nombre"}
                 <span className="ml-2 font-normal text-slate-500">
-                  (opcional)
+                  {en ? "(optional)" : "(opcional)"}
                 </span>
               </label>
 
@@ -219,7 +218,7 @@ export default function FeedbackForm() {
                 maxLength={80}
                 value={name}
                 onChange={(event) => setName(event.target.value)}
-                placeholder="¿Cómo te llamas?"
+                placeholder={en ? "Your name" : "¿Cómo te llamas?"}
                 className={fieldClass}
               />
             </div>
@@ -229,9 +228,9 @@ export default function FeedbackForm() {
                 htmlFor="feedback-email"
                 className="text-sm font-bold text-[var(--pal-text)]"
               >
-                Correo electrónico
+                {en ? "Email address" : "Correo electrónico"}
                 <span className="ml-2 font-normal text-slate-500">
-                  (opcional)
+                  {en ? "(optional)" : "(opcional)"}
                 </span>
               </label>
 
@@ -242,7 +241,7 @@ export default function FeedbackForm() {
                 maxLength={254}
                 value={email}
                 onChange={(event) => setEmail(event.target.value)}
-                placeholder="Para recibir una respuesta"
+                placeholder={en ? "For a reply (optional)" : "Para recibir una respuesta"}
                 className={fieldClass}
               />
             </div>
@@ -253,7 +252,7 @@ export default function FeedbackForm() {
               htmlFor="feedback-message"
               className="text-sm font-bold text-[var(--pal-text)]"
             >
-              Tu comentario
+              {en ? "Your message" : "Tu comentario"}
               <span className="ml-2 text-rose-600">*</span>
             </label>
 
@@ -266,12 +265,12 @@ export default function FeedbackForm() {
               required
               value={message}
               onChange={(event) => setMessage(event.target.value)}
-              placeholder="Cuéntanos tu idea, sugerencia o experiencia..."
+              placeholder={en ? "Tell us your idea, suggestion or experience..." : "Cuéntanos tu idea, sugerencia o experiencia..."}
               className={`${fieldClass} resize-y`}
             />
 
             <p className="mt-2 text-right text-xs text-slate-500">
-              {message.length} / 2,000 caracteres
+              {message.length} / 2,000 {en ? "characters" : "caracteres"}
             </p>
           </div>
 
@@ -281,7 +280,7 @@ export default function FeedbackForm() {
             className="absolute -left-[10000px] h-0 overflow-hidden"
           >
             <label htmlFor="feedback-website">
-              Deja este campo vacío
+              {en ? "Leave blank" : "Deja este campo vacío"}
             </label>
             <input
               id="feedback-website"
@@ -295,15 +294,12 @@ export default function FeedbackForm() {
           </div>
 
           <p className="text-xs leading-6 text-slate-600">
-            No incluyas contraseñas, datos bancarios, documentos
-            personales ni archivos confidenciales. Al enviar tu
-            mensaje, autorizas su tratamiento para atender tu
-            consulta. Consulta nuestra{" "}
+            {en ? "Do not include passwords, financial or confidential information. Your message will be processed to address your request. Read our " : "No incluyas contraseñas, datos bancarios, documentos personales ni archivos confidenciales. Al enviar tu mensaje, autorizas su tratamiento para atender tu consulta. Consulta nuestra "}
             <Link
               href="/privacidad"
               className="font-bold text-[var(--pal-accent)] underline underline-offset-2"
             >
-              Política de Privacidad
+              {en ? "Privacy Policy" : "Política de Privacidad"}
             </Link>
             .
           </p>
@@ -322,8 +318,7 @@ export default function FeedbackForm() {
               role="status"
               className="rounded-xl border border-amber-200 bg-amber-50 p-4 text-sm text-amber-900"
             >
-              El formulario está preparado, pero todavía falta
-              conectar el servicio de recepción de mensajes.
+              {en ? "The feedback form is not configured yet." : "El formulario está preparado, pero todavía falta conectar el servicio de recepción de mensajes."}
             </p>
           )}
 
@@ -333,8 +328,8 @@ export default function FeedbackForm() {
             className="inline-flex min-h-12 items-center justify-center gap-3 rounded-2xl bg-[var(--pal-accent)] px-7 py-3 text-sm font-extrabold text-white shadow-sm transition hover:brightness-90 disabled:cursor-not-allowed disabled:opacity-50"
           >
             {status === "sending"
-              ? "Enviando comentario..."
-              : "Enviar comentario"}
+              ? (en ? "Sending message..." : "Enviando comentario...")
+              : (en ? "Send message" : "Enviar comentario")}
 
             {status !== "sending" && (
               <span aria-hidden="true">→</span>

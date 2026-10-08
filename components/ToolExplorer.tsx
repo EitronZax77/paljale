@@ -3,6 +3,8 @@
 import { useMemo, useState } from "react";
 import Link from "next/link";
 
+import { useLanguage } from "@/components/LanguageProvider";
+import { localizedGroup, localizedTool } from "@/lib/localize-tools";
 import CategoryFlipCard from "@/components/CategoryFlipCard";
 
 import {
@@ -135,6 +137,8 @@ function ToolSymbol({
 export default function ToolExplorer({
   category,
 }: ToolExplorerProps) {
+  const { language } = useLanguage();
+  const en = language === "en";
   const [query, setQuery] = useState("");
 
   const group = category
@@ -153,9 +157,12 @@ export default function ToolExplorer({
     return toolGroups.filter((item) =>
       [
         item.name,
+        localizedGroup(item,true).nameDisplay,
         item.description,
+        localizedGroup(item,true).description,
         ...item.keywords,
         ...item.tools.map((tool) => tool.name),
+        ...item.tools.map((tool) => localizedTool(tool,true).name),
       ]
         .join(" ")
         .toLocaleLowerCase("es")
@@ -177,7 +184,7 @@ export default function ToolExplorer({
     }
 
     return group.tools.filter((tool) =>
-      [tool.name, tool.description, ...tool.keywords]
+      [tool.name,tool.description,localizedTool(tool,true).name,localizedTool(tool,true).description,...tool.keywords]
         .join(" ")
         .toLocaleLowerCase("es")
         .includes(search)
@@ -193,7 +200,7 @@ export default function ToolExplorer({
             className="mb-6 inline-flex items-center gap-2 rounded-xl border border-[var(--pal-border)] bg-[var(--pal-tint)] px-4 py-2.5 text-sm font-semibold text-[var(--pal-accent)] transition hover:brightness-95"
           >
             <span aria-hidden="true">←</span>
-            Volver a categorías
+            {en ? "Back to categories" : "Volver a categorías"}
           </Link>
         )}
 
@@ -201,28 +208,28 @@ export default function ToolExplorer({
           <div>
             <p className="text-[11px] font-extrabold uppercase tracking-[0.22em] text-[var(--pal-accent)]">
               {category
-                ? `Biblioteca / ${category}`
+                ? `${en ? "Library" : "Biblioteca"} / ${en && group ? localizedGroup(group,true).nameDisplay : category}`
                 : "PALJALE"}
             </p>
 
             <h1 className="mt-2 text-[34px] font-black tracking-[-0.055em] text-[#172033] sm:text-[44px]">
               {category
-                ? `Herramientas ${category}`
-                : "Biblioteca digital"}
+                ? `${en ? "Tools" : "Herramientas"} ${en && group ? localizedGroup(group,true).nameDisplay : category}`
+                : (en ? "Digital library" : "Biblioteca digital")}
             </h1>
 
             <p className="mt-2 max-w-2xl text-sm leading-6 text-slate-600">
               {category
-                ? group?.description
-                : "Selecciona una categoría para descubrir sus herramientas."}
+                ? (group ? localizedGroup(group,en).description : "")
+                : (en ? "Choose a category to explore its tools." : "Selecciona una categoría para descubrir sus herramientas.")}
             </p>
           </div>
 
           <label className="relative block w-full lg:max-w-md">
             <span className="sr-only">
               {category
-                ? "Buscar herramienta"
-                : "Buscar categoría"}
+                ? (en ? "Search tools" : "Buscar herramienta")
+                : (en ? "Search categories" : "Buscar categoría")}
             </span>
 
             <svg
@@ -254,8 +261,8 @@ export default function ToolExplorer({
               }
               placeholder={
                 category
-                  ? "Buscar herramienta..."
-                  : "Buscar categoría..."
+                  ? (en ? "Search tools..." : "Buscar herramienta...")
+                  : (en ? "Search categories..." : "Buscar categoría...")
               }
               className="h-13 w-full rounded-2xl border border-[var(--pal-border)] bg-[#f5f8fa] pl-12 pr-4 text-sm text-[#172033] outline-none transition placeholder:text-slate-400 focus:border-[var(--pal-accent)]"
             />
@@ -277,11 +284,11 @@ export default function ToolExplorer({
             <p
               className={`text-sm font-extrabold ${group.color.text}`}
             >
-              Módulo {group.name}
+              {en ? "Module" : "Módulo"} {localizedGroup(group,en).nameDisplay}
             </p>
 
             <p className="mt-1 text-sm text-slate-600">
-              {group.shortDescription}
+              {localizedGroup(group,en).shortDescription}
             </p>
           </div>
         </div>
@@ -306,7 +313,7 @@ export default function ToolExplorer({
             </div>
           ) : (
             <div className="rounded-2xl border border-dashed border-slate-300 bg-white py-12 text-center text-slate-600">
-              No encontramos esa categoría.
+              {en ? "No matching categories found." : "No encontramos esa categoría."}
             </div>
           )
         ) : group && tools.length > 0 ? (
@@ -325,16 +332,16 @@ export default function ToolExplorer({
 
                 <div className="min-w-0 flex-1">
                   <p className="mb-1 text-[10px] font-bold uppercase tracking-[0.13em] text-[var(--pal-accent)]">
-                    Herramienta{" "}
+                    {en ? "Tool" : "Herramienta"}{" "}
                     {String(index + 1).padStart(2, "0")}
                   </p>
 
                   <h2 className="text-[17px] font-bold text-[#172033] sm:text-lg">
-                    {tool.name}
+                    {localizedTool(tool,en).name}
                   </h2>
 
                   <p className="mt-1 text-sm leading-5 text-slate-600">
-                    {tool.description}
+                    {localizedTool(tool,en).description}
                   </p>
                 </div>
 
@@ -349,7 +356,7 @@ export default function ToolExplorer({
           </div>
         ) : (
           <div className="rounded-2xl border border-dashed border-slate-300 bg-white py-12 text-center text-slate-600">
-            No encontramos herramientas.
+            {en ? "No matching tools found." : "No encontramos herramientas."}
           </div>
         )}
       </div>

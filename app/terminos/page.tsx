@@ -1,5 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import LocaleOnly from "@/components/LocaleOnly";
+import EnglishInstitutionalPage from "@/components/EnglishInstitutionalPage";
 import InstitutionalShell from "@/components/InstitutionalShell";
 import { siteConfig } from "@/lib/site";
 
@@ -30,12 +32,16 @@ export const metadata: Metadata = {
 export default function TerminosPage() {
   return (
     <InstitutionalShell
+      eyebrowEn="Legal center"
+      titleEn="Terms of Use"
+      introductionEn="Terms and conditions for accessing and using PALJALE tools."
       eyebrow="Centro legal"
       title="Términos de Uso"
       introduction="Condiciones aplicables al acceso y utilización de las herramientas de PALJALE."
       updatedAt="6 de octubre de 2026"
     >
 
+      <LocaleOnly language="es">
           <section className="rounded-[24px] border border-[var(--pal-border)] bg-white p-5 shadow-[0_5px_20px_rgba(15,23,42,0.035)] sm:p-7">
             <h2 className="text-xl font-extrabold text-[var(--pal-text)] mb-4 sm:text-2xl">
               1. Aceptación de los términos
@@ -357,6 +363,8 @@ export default function TerminosPage() {
               intelectual y otros asuntos vinculados con el servicio.
             </p>
           </section>
+      </LocaleOnly>
+      <EnglishInstitutionalPage kind="terms" />
     </InstitutionalShell>
   );
 }

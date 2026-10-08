@@ -1,5 +1,6 @@
 "use client";
 
+import { useLanguage } from "@/components/LanguageProvider";
 import Link from "next/link";
 import {
   useCallback,
@@ -128,6 +129,8 @@ function cargarGoogleAnalytics() {
 }
 
 export default function CookieConsent() {
+  const { language } = useLanguage();
+  const en = language === "en";
   const [
     consent,
     setConsent,
@@ -242,29 +245,23 @@ export default function CookieConsent() {
               id="cookie-consent-title"
               className="text-lg font-bold text-white"
             >
-              Privacidad y analítica
+              {en ? "Privacy and analytics" : "Privacidad y analítica"}
             </h2>
 
             <p
               id="cookie-consent-description"
               className="mt-2 text-sm leading-6 text-gray-300"
             >
-              PALJALE utiliza Google Analytics
-              únicamente si lo autorizas. Nos
-              ayuda a conocer qué herramientas
-              se utilizan y mejorar el sitio.
-              Si rechazas, Google Analytics no
-              se cargará.
+              {en ? "PALJALE uses Google Analytics only with your consent. It helps us understand tool usage and improve the website. If you decline, Google Analytics will not be loaded." : "PALJALE utiliza Google Analytics únicamente si lo autorizas. Nos ayuda a conocer qué herramientas se utilizan y mejorar el sitio. Si rechazas, Google Analytics no se cargará."}
             </p>
 
             <p className="mt-2 text-sm text-gray-400">
-              Puedes cambiar tu decisión
-              posteriormente.{" "}
+              {en ? "You may change your preference later." : "Puedes cambiar tu decisión posteriormente."}{" "}
               <Link
                 href="/privacidad"
                 className="font-semibold text-cyan-400 hover:underline"
               >
-                Política de Privacidad
+                {en ? "Privacy Policy" : "Política de Privacidad"}
               </Link>
             </p>
           </div>
@@ -275,7 +272,7 @@ export default function CookieConsent() {
               onClick={rechazar}
               className="rounded-xl border border-gray-600 px-5 py-3 text-sm font-bold text-gray-200 transition hover:border-gray-400 hover:bg-white/5"
             >
-              Rechazar
+              {en ? "Reject" : "Rechazar"}
             </button>
 
             <button
@@ -283,7 +280,7 @@ export default function CookieConsent() {
               onClick={aceptar}
               className="rounded-xl bg-cyan-400 px-5 py-3 text-sm font-black text-[#041018] transition hover:bg-cyan-300"
             >
-              Aceptar Analytics
+              {en ? "Accept analytics" : "Aceptar Analytics"}
             </button>
           </div>
         </div>

@@ -1,11 +1,14 @@
 "use client";
 
+import { useLanguage } from "@/components/LanguageProvider";
 import Link from "next/link";
 
 const COOKIE_PREFERENCES_EVENT =
   "paljale-open-cookie-preferences";
 
 export default function LegalBar() {
+  const { language } = useLanguage();
+  const en = language === "en";
   const abrirPreferencias = () => {
     window.dispatchEvent(
       new Event(
@@ -21,7 +24,7 @@ export default function LegalBar() {
           href="/privacidad"
           className="transition hover:text-[var(--pal-accent)]"
         >
-          Privacidad
+          {en ? "Privacy" : "Privacidad"}
         </Link>
 
         <span className="text-slate-300">
@@ -32,7 +35,7 @@ export default function LegalBar() {
           href="/terminos"
           className="transition hover:text-[var(--pal-accent)]"
         >
-          Términos de uso
+          {en ? "Terms of use" : "Términos de uso"}
         </Link>
 
         <span className="text-slate-300">
@@ -43,7 +46,7 @@ export default function LegalBar() {
           href="/contacto"
           className="transition hover:text-[var(--pal-accent)]"
         >
-          Contacto
+          {en ? "Contact" : "Contacto"}
         </Link>
 
         <span className="text-slate-300">
@@ -57,7 +60,7 @@ export default function LegalBar() {
           }
           className="transition hover:text-[var(--pal-accent)]"
         >
-          Preferencias de cookies
+          {en ? "Cookie preferences" : "Preferencias de cookies"}
         </button>
       </div>
     </div>

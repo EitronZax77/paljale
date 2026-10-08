@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
-import Link from "next/link";
+import LocaleOnly from "@/components/LocaleOnly";
+import EnglishInstitutionalPage from "@/components/EnglishInstitutionalPage";
 import InstitutionalShell from "@/components/InstitutionalShell";
 import { siteConfig } from "@/lib/site";
 
@@ -30,12 +31,16 @@ export const metadata: Metadata = {
 export default function PrivacidadPage() {
   return (
     <InstitutionalShell
+      eyebrowEn="Legal center"
+      titleEn="Privacy Policy"
+      introductionEn="Learn how PALJALE protects your privacy and processes information."
       eyebrow="Centro legal"
       title="Política de Privacidad"
       introduction="Consulta cómo protegemos la privacidad y cómo funcionan los servicios digitales de PALJALE."
       updatedAt="6 de octubre de 2026"
     >
 
+      <LocaleOnly language="es">
           <section className="rounded-[24px] border border-[var(--pal-border)] bg-white p-5 shadow-[0_5px_20px_rgba(15,23,42,0.035)] sm:p-7">
             <h2 className="text-xl font-extrabold text-[var(--pal-text)] mb-4 sm:text-2xl">
               1. Introducción
@@ -301,6 +306,8 @@ export default function PrivacidadPage() {
               solicitudes vinculadas con el tratamiento de información.
             </p>
           </section>
+      </LocaleOnly>
+      <EnglishInstitutionalPage kind="privacy" />
     </InstitutionalShell>
   );
 }

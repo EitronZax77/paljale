@@ -1,5 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import LocaleOnly from "@/components/LocaleOnly";
+import EnglishInstitutionalPage from "@/components/EnglishInstitutionalPage";
 import InstitutionalShell from "@/components/InstitutionalShell";
 import FeedbackForm from "@/components/FeedbackForm";
 import { siteConfig } from "@/lib/site";
@@ -28,11 +30,15 @@ const sectionClass = "rounded-[24px] border border-[var(--pal-border)] bg-white 
 export default function ContactoPage() {
   return (
     <InstitutionalShell
+      eyebrowEn="We want to hear from you"
+      titleEn="Contact"
+      introductionEn="Have a suggestion, question or issue? Share your feedback to help PALJALE improve."
       eyebrow="Estamos para escucharte"
       title="Contacto"
       introduction="¿Tienes alguna sugerencia, comentario o encontraste un problema? Queremos conocer tu experiencia para seguir mejorando PALJALE."
     >
-      <FeedbackForm />
+
+      <LocaleOnly language="es">      <FeedbackForm />
       <section className={sectionClass}>
         <h2 className="mb-3 text-xl font-extrabold text-[var(--pal-text)] sm:text-2xl">¿En qué podemos ayudarte?</h2>
         <p>Utiliza el formulario para compartir opiniones, solicitar nuevas herramientas, reportar fallas o hacernos llegar consultas sobre el sitio.</p>
@@ -40,6 +46,8 @@ export default function ContactoPage() {
         <p className="mt-3 text-sm text-slate-500">Los mensajes se gestionan mediante nuestro proveedor de formularios. Puedes consultar cómo tratamos los datos en nuestra Política de Privacidad.</p>
         <Link href="/privacidad" className="mt-4 inline-flex rounded-xl border border-[var(--pal-border)] px-5 py-3 text-sm font-bold text-[var(--pal-accent)] transition hover:bg-[var(--pal-tint)]">Política de Privacidad →</Link>
       </section>
+      </LocaleOnly>
+      <EnglishInstitutionalPage kind="contact" />
     </InstitutionalShell>
   );
 }

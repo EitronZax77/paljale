@@ -4,6 +4,8 @@ import { useState } from "react";
 import Link from "next/link";
 import type { CSSProperties, ReactNode } from "react";
 
+import { useLanguage } from "@/components/LanguageProvider";
+import { localizedGroup, localizedTool } from "@/lib/localize-tools";
 import type { ToolGroup } from "@/lib/tools";
 import styles from "./CategoryFlipCard.module.css";
 
@@ -28,6 +30,9 @@ export default function CategoryFlipCard({
   group,
   icon,
 }: Props) {
+  const { language } = useLanguage();
+  const en = language === "en";
+  const displayed = localizedGroup(group,en);
   const [flipped, setFlipped] = useState(false);
 
   const accent =
@@ -45,7 +50,7 @@ export default function CategoryFlipCard({
         flipped ? styles.flipped : ""
       }`}
       style={cardStyle}
-      aria-label={`Categoría ${group.name}`}
+      aria-label={`${en ? "Category" : "Categoría"} ${displayed.nameDisplay}`}
     >
       <div className={styles.inner}>
         {/* FRENTE BLANCO */}
@@ -55,7 +60,7 @@ export default function CategoryFlipCard({
             type="button"
             className={styles.frontButton}
             onClick={() => setFlipped(true)}
-            aria-label={`Ver detalles de ${group.name}`}
+            aria-label={`${en ? "View details for" : "Ver detalles de"} ${displayed.nameDisplay}`}
             aria-expanded={flipped}
           >
             <span className={styles.iconContainer}>
@@ -63,21 +68,21 @@ export default function CategoryFlipCard({
             </span>
 
             <span className={styles.categoryName}>
-              {group.name}
+              {displayed.nameDisplay}
             </span>
 
             <span className={styles.count}>
               {group.isAvailable
                 ? `${group.tools.length} ${
                     group.tools.length === 1
-                      ? "herramienta"
-                      : "herramientas"
+                      ? en ? "tool" : "herramienta"
+                      : en ? "tools" : "herramientas"
                   }`
-                : "Próximamente"}
+                : (en ? "Coming soon" : "Próximamente")}
             </span>
 
             <span className={styles.frontHint}>
-              Ver detalles
+              {en ? "View details" : "Ver detalles"}
               <span aria-hidden="true"> ↻</span>
             </span>
           </button>
@@ -95,18 +100,18 @@ export default function CategoryFlipCard({
               type="button"
               className={styles.closeButton}
               onClick={() => setFlipped(false)}
-              aria-label={`Volver al frente de ${group.name}`}
+              aria-label={`${en ? "Back to front of" : "Volver al frente de"} ${displayed.nameDisplay}`}
             >
               ↶
             </button>
           </div>
 
           <h2 className={styles.backTitle}>
-            {group.name}
+            {displayed.nameDisplay}
           </h2>
 
           <p className={styles.description}>
-            {group.description}
+            {displayed.description}
           </p>
 
           {group.isAvailable ? (
@@ -114,7 +119,7 @@ export default function CategoryFlipCard({
               <div className={styles.toolList}>
                 {examples.map((tool) => (
                   <span key={tool.href} className={styles.toolTag}>
-                    {tool.name}
+                    {localizedTool(tool,en).name}
                   </span>
                 ))}
               </div>
@@ -124,7 +129,7 @@ export default function CategoryFlipCard({
                   href={group.href}
                   className={styles.exploreButton}
                 >
-                  Explorar categoría
+                  {en ? "Explore category" : "Explorar categoría"}
                   <span aria-hidden="true">→</span>
                 </Link>
               )}
@@ -132,12 +137,11 @@ export default function CategoryFlipCard({
           ) : (
             <>
               <p className={styles.comingSoon}>
-                Estamos preparando nuevas herramientas
-                para esta categoría.
+                {en ? "We are preparing new tools for this category." : "Estamos preparando nuevas herramientas para esta categoría."}
               </p>
 
               <span className={styles.disabledLabel}>
-                Disponible próximamente
+                {en ? "Coming soon" : "Disponible próximamente"}
               </span>
             </>
           )}

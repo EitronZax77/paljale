@@ -1,11 +1,14 @@
 "use client";
 
+import { useLanguage } from "@/components/LanguageProvider";
+import LanguageSelector from "@/components/LanguageSelector";
 import { usePathname } from "next/navigation";
 import Image from "next/image";
 import Link from "next/link";
 
 export default function SiteHeader() {
   const pathname = usePathname();
+  const { language } = useLanguage();
   const goHome = () => {
     if (pathname === "/") {
       window.scrollTo({ top: 0, behavior: "smooth" });
@@ -13,66 +16,67 @@ export default function SiteHeader() {
   };
   return (
     <header className="relative z-50 border-b border-[var(--pal-border)] bg-white/95 backdrop-blur-xl">
-      <div className="relative mx-auto grid h-28 w-full max-w-[1600px] grid-cols-[1fr_auto] items-center px-4 sm:px-6 md:h-32 md:grid-cols-[1fr_auto_1fr] lg:px-8">
-        <div className="hidden md:block" />
+      <div className="mx-auto flex h-24 w-full max-w-[1600px] items-center justify-between gap-3 px-3 sm:gap-5 sm:px-6 md:h-32 lg:px-8">
 
         <Link
           href="/"
           onClick={goHome}
           aria-label="PALJALE - Inicio"
-          className="group flex items-center gap-5 md:justify-self-center"
+          className="group flex min-w-0 shrink-0 items-center gap-2.5 sm:gap-4 md:gap-5"
         >
-          <div className="flex h-[68px] w-[68px] items-center justify-center overflow-hidden rounded-[22px] border border-[var(--pal-border)] bg-white shadow-[0_12px_30px_rgba(15,23,42,0.10)] transition duration-300 group-hover:-translate-y-1 md:h-[86px] md:w-[86px]">
+          <div className="flex h-[66px] w-[66px] shrink-0 items-center justify-center overflow-hidden rounded-[18px] border border-[var(--pal-border)] bg-white shadow-[0_12px_30px_rgba(15,23,42,0.10)] transition duration-300 group-hover:-translate-y-1 sm:h-[80px] sm:w-[80px] md:h-[102px] md:w-[102px] md:rounded-[24px]">
             <Image
               src="/icon.jpeg"
               alt="PALJALE"
-              width={86}
-              height={86}
+              width={120}
+              height={120}
               priority
-              className="h-full w-full object-contain p-1"
+              className="h-full w-full object-contain p-0.5"
             />
           </div>
 
           <div>
-            <div className="text-[28px] font-black tracking-[-0.055em] text-[var(--pal-text)] md:text-[42px]">
+            <div className="text-[24px] font-black tracking-[-0.055em] text-[var(--pal-text)] sm:text-[32px] md:text-[42px]">
               PALJALE
             </div>
 
-            <div className="mt-1 text-[10px] font-extrabold uppercase tracking-[0.24em] text-[var(--pal-accent)] md:text-[12px]">
-              Herramientas digitales
+            <div className="mt-1 text-[9px] font-extrabold uppercase tracking-[0.03em] text-[var(--pal-accent)] sm:text-[10px] sm:tracking-[0.1em] md:text-[12px] md:tracking-[0.19em]">
+              {language === "es" ? "Herramientas digitales" : "Digital tools"}
             </div>
           </div>
         </Link>
 
         <nav
-          className="justify-self-end"
+          className="ml-auto shrink-0"
           aria-label="Navegación principal"
         >
-          <div className="hidden items-center gap-2 md:flex">
+          <div className="hidden items-center gap-1 lg:gap-2 md:flex">
             <Link
               href="/"
           onClick={goHome}
               className="rounded-2xl px-4 py-2.5 text-sm font-semibold text-slate-700 transition hover:bg-[var(--pal-tint)]"
             >
-              Inicio
+              {language === "es" ? "Inicio" : "Home"}
             </Link>
 
             <Link
               href="/contacto"
               className="rounded-2xl px-4 py-2.5 text-sm font-semibold text-slate-700 transition hover:bg-[var(--pal-tint)]"
             >
-              Contacto
+              {language === "es" ? "Contacto" : "Contact"}
             </Link>
 
             <Link
               href="/acerca-de"
               className="rounded-2xl px-4 py-2.5 text-sm font-semibold text-slate-700 transition hover:bg-[var(--pal-tint)]"
             >
-              Acerca de
+              {language === "es" ? "Acerca de" : "About"}
             </Link>
+            <LanguageSelector />
           </div>
 
-          <details className="relative md:hidden">
+          <div className="flex items-center gap-2 md:hidden"><LanguageSelector />
+          <details className="relative">
             <summary
               className="flex h-11 w-11 cursor-pointer list-none items-center justify-center rounded-xl border border-[var(--pal-border)] bg-white text-[var(--pal-text)] shadow-sm"
               aria-label="Abrir menú"
@@ -98,25 +102,25 @@ export default function SiteHeader() {
           onClick={goHome}
                 className="block rounded-xl px-4 py-3 text-sm font-bold text-[var(--pal-text)] hover:bg-[var(--pal-tint)]"
               >
-                Inicio
+                {language === "es" ? "Inicio" : "Home"}
               </Link>
 
               <Link
                 href="/contacto"
                 className="block rounded-xl px-4 py-3 text-sm font-bold text-[var(--pal-text)] hover:bg-[var(--pal-tint)]"
               >
-                Contacto
+                {language === "es" ? "Contacto" : "Contact"}
               </Link>
 
               <Link
                 href="/acerca-de"
                 className="block rounded-xl px-4 py-3 text-sm font-bold text-[var(--pal-text)] hover:bg-[var(--pal-tint)]"
               >
-                Acerca de
+                {language === "es" ? "Acerca de" : "About"}
               </Link>
 
             </div>
-          </details>
+          </details></div>
         </nav>
       </div>
 

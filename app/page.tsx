@@ -1,3 +1,4 @@
+import LocalizedText from "@/components/LocalizedText";
 import SiteHeader from "@/components/SiteHeader";
 import ToolExplorer from "@/components/ToolExplorer";
 import BarraEfemeride from "@/components/BarraEfemeride";
@@ -18,7 +19,7 @@ export default function Home() {
       <AnimatedSpriteParade />
 
       <footer className="border-t border-[var(--pal-border)] bg-white px-5 py-5 text-center text-sm font-bold text-slate-700">
-        PALJALE © 2026 — Todos los derechos reservados.
+        PALJALE © 2026 — <LocalizedText es="Todos los derechos reservados." en="All rights reserved." />
       </footer>
 
       <FloatingFeedbackButton />
