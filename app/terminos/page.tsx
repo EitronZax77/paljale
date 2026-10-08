@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import BarraEfemeride from "@/components/BarraEfemeride";
+import InstitutionalShell from "@/components/InstitutionalShell";
 import { siteConfig } from "@/lib/site";
 
 export const metadata: Metadata = {
@@ -29,43 +29,15 @@ export const metadata: Metadata = {
 
 export default function TerminosPage() {
   return (
-    <div className="min-h-screen bg-[#060D14] text-gray-100 font-sans selection:bg-cyan-500 selection:text-black flex flex-col">
-      <header className="sticky top-0 z-50 bg-[#060D14]/90 backdrop-blur-xl border-b border-cyan-900/40">
-        <div className="w-full px-6 md:px-12 h-20 flex items-center justify-between">
-          <Link
-            href="/"
-            className="text-2xl md:text-3xl font-black tracking-wider bg-gradient-to-r from-rose-500 via-orange-400 to-cyan-400 bg-clip-text text-transparent"
-          >
-            PALJALE
-          </Link>
+    <InstitutionalShell
+      eyebrow="Centro legal"
+      title="Términos de Uso"
+      introduction="Condiciones aplicables al acceso y utilización de las herramientas de PALJALE."
+      updatedAt="6 de octubre de 2026"
+    >
 
-          <Link
-            href="/"
-            className="text-sm font-semibold text-cyan-400 hover:underline"
-          >
-            ← Volver al inicio
-          </Link>
-        </div>
-      </header>
-
-      <main className="w-full max-w-4xl mx-auto px-6 py-14 md:py-20 flex-1">
-        <div className="mb-12">
-          <p className="text-sm font-bold uppercase tracking-[0.2em] text-cyan-400 mb-3">
-            Legal
-          </p>
-
-          <h1 className="text-3xl md:text-5xl font-extrabold text-white mb-5">
-            Términos de Uso
-          </h1>
-
-          <p className="text-gray-400">
-            Última actualización: 6 de octubre de 2026
-          </p>
-        </div>
-
-        <div className="space-y-10 text-gray-300 leading-8">
-          <section>
-            <h2 className="text-2xl font-bold text-white mb-4">
+          <section className="rounded-[24px] border border-[var(--pal-border)] bg-white p-5 shadow-[0_5px_20px_rgba(15,23,42,0.035)] sm:p-7">
+            <h2 className="text-xl font-extrabold text-[var(--pal-text)] mb-4 sm:text-2xl">
               1. Aceptación de los términos
             </h2>
 
@@ -76,8 +48,8 @@ export default function TerminosPage() {
             </p>
           </section>
 
-          <section>
-            <h2 className="text-2xl font-bold text-white mb-4">
+          <section className="rounded-[24px] border border-[var(--pal-border)] bg-white p-5 shadow-[0_5px_20px_rgba(15,23,42,0.035)] sm:p-7">
+            <h2 className="text-xl font-extrabold text-[var(--pal-text)] mb-4 sm:text-2xl">
               2. Descripción del servicio
             </h2>
 
@@ -94,8 +66,8 @@ export default function TerminosPage() {
             </p>
           </section>
 
-          <section>
-            <h2 className="text-2xl font-bold text-white mb-4">
+          <section className="rounded-[24px] border border-[var(--pal-border)] bg-white p-5 shadow-[0_5px_20px_rgba(15,23,42,0.035)] sm:p-7">
+            <h2 className="text-xl font-extrabold text-[var(--pal-text)] mb-4 sm:text-2xl">
               3. Uso permitido
             </h2>
 
@@ -112,8 +84,8 @@ export default function TerminosPage() {
             </p>
           </section>
 
-          <section>
-            <h2 className="text-2xl font-bold text-white mb-4">
+          <section className="rounded-[24px] border border-[var(--pal-border)] bg-white p-5 shadow-[0_5px_20px_rgba(15,23,42,0.035)] sm:p-7">
+            <h2 className="text-xl font-extrabold text-[var(--pal-text)] mb-4 sm:text-2xl">
               4. Usos prohibidos
             </h2>
 
@@ -151,8 +123,8 @@ export default function TerminosPage() {
             </ul>
           </section>
 
-          <section>
-            <h2 className="text-2xl font-bold text-white mb-4">
+          <section className="rounded-[24px] border border-[var(--pal-border)] bg-white p-5 shadow-[0_5px_20px_rgba(15,23,42,0.035)] sm:p-7">
+            <h2 className="text-xl font-extrabold text-[var(--pal-text)] mb-4 sm:text-2xl">
               5. Responsabilidad sobre los archivos
             </h2>
 
@@ -168,8 +140,8 @@ export default function TerminosPage() {
             </p>
           </section>
 
-          <section>
-            <h2 className="text-2xl font-bold text-white mb-4">
+          <section className="rounded-[24px] border border-[var(--pal-border)] bg-white p-5 shadow-[0_5px_20px_rgba(15,23,42,0.035)] sm:p-7">
+            <h2 className="text-xl font-extrabold text-[var(--pal-text)] mb-4 sm:text-2xl">
               6. Procesamiento local
             </h2>
 
@@ -186,8 +158,8 @@ export default function TerminosPage() {
             </p>
           </section>
 
-          <section>
-            <h2 className="text-2xl font-bold text-white mb-4">
+          <section className="rounded-[24px] border border-[var(--pal-border)] bg-white p-5 shadow-[0_5px_20px_rgba(15,23,42,0.035)] sm:p-7">
+            <h2 className="text-xl font-extrabold text-[var(--pal-text)] mb-4 sm:text-2xl">
               7. Disponibilidad del servicio
             </h2>
 
@@ -204,8 +176,8 @@ export default function TerminosPage() {
             </p>
           </section>
 
-          <section>
-            <h2 className="text-2xl font-bold text-white mb-4">
+          <section className="rounded-[24px] border border-[var(--pal-border)] bg-white p-5 shadow-[0_5px_20px_rgba(15,23,42,0.035)] sm:p-7">
+            <h2 className="text-xl font-extrabold text-[var(--pal-text)] mb-4 sm:text-2xl">
               8. Resultados de las herramientas
             </h2>
 
@@ -223,8 +195,8 @@ export default function TerminosPage() {
             </p>
           </section>
 
-          <section>
-            <h2 className="text-2xl font-bold text-white mb-4">
+          <section className="rounded-[24px] border border-[var(--pal-border)] bg-white p-5 shadow-[0_5px_20px_rgba(15,23,42,0.035)] sm:p-7">
+            <h2 className="text-xl font-extrabold text-[var(--pal-text)] mb-4 sm:text-2xl">
               9. Copias de seguridad
             </h2>
 
@@ -240,8 +212,8 @@ export default function TerminosPage() {
             </p>
           </section>
 
-          <section>
-            <h2 className="text-2xl font-bold text-white mb-4">
+          <section className="rounded-[24px] border border-[var(--pal-border)] bg-white p-5 shadow-[0_5px_20px_rgba(15,23,42,0.035)] sm:p-7">
+            <h2 className="text-xl font-extrabold text-[var(--pal-text)] mb-4 sm:text-2xl">
               10. Propiedad intelectual de PALJALE
             </h2>
 
@@ -258,8 +230,8 @@ export default function TerminosPage() {
             </p>
           </section>
 
-          <section>
-            <h2 className="text-2xl font-bold text-white mb-4">
+          <section className="rounded-[24px] border border-[var(--pal-border)] bg-white p-5 shadow-[0_5px_20px_rgba(15,23,42,0.035)] sm:p-7">
+            <h2 className="text-xl font-extrabold text-[var(--pal-text)] mb-4 sm:text-2xl">
               11. Software y componentes de terceros
             </h2>
 
@@ -274,8 +246,8 @@ export default function TerminosPage() {
             </p>
           </section>
 
-          <section>
-            <h2 className="text-2xl font-bold text-white mb-4">
+          <section className="rounded-[24px] border border-[var(--pal-border)] bg-white p-5 shadow-[0_5px_20px_rgba(15,23,42,0.035)] sm:p-7">
+            <h2 className="text-xl font-extrabold text-[var(--pal-text)] mb-4 sm:text-2xl">
               12. Servicios de terceros
             </h2>
 
@@ -291,8 +263,8 @@ export default function TerminosPage() {
             </p>
           </section>
 
-          <section>
-            <h2 className="text-2xl font-bold text-white mb-4">
+          <section className="rounded-[24px] border border-[var(--pal-border)] bg-white p-5 shadow-[0_5px_20px_rgba(15,23,42,0.035)] sm:p-7">
+            <h2 className="text-xl font-extrabold text-[var(--pal-text)] mb-4 sm:text-2xl">
               13. Publicidad y monetización
             </h2>
 
@@ -308,8 +280,8 @@ export default function TerminosPage() {
             </p>
           </section>
 
-          <section>
-            <h2 className="text-2xl font-bold text-white mb-4">
+          <section className="rounded-[24px] border border-[var(--pal-border)] bg-white p-5 shadow-[0_5px_20px_rgba(15,23,42,0.035)] sm:p-7">
+            <h2 className="text-xl font-extrabold text-[var(--pal-text)] mb-4 sm:text-2xl">
               14. Limitación de responsabilidad
             </h2>
 
@@ -328,8 +300,8 @@ export default function TerminosPage() {
             </p>
           </section>
 
-          <section>
-            <h2 className="text-2xl font-bold text-white mb-4">
+          <section className="rounded-[24px] border border-[var(--pal-border)] bg-white p-5 shadow-[0_5px_20px_rgba(15,23,42,0.035)] sm:p-7">
+            <h2 className="text-xl font-extrabold text-[var(--pal-text)] mb-4 sm:text-2xl">
               15. Cambios en el servicio
             </h2>
 
@@ -340,8 +312,8 @@ export default function TerminosPage() {
             </p>
           </section>
 
-          <section>
-            <h2 className="text-2xl font-bold text-white mb-4">
+          <section className="rounded-[24px] border border-[var(--pal-border)] bg-white p-5 shadow-[0_5px_20px_rgba(15,23,42,0.035)] sm:p-7">
+            <h2 className="text-xl font-extrabold text-[var(--pal-text)] mb-4 sm:text-2xl">
               16. Cambios a estos términos
             </h2>
 
@@ -356,8 +328,8 @@ export default function TerminosPage() {
             </p>
           </section>
 
-          <section>
-            <h2 className="text-2xl font-bold text-white mb-4">
+          <section className="rounded-[24px] border border-[var(--pal-border)] bg-white p-5 shadow-[0_5px_20px_rgba(15,23,42,0.035)] sm:p-7">
+            <h2 className="text-xl font-extrabold text-[var(--pal-text)] mb-4 sm:text-2xl">
               17. Privacidad
             </h2>
 
@@ -368,14 +340,14 @@ export default function TerminosPage() {
 
             <Link
               href="/privacidad"
-              className="inline-flex mt-4 text-cyan-400 font-bold hover:underline"
+              className="inline-flex mt-4 text-[var(--pal-accent)] font-bold hover:underline"
             >
               Consultar Política de Privacidad
             </Link>
           </section>
 
-          <section>
-            <h2 className="text-2xl font-bold text-white mb-4">
+          <section className="rounded-[24px] border border-[var(--pal-border)] bg-white p-5 shadow-[0_5px_20px_rgba(15,23,42,0.035)] sm:p-7">
+            <h2 className="text-xl font-extrabold text-[var(--pal-text)] mb-4 sm:text-2xl">
               18. Contacto
             </h2>
 
@@ -385,23 +357,6 @@ export default function TerminosPage() {
               intelectual y otros asuntos vinculados con el servicio.
             </p>
           </section>
-
-          <div className="pt-4 border-t border-cyan-900/40">
-            <Link
-              href="/"
-              className="inline-flex items-center text-cyan-400 font-bold hover:underline"
-            >
-              ← Regresar a PALJALE
-            </Link>
-          </div>
-        </div>
-      </main>
-
-      <BarraEfemeride />
-
-      <footer className="w-full border-t border-cyan-900/40 py-8 text-center text-xs text-gray-500 bg-[#04080c]">
-        PALJALE © 2026 — Todos los derechos reservados.
-      </footer>
-    </div>
+    </InstitutionalShell>
   );
 }

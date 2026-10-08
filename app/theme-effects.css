@@ -1,0 +1,392 @@
+/* ==========================================
+   PALJALE — DYNAMIC THEME EFFECTS
+   Movimiento ambiental y profundidad
+   ========================================== */
+
+/* Transiciones cromáticas suaves */
+
+html {
+  transition:
+    background-color 650ms ease;
+}
+
+body {
+  transition:
+    background-color 650ms ease,
+    color 350ms ease;
+}
+
+/* La portada y los índices adoptan el fondo
+   temático, sin modificar módulos internos. */
+
+body > div.min-h-screen:has(> main > section) {
+  background:
+    radial-gradient(
+      ellipse at 12% 18%,
+      color-mix(
+        in srgb,
+        var(--pal-accent) 7%,
+        transparent
+      ),
+      transparent 38%
+    ),
+    radial-gradient(
+      ellipse at 90% 78%,
+      color-mix(
+        in srgb,
+        var(--pal-accent-2) 6%,
+        transparent
+      ),
+      transparent 36%
+    ),
+    var(--pal-bg);
+}
+
+/* ==========================================
+   TARJETAS — EFECTO DE SOFTWARE
+   ========================================== */
+
+@media (hover: hover) {
+  main a.group {
+    will-change: auto;
+  }
+
+  main a.group:hover {
+    border-color:
+      color-mix(
+        in srgb,
+        var(--pal-accent) 24%,
+        white
+      );
+  }
+
+  main a.group svg {
+    transition:
+      transform 350ms cubic-bezier(
+        0.2,
+        0.8,
+        0.2,
+        1
+      );
+  }
+
+  main a.group:hover svg {
+    transform: translateY(-3px) scale(1.055);
+  }
+}
+
+/* ==========================================
+   TECNOLOGÍA
+   Circuitos con pulso luminoso
+   ========================================== */
+
+html[data-paljale-theme="tecnologia"]
+  .pal-tech-circuit {
+  animation:
+    pal-tech-pulse 8s ease-in-out infinite;
+}
+
+.pal-tech-circuit-right {
+  animation-delay: -4s;
+}
+
+@keyframes pal-tech-pulse {
+  0%,
+  100% {
+    opacity: 0.07;
+  }
+
+  50% {
+    opacity: 0.18;
+  }
+}
+
+/* ==========================================
+   ESPACIO
+   Órbita lenta y estrellas
+   ========================================== */
+
+html[data-paljale-theme="espacial"]
+  .pal-orbit {
+  animation:
+    pal-orbit-breathe 12s ease-in-out infinite;
+}
+
+html[data-paljale-theme="espacial"]
+  .pal-star {
+  animation:
+    pal-star-glow 7s ease-in-out infinite alternate;
+}
+
+.pal-star-2 {
+  animation-delay: -2s;
+}
+
+.pal-star-3 {
+  animation-delay: -4s;
+}
+
+.pal-star-4 {
+  animation-delay: -6s;
+}
+
+@keyframes pal-orbit-breathe {
+  0%,
+  100% {
+    opacity: 0.55;
+    transform: rotate(-18deg) scale(1);
+  }
+
+  50% {
+    opacity: 0.9;
+    transform: rotate(-13deg) scale(1.035);
+  }
+}
+
+@keyframes pal-star-glow {
+  from {
+    opacity: 0.1;
+    transform: scale(0.85);
+  }
+
+  to {
+    opacity: 0.35;
+    transform: scale(1.4);
+  }
+}
+
+/* ==========================================
+   CIENCIA
+   Moléculas de movimiento suave
+   ========================================== */
+
+html[data-paljale-theme="ciencia"]
+  .pal-molecule-left {
+  animation:
+    pal-molecule-float 11s ease-in-out infinite;
+}
+
+html[data-paljale-theme="ciencia"]
+  .pal-molecule-right {
+  animation:
+    pal-molecule-float 13s ease-in-out infinite reverse;
+}
+
+@keyframes pal-molecule-float {
+  0%,
+  100% {
+    transform: translateY(0) rotate(0deg);
+  }
+
+  50% {
+    transform: translateY(-14px) rotate(4deg);
+  }
+}
+
+/* ==========================================
+   ARTE
+   Trazos cromáticos lentos
+   ========================================== */
+
+html[data-paljale-theme="arte"]
+  .pal-art-stroke {
+  animation:
+    pal-art-breathe 14s ease-in-out infinite alternate;
+}
+
+.pal-art-stroke-2 {
+  animation-delay: -5s;
+}
+
+.pal-art-stroke-3 {
+  animation-delay: -9s;
+}
+
+@keyframes pal-art-breathe {
+  from {
+    opacity: 0.06;
+    transform: rotate(-12deg) scale(0.95);
+  }
+
+  to {
+    opacity: 0.15;
+    transform: rotate(6deg) scale(1.08);
+  }
+}
+
+/* ==========================================
+   NATURALEZA
+   Hojas oscilantes
+   ========================================== */
+
+html[data-paljale-theme="naturaleza"]
+  .pal-leaves-left {
+  animation:
+    pal-leaf-sway 12s ease-in-out infinite;
+}
+
+html[data-paljale-theme="naturaleza"]
+  .pal-leaves-right {
+  animation:
+    pal-leaf-sway 15s ease-in-out infinite reverse;
+}
+
+@keyframes pal-leaf-sway {
+  0%,
+  100% {
+    transform: rotate(-3deg);
+  }
+
+  50% {
+    transform: rotate(5deg);
+  }
+}
+
+/* ==========================================
+   OCÉANO
+   Ondulación lenta
+   ========================================== */
+
+html[data-paljale-theme="oceano"]
+  .pal-wave-1 {
+  animation:
+    pal-wave-drift 16s ease-in-out infinite;
+}
+
+html[data-paljale-theme="oceano"]
+  .pal-wave-2 {
+  animation:
+    pal-wave-drift 19s ease-in-out infinite reverse;
+}
+
+@keyframes pal-wave-drift {
+  0%,
+  100% {
+    transform: translateX(-2%) rotate(2deg);
+  }
+
+  50% {
+    transform: translateX(3%) rotate(-1deg);
+  }
+}
+
+/* ==========================================
+   SEPTIEMBRE — MÉXICO
+   Papel picado ambiental
+   ========================================== */
+
+html[data-paljale-theme="septiembre"]
+  .pal-papel {
+  animation:
+    pal-papel-move 9s ease-in-out infinite alternate;
+}
+
+.pal-papel:nth-child(2n) {
+  animation-delay: -3s;
+}
+
+.pal-papel:nth-child(3n) {
+  animation-delay: -6s;
+}
+
+@keyframes pal-papel-move {
+  from {
+    transform: rotate(-4deg) translateY(0);
+  }
+
+  to {
+    transform: rotate(4deg) translateY(5px);
+  }
+}
+
+/* ==========================================
+   DÍA DE MUERTOS
+   Flores con respiración luminosa
+   ========================================== */
+
+html[data-paljale-theme="muertos"]
+  .pal-marigold {
+  animation:
+    pal-flower-float 12s ease-in-out infinite;
+}
+
+.pal-marigold-2 {
+  animation-delay: -4s;
+}
+
+.pal-marigold-3 {
+  animation-delay: -8s;
+}
+
+@keyframes pal-flower-float {
+  0%,
+  100% {
+    opacity: 0.1;
+    translate: 0 0;
+  }
+
+  50% {
+    opacity: 0.2;
+    translate: 0 -12px;
+  }
+}
+
+/* ==========================================
+   TEMAS CONMEMORATIVOS
+   Menos intensidad de movimiento
+   ========================================== */
+
+html[data-paljale-tone="commemoration"]
+  .pal-seasonal-layer {
+  opacity: 0.68;
+}
+
+html[data-paljale-tone="awareness"]
+  .pal-seasonal-layer {
+  opacity: 0.78;
+}
+
+/* ==========================================
+   MÓVILES
+   ========================================== */
+
+@media (max-width: 767px) {
+  .pal-seasonal-layer {
+    opacity: 0.5;
+  }
+
+  html[data-paljale-theme="espacial"]
+    .pal-orbit {
+    right: -160px;
+  }
+
+  html[data-paljale-theme="muertos"]
+    .pal-marigold-3 {
+    display: none;
+  }
+
+  html[data-paljale-theme="tecnologia"]
+    .pal-tech-circuit-right {
+    display: none;
+  }
+}
+
+/* ==========================================
+   ACCESIBILIDAD
+   ========================================== */
+
+@media (prefers-reduced-motion: reduce) {
+  html,
+  body,
+  main a.group,
+  main a.group svg {
+    transition: none !important;
+  }
+
+  .pal-seasonal-layer *,
+  .pal-seasonal-layer *::before,
+  .pal-seasonal-layer *::after {
+    animation: none !important;
+    transition: none !important;
+  }
+}

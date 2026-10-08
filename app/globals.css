@@ -1,1 +1,1018 @@
 @import "tailwindcss";
+
+:root {
+  --pal-bg: #eef2f5;
+  --pal-surface: #ffffff;
+  --pal-surface-soft: #f7f9fb;
+
+  --pal-text: #172033;
+  --pal-muted: #617083;
+
+  --pal-accent: #0c8fa6;
+  --pal-accent-2: #d44c52;
+  --pal-accent-3: #285d8a;
+
+  --pal-tint: #e6f5f8;
+  --pal-border: #d8e2e8;
+
+  --pal-shadow:
+    0 12px 36px rgba(15, 23, 42, 0.08);
+}
+
+/* -------------------------------- */
+/* TEMAS */
+/* -------------------------------- */
+
+html[data-paljale-theme="oceano"] {
+  --pal-bg: #edf5f7;
+  --pal-accent: #078fa6;
+  --pal-accent-2: #46abc0;
+  --pal-accent-3: #23628c;
+  --pal-tint: #e1f3f6;
+  --pal-border: #d1e4e9;
+}
+
+html[data-paljale-theme="primavera"] {
+  --pal-bg: #f2f6f0;
+  --pal-accent: #4c8c63;
+  --pal-accent-2: #db7490;
+  --pal-accent-3: #7e6cac;
+  --pal-tint: #e8f2e7;
+  --pal-border: #d8e5d6;
+}
+
+html[data-paljale-theme="verano"] {
+  --pal-bg: #f8f4eb;
+  --pal-accent: #d68a1f;
+  --pal-accent-2: #27a3ad;
+  --pal-accent-3: #dc654d;
+  --pal-tint: #faeed4;
+  --pal-border: #ebdfc8;
+}
+
+html[data-paljale-theme="tecnologia"] {
+  --pal-bg: #eef3f6;
+  --pal-accent: #0a8fa6;
+  --pal-accent-2: #d94e55;
+  --pal-accent-3: #275f8b;
+  --pal-tint: #e2f3f6;
+  --pal-border: #d2e2e7;
+}
+
+html[data-paljale-theme="espacial"] {
+  --pal-bg: #f0f0f7;
+  --pal-accent: #6557a6;
+  --pal-accent-2: #c35c94;
+  --pal-accent-3: #345a91;
+  --pal-tint: #e8e6f5;
+  --pal-border: #dbd9ea;
+}
+
+html[data-paljale-theme="ciencia"] {
+  --pal-bg: #edf5f5;
+  --pal-accent: #27868f;
+  --pal-accent-2: #6d6bb1;
+  --pal-accent-3: #3f7aa0;
+  --pal-tint: #e1f1f1;
+  --pal-border: #d2e4e4;
+}
+
+html[data-paljale-theme="arte"] {
+  --pal-bg: #f6f1f2;
+  --pal-accent: #b44d6e;
+  --pal-accent-2: #db7b33;
+  --pal-accent-3: #6258a2;
+  --pal-tint: #f3e5e9;
+  --pal-border: #e7d8dc;
+}
+
+html[data-paljale-theme="naturaleza"] {
+  --pal-bg: #eef4ee;
+  --pal-accent: #3e8060;
+  --pal-accent-2: #9c7c37;
+  --pal-accent-3: #397a72;
+  --pal-tint: #e1eee4;
+  --pal-border: #d3e2d5;
+}
+
+html[data-paljale-theme="septiembre"] {
+  --pal-bg: #f2f5f1;
+
+  --pal-accent: #087443;
+  --pal-accent-2: #c53e43;
+  --pal-accent-3: #b58a22;
+
+  --pal-tint: #e4f1e9;
+  --pal-border: #d5e2d9;
+}
+
+html[data-paljale-theme="muertos"] {
+  --pal-bg: #f4eff6;
+
+  --pal-accent: #703891;
+  --pal-accent-2: #e87522;
+  --pal-accent-3: #c34383;
+
+  --pal-tint: #ece1f3;
+  --pal-border: #dfd2e7;
+}
+
+html[data-paljale-theme="invierno"] {
+  --pal-bg: #edf4f8;
+
+  --pal-accent: #397bb2;
+  --pal-accent-2: #6a58a3;
+  --pal-accent-3: #2294a5;
+
+  --pal-tint: #e1eef7;
+  --pal-border: #d1e1eb;
+}
+
+/* -------------------------------- */
+/* BASE */
+/* -------------------------------- */
+
+html {
+  scroll-behavior: smooth;
+  background: var(--pal-bg);
+}
+
+body {
+  margin: 0;
+
+  min-height: 100vh;
+
+  background:
+    radial-gradient(
+      circle at 50% -10%,
+      color-mix(
+        in srgb,
+        var(--pal-accent) 8%,
+        transparent
+      ),
+      transparent 31rem
+    ),
+    var(--pal-bg);
+
+  color: var(--pal-text);
+
+  font-family:
+    -apple-system,
+    BlinkMacSystemFont,
+    "SF Pro Display",
+    "SF Pro Text",
+    "Segoe UI",
+    Helvetica,
+    Arial,
+    sans-serif;
+
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+}
+
+body > *:not(.pal-seasonal-layer) {
+  position: relative;
+  z-index: 1;
+}
+
+button,
+a,
+input,
+textarea,
+select {
+  -webkit-tap-highlight-color:
+    transparent;
+}
+
+button,
+summary {
+  font: inherit;
+}
+
+summary::-webkit-details-marker {
+  display: none;
+}
+
+::selection {
+  background: var(--pal-tint);
+  color: var(--pal-text);
+}
+
+:focus-visible {
+  outline: 3px solid
+    color-mix(
+      in srgb,
+      var(--pal-accent) 32%,
+      transparent
+    );
+
+  outline-offset: 3px;
+}
+
+/* -------------------------------- */
+/* CAPA DECORATIVA GLOBAL */
+/* -------------------------------- */
+
+.pal-seasonal-layer {
+  position: fixed;
+  inset: 0;
+
+  pointer-events: none;
+
+  overflow: hidden;
+
+  z-index: 0;
+}
+
+.pal-decor {
+  display: none;
+
+  position: absolute;
+  inset: 0;
+}
+
+/* -------------------------------- */
+/* TECNOLOGÍA */
+/* -------------------------------- */
+
+html[data-paljale-theme="tecnologia"]
+  .pal-decor-tecnologia {
+  display: block;
+}
+
+.pal-tech-circuit {
+  position: absolute;
+
+  width: 390px;
+
+  fill: none;
+
+  stroke: var(--pal-accent);
+
+  stroke-width: 2;
+
+  opacity: 0.11;
+}
+
+.pal-tech-circuit circle {
+  fill: var(--pal-accent);
+  stroke: none;
+}
+
+.pal-tech-circuit-left {
+  left: -80px;
+  top: 18%;
+}
+
+.pal-tech-circuit-right {
+  right: -90px;
+  bottom: 10%;
+
+  transform: rotate(180deg);
+}
+
+/* -------------------------------- */
+/* ESPACIAL */
+/* -------------------------------- */
+
+html[data-paljale-theme="espacial"]
+  .pal-decor-espacial {
+  display: block;
+}
+
+.pal-star {
+  position: absolute;
+
+  width: 5px;
+  height: 5px;
+
+  border-radius: 999px;
+
+  background: var(--pal-accent);
+
+  opacity: 0.24;
+
+  box-shadow:
+    0 0 16px
+      color-mix(
+        in srgb,
+        var(--pal-accent) 55%,
+        transparent
+      );
+}
+
+.pal-star-1 {
+  top: 16%;
+  left: 8%;
+}
+
+.pal-star-2 {
+  top: 28%;
+  right: 13%;
+}
+
+.pal-star-3 {
+  top: 54%;
+  left: 20%;
+}
+
+.pal-star-4 {
+  bottom: 18%;
+  right: 22%;
+}
+
+.pal-star-5 {
+  bottom: 32%;
+  left: 58%;
+}
+
+.pal-orbit {
+  position: absolute;
+
+  right: -70px;
+  top: 32%;
+
+  width: 300px;
+  height: 140px;
+
+  border:
+    1px solid
+      color-mix(
+        in srgb,
+        var(--pal-accent) 18%,
+        transparent
+      );
+
+  border-radius: 50%;
+
+  transform: rotate(-18deg);
+}
+
+.pal-orbit-planet {
+  position: absolute;
+
+  left: 44px;
+  top: 15px;
+
+  width: 18px;
+  height: 18px;
+
+  border-radius: 50%;
+
+  background:
+    var(--pal-accent-2);
+
+  opacity: 0.38;
+}
+
+/* -------------------------------- */
+/* CIENCIA */
+/* -------------------------------- */
+
+html[data-paljale-theme="ciencia"]
+  .pal-decor-ciencia {
+  display: block;
+}
+
+.pal-molecule {
+  position: absolute;
+
+  width: 230px;
+
+  stroke: var(--pal-accent);
+
+  stroke-width: 2;
+
+  fill:
+    color-mix(
+      in srgb,
+      var(--pal-accent) 16%,
+      transparent
+    );
+
+  opacity: 0.14;
+}
+
+.pal-molecule-left {
+  left: -25px;
+  bottom: 12%;
+}
+
+.pal-molecule-right {
+  right: -20px;
+  top: 18%;
+}
+
+/* -------------------------------- */
+/* ARTE */
+/* -------------------------------- */
+
+html[data-paljale-theme="arte"]
+  .pal-decor-arte {
+  display: block;
+}
+
+.pal-art-stroke {
+  position: absolute;
+
+  width: 320px;
+  height: 75px;
+
+  border-radius:
+    60% 40% 65% 35%;
+
+  filter: blur(20px);
+
+  opacity: 0.09;
+
+  transform: rotate(-12deg);
+}
+
+.pal-art-stroke-1 {
+  left: -80px;
+  top: 20%;
+
+  background:
+    var(--pal-accent);
+}
+
+.pal-art-stroke-2 {
+  right: -60px;
+  top: 45%;
+
+  background:
+    var(--pal-accent-2);
+
+  transform: rotate(17deg);
+}
+
+.pal-art-stroke-3 {
+  left: 38%;
+  bottom: -40px;
+
+  background:
+    var(--pal-accent-3);
+}
+
+/* -------------------------------- */
+/* NATURALEZA */
+/* -------------------------------- */
+
+html[data-paljale-theme="naturaleza"]
+  .pal-decor-naturaleza {
+  display: block;
+}
+
+.pal-leaves {
+  position: absolute;
+
+  width: 230px;
+
+  fill:
+    color-mix(
+      in srgb,
+      var(--pal-accent) 10%,
+      transparent
+    );
+
+  stroke: var(--pal-accent);
+
+  stroke-width: 2;
+
+  opacity: 0.12;
+}
+
+.pal-leaves-left {
+  bottom: -20px;
+  left: -35px;
+}
+
+.pal-leaves-right {
+  right: -40px;
+  top: 20%;
+}
+
+/* -------------------------------- */
+/* OCÉANO */
+/* -------------------------------- */
+
+html[data-paljale-theme="oceano"]
+  .pal-decor-oceano {
+  display: block;
+}
+
+.pal-wave {
+  position: absolute;
+
+  left: -10%;
+  right: -10%;
+
+  height: 190px;
+
+  border-radius: 50%;
+
+  border-top:
+    2px solid
+      color-mix(
+        in srgb,
+        var(--pal-accent) 14%,
+        transparent
+      );
+}
+
+.pal-wave-1 {
+  bottom: -90px;
+
+  transform: rotate(2deg);
+}
+
+.pal-wave-2 {
+  bottom: -130px;
+
+  transform: rotate(-2deg);
+
+  border-top-color:
+    color-mix(
+      in srgb,
+      var(--pal-accent-3) 12%,
+      transparent
+    );
+}
+
+/* -------------------------------- */
+/* PRIMAVERA */
+/* -------------------------------- */
+
+html[data-paljale-theme="primavera"]
+  .pal-decor-primavera {
+  display: block;
+}
+
+.pal-petal {
+  position: absolute;
+
+  width: 22px;
+  height: 13px;
+
+  border-radius:
+    70% 30% 70% 30%;
+
+  background:
+    var(--pal-accent-2);
+
+  opacity: 0.15;
+
+  transform: rotate(25deg);
+
+  animation:
+    pal-petal-float
+    12s ease-in-out
+    infinite alternate;
+}
+
+.pal-petal-1 {
+  left: 8%;
+  top: 15%;
+}
+
+.pal-petal-2 {
+  right: 11%;
+  top: 22%;
+
+  animation-delay: -2s;
+}
+
+.pal-petal-3 {
+  left: 22%;
+  bottom: 16%;
+
+  animation-delay: -4s;
+}
+
+.pal-petal-4 {
+  right: 28%;
+  bottom: 11%;
+
+  animation-delay: -6s;
+}
+
+.pal-petal-5 {
+  left: 52%;
+  top: 12%;
+
+  animation-delay: -8s;
+}
+
+@keyframes pal-petal-float {
+  from {
+    transform:
+      translateY(0)
+      rotate(20deg);
+  }
+
+  to {
+    transform:
+      translateY(18px)
+      rotate(55deg);
+  }
+}
+
+/* -------------------------------- */
+/* VERANO */
+/* -------------------------------- */
+
+html[data-paljale-theme="verano"]
+  .pal-decor-verano {
+  display: block;
+}
+
+.pal-sun-glow {
+  position: absolute;
+
+  right: -140px;
+  top: -140px;
+
+  width: 440px;
+  height: 440px;
+
+  border-radius: 50%;
+
+  background:
+    radial-gradient(
+      circle,
+      color-mix(
+        in srgb,
+        var(--pal-accent) 15%,
+        transparent
+      ),
+      transparent 70%
+    );
+}
+
+.pal-summer-lines {
+  position: absolute;
+
+  left: -40px;
+  bottom: 5%;
+
+  width: 400px;
+
+  fill: none;
+
+  stroke:
+    var(--pal-accent-2);
+
+  stroke-width: 2;
+
+  opacity: 0.13;
+}
+
+/* -------------------------------- */
+/* SEPTIEMBRE */
+/* -------------------------------- */
+
+html[data-paljale-theme="septiembre"]
+  .pal-decor-septiembre {
+  display: block;
+}
+
+.pal-papel-picado {
+  position: absolute;
+
+  top: 3px;
+  left: 50%;
+
+  display: flex;
+
+  gap: 10px;
+
+  transform:
+    translateX(-50%);
+
+  opacity: 0.17;
+}
+
+.pal-papel {
+  position: relative;
+
+  display: block;
+
+  width: 42px;
+  height: 27px;
+
+  clip-path:
+    polygon(
+      0 0,
+      100% 0,
+      100% 72%,
+      82% 100%,
+      65% 72%,
+      50% 100%,
+      34% 72%,
+      17% 100%,
+      0 72%
+    );
+}
+
+.pal-papel-green {
+  background: #087443;
+}
+
+.pal-papel-white {
+  background: #ffffff;
+
+  border:
+    1px solid
+      rgba(
+        15,
+        23,
+        42,
+        0.1
+      );
+}
+
+.pal-papel-red {
+  background: #c53e43;
+}
+
+.pal-tricolor-glow {
+  position: absolute;
+
+  width: 280px;
+  height: 280px;
+
+  border-radius: 50%;
+
+  filter: blur(75px);
+
+  opacity: 0.075;
+}
+
+.pal-tricolor-left {
+  left: -100px;
+  top: 28%;
+
+  background: #087443;
+}
+
+.pal-tricolor-right {
+  right: -100px;
+  bottom: 14%;
+
+  background: #c53e43;
+}
+
+/* -------------------------------- */
+/* DÍA DE MUERTOS */
+/* -------------------------------- */
+
+html[data-paljale-theme="muertos"]
+  .pal-decor-muertos {
+  display: block;
+}
+
+.pal-marigold {
+  position: absolute;
+
+  width: 72px;
+  height: 72px;
+
+  opacity: 0.14;
+}
+
+.pal-marigold span {
+  position: absolute;
+
+  left: 50%;
+  top: 50%;
+
+  width: 28px;
+  height: 42px;
+
+  margin-left: -14px;
+  margin-top: -21px;
+
+  border-radius:
+    60% 60% 50% 50%;
+
+  background:
+    var(--pal-accent-2);
+
+  transform-origin:
+    50% 90%;
+}
+
+.pal-marigold span:nth-child(1) {
+  transform:
+    rotate(0deg)
+    translateY(-11px);
+}
+
+.pal-marigold span:nth-child(2) {
+  transform:
+    rotate(60deg)
+    translateY(-11px);
+}
+
+.pal-marigold span:nth-child(3) {
+  transform:
+    rotate(120deg)
+    translateY(-11px);
+}
+
+.pal-marigold span:nth-child(4) {
+  transform:
+    rotate(180deg)
+    translateY(-11px);
+}
+
+.pal-marigold span:nth-child(5) {
+  transform:
+    rotate(240deg)
+    translateY(-11px);
+}
+
+.pal-marigold span:nth-child(6) {
+  transform:
+    rotate(300deg)
+    translateY(-11px);
+}
+
+.pal-marigold-1 {
+  left: 4%;
+  top: 22%;
+}
+
+.pal-marigold-2 {
+  right: 7%;
+  top: 14%;
+
+  transform: scale(0.7);
+}
+
+.pal-marigold-3 {
+  right: 16%;
+  bottom: 10%;
+
+  transform: scale(0.85);
+}
+
+.pal-muertos-pattern {
+  position: absolute;
+
+  left: 50%;
+  bottom: -12px;
+
+  width: 260px;
+
+  transform:
+    translateX(-50%);
+
+  fill: none;
+
+  stroke:
+    var(--pal-accent);
+
+  stroke-width: 2;
+
+  opacity: 0.085;
+}
+
+/* -------------------------------- */
+/* INVIERNO */
+/* -------------------------------- */
+
+html[data-paljale-theme="invierno"]
+  .pal-decor-invierno {
+  display: block;
+}
+
+.pal-snow {
+  position: absolute;
+
+  color:
+    var(--pal-accent);
+
+  opacity: 0.15;
+
+  animation:
+    pal-snow-float
+    10s ease-in-out
+    infinite alternate;
+}
+
+.pal-snow-1 {
+  left: 8%;
+  top: 15%;
+
+  font-size: 21px;
+}
+
+.pal-snow-2 {
+  left: 23%;
+  top: 38%;
+
+  font-size: 13px;
+
+  animation-delay: -3s;
+}
+
+.pal-snow-3 {
+  right: 12%;
+  top: 18%;
+
+  font-size: 26px;
+
+  animation-delay: -5s;
+}
+
+.pal-snow-4 {
+  right: 27%;
+  bottom: 20%;
+
+  font-size: 17px;
+
+  animation-delay: -7s;
+}
+
+.pal-snow-5 {
+  left: 48%;
+  top: 12%;
+
+  font-size: 15px;
+
+  animation-delay: -4s;
+}
+
+.pal-snow-6 {
+  left: 65%;
+  bottom: 11%;
+
+  font-size: 22px;
+
+  animation-delay: -6s;
+}
+
+@keyframes pal-snow-float {
+  from {
+    transform:
+      translateY(0)
+      rotate(0deg);
+  }
+
+  to {
+    transform:
+      translateY(15px)
+      rotate(25deg);
+  }
+}
+
+/* -------------------------------- */
+/* ACCESIBILIDAD */
+/* -------------------------------- */
+
+@media (
+  prefers-reduced-motion: reduce
+) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    scroll-behavior: auto !important;
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+
+  .pal-petal,
+  .pal-snow {
+    animation: none !important;
+  }
+}
+
+/* Menos decoración en móvil */
+@media (
+  max-width: 767px
+) {
+  .pal-seasonal-layer {
+    opacity: 0.65;
+  }
+
+  .pal-tech-circuit,
+  .pal-molecule,
+  .pal-leaves {
+    width: 170px;
+  }
+
+  .pal-papel-picado {
+    gap: 5px;
+  }
+
+  .pal-papel {
+    width: 29px;
+    height: 19px;
+  }
+}

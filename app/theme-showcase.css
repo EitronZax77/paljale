@@ -1,0 +1,255 @@
+/* PALJALE — Ambientación del encabezado */
+
+.pal-header-atmosphere {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.pal-header-glow {
+  position: absolute;
+  top: 50%;
+  width: 340px;
+  height: 230px;
+  border-radius: 50%;
+  filter: blur(50px);
+  opacity: 0.12;
+  transform: translateY(-50%);
+}
+
+.pal-header-glow-left {
+  left: -100px;
+  background: var(--pal-accent);
+}
+
+.pal-header-glow-right {
+  right: -100px;
+  background: var(--pal-accent-2);
+}
+
+.pal-header-scene {
+  display: none;
+  position: absolute;
+  inset: 0;
+}
+
+html[data-paljale-theme="septiembre"] .pal-header-mexico,
+html[data-paljale-theme="muertos"] .pal-header-muertos,
+html[data-paljale-theme="espacial"] .pal-header-espacial,
+html[data-paljale-theme="ciencia"] .pal-header-ciencia,
+html[data-paljale-theme="tecnologia"] .pal-header-tecnologia,
+html[data-paljale-theme="naturaleza"] .pal-header-naturaleza,
+html[data-paljale-theme="invierno"] .pal-header-invierno,
+html[data-paljale-theme="arte"] .pal-header-arte,
+html[data-paljale-theme="primavera"] .pal-header-primavera,
+html[data-paljale-theme="verano"] .pal-header-verano,
+html[data-paljale-theme="oceano"] .pal-header-oceano {
+  display: block;
+}
+
+.pal-header-art {
+  position: absolute;
+  top: 50%;
+  width: 180px;
+  height: 105px;
+  fill: none;
+  stroke: var(--pal-accent);
+  stroke-width: 2.5;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  opacity: 0.28;
+  animation: pal-header-float 9s ease-in-out infinite alternate;
+}
+
+.pal-header-art circle,
+.pal-header-art ellipse {
+  stroke: var(--pal-accent-2);
+}
+
+.pal-art-left {
+  left: 4%;
+  transform: translateY(-50%);
+}
+
+.pal-art-right {
+  right: 4%;
+  transform: translateY(-50%);
+  animation-delay: -4s;
+}
+
+.pal-header-planet {
+  fill: var(--pal-accent-2);
+}
+
+.pal-header-flower {
+  fill: var(--pal-accent-2);
+  stroke: var(--pal-accent-2);
+}
+
+.pal-header-flags {
+  position: absolute;
+  display: flex;
+  gap: 12px;
+  left: 4%;
+  top: 0;
+}
+
+.pal-header-flag {
+  width: 35px;
+  height: 32px;
+  opacity: 0.5;
+  clip-path: polygon(
+    0 0, 100% 0, 100% 74%,
+    82% 100%, 65% 74%,
+    50% 100%, 35% 74%,
+    18% 100%, 0 74%
+  );
+  animation: pal-header-sway 5s ease-in-out infinite alternate;
+}
+
+.pal-header-flag-green { background: #087443; }
+.pal-header-flag-white { background: #ffffff; }
+.pal-header-flag-red { background: #c53e43; }
+
+.pal-header-star,
+.pal-header-snow {
+  position: absolute;
+  color: var(--pal-accent);
+  opacity: 0.35;
+  animation: pal-header-twinkle 6s ease-in-out infinite alternate;
+}
+
+.pal-star-a { left: 8%; top: 25%; font-size: 22px; }
+.pal-star-b { right: 14%; top: 17%; font-size: 19px; animation-delay: -2s; }
+.pal-star-c { right: 8%; bottom: 15%; font-size: 25px; animation-delay: -4s; }
+
+.pal-header-snow-1 { left: 5%; top: 15%; font-size: 25px; }
+.pal-header-snow-2 { left: 18%; bottom: 10%; font-size: 18px; }
+.pal-header-snow-3 { right: 18%; top: 12%; font-size: 24px; }
+.pal-header-snow-4 { right: 7%; bottom: 15%; font-size: 19px; }
+.pal-header-snow-5 { left: 30%; top: 14%; font-size: 13px; }
+.pal-header-snow-6 { right: 31%; bottom: 12%; font-size: 16px; }
+
+.pal-header-brush {
+  position: absolute;
+  width: 150px;
+  height: 35px;
+  border-radius: 70% 30% 70% 30%;
+  opacity: 0.13;
+  filter: blur(5px);
+  animation: pal-header-float 10s ease-in-out infinite alternate;
+}
+
+.pal-brush-a {
+  left: 4%;
+  top: 20%;
+  background: var(--pal-accent);
+}
+
+.pal-brush-b {
+  right: 5%;
+  bottom: 15%;
+  background: var(--pal-accent-2);
+  animation-delay: -4s;
+}
+
+.pal-brush-c {
+  left: 18%;
+  bottom: 5%;
+  background: var(--pal-accent-3);
+  animation-delay: -6s;
+}
+
+.pal-header-petal {
+  position: absolute;
+  width: 22px;
+  height: 14px;
+  border-radius: 80% 20% 70% 30%;
+  background: var(--pal-accent-2);
+  opacity: 0.35;
+  animation: pal-header-float 8s ease-in-out infinite alternate;
+}
+
+.pal-petal-a { left: 8%; top: 20%; }
+.pal-petal-b { right: 15%; bottom: 25%; animation-delay: -3s; }
+.pal-petal-c { right: 26%; top: 14%; animation-delay: -5s; }
+
+.pal-header-sun {
+  position: absolute;
+  right: 9%;
+  top: -65px;
+  width: 190px;
+  height: 190px;
+  border-radius: 50%;
+  background: radial-gradient(
+    circle,
+    color-mix(in srgb, var(--pal-accent) 30%, transparent),
+    transparent 70%
+  );
+  animation: pal-header-twinkle 10s ease-in-out infinite alternate;
+}
+
+.pal-header-wave {
+  position: absolute;
+  bottom: -85px;
+  width: 380px;
+  height: 130px;
+  border-top: 3px solid var(--pal-accent);
+  border-radius: 50%;
+  opacity: 0.2;
+  animation: pal-header-float 12s ease-in-out infinite alternate;
+}
+
+.pal-wave-a { left: -30px; }
+.pal-wave-b { right: -30px; animation-delay: -5s; }
+
+@keyframes pal-header-float {
+  from { translate: 0 -5px; }
+  to { translate: 0 7px; }
+}
+
+@keyframes pal-header-sway {
+  from { transform: rotate(-5deg); }
+  to { transform: rotate(5deg) translateY(4px); }
+}
+
+@keyframes pal-header-twinkle {
+  from { opacity: 0.12; transform: scale(0.85); }
+  to { opacity: 0.45; transform: scale(1.15); }
+}
+
+@media (max-width: 767px) {
+  .pal-header-art {
+    width: 100px;
+    opacity: 0.14;
+  }
+
+  .pal-art-left { left: -30px; }
+  .pal-art-right { right: -30px; }
+
+  .pal-header-flags {
+    left: 2%;
+    gap: 4px;
+  }
+
+  .pal-header-flag {
+    width: 19px;
+    height: 18px;
+    opacity: 0.23;
+  }
+
+  .pal-header-glow {
+    opacity: 0.07;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .pal-header-atmosphere *,
+  .pal-header-atmosphere *::before,
+  .pal-header-atmosphere *::after {
+    animation: none !important;
+    transition: none !important;
+  }
+}

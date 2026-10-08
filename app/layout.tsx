@@ -1,15 +1,18 @@
-import type {
-  Metadata,
-  Viewport,
-} from "next";
+import type { Metadata, Viewport } from "next";
+
 import AnalyticsTracker from "@/components/AnalyticsTracker";
 import CookieConsent from "@/components/CookieConsent";
+import DynamicTheme from "@/components/DynamicTheme";
 import LegalBar from "@/components/LegalBar";
+
 import { siteConfig } from "@/lib/site";
+
 import "./globals.css";
+import "./theme-effects.css";
+import "./sprite-parade.css";
 
 export const viewport: Viewport = {
-  themeColor: "#060D14",
+  themeColor: "#eef2f5",
 };
 
 export const metadata: Metadata = {
@@ -24,13 +27,10 @@ export const metadata: Metadata = {
 
   applicationName: siteConfig.name,
 
-  authors: [
-    {
-      name: siteConfig.name,
-    },
-  ],
+  authors: [{ name: siteConfig.name }],
 
   creator: siteConfig.name,
+
   publisher: siteConfig.name,
 
   keywords: [
@@ -69,6 +69,7 @@ export const metadata: Metadata = {
   robots: {
     index: true,
     follow: true,
+
     googleBot: {
       index: true,
       follow: true,
@@ -88,11 +89,15 @@ export default function RootLayout({
 }>) {
   return (
     <html lang={siteConfig.language}>
-      <body className="antialiased bg-slate-50 text-slate-900">
+      <body>
+        <DynamicTheme />
+
         {children}
 
         <LegalBar />
+
         <AnalyticsTracker />
+
         <CookieConsent />
       </body>
     </html>

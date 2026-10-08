@@ -1,163 +1,201 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import {
+  useEffect,
+  useState,
+} from "react";
 
-interface Efemeride {
-  icono1: string;
-  icono2: string;
-  fecha: string;
-  titulo: string;
-  frase: string;
+interface EfemerideResponse {
+  text?: string;
+  year?: number | null;
+  language?: "es" | "en";
+  source?: string;
+  error?: string;
 }
 
-function obtenerEfemerideActual(): Efemeride {
-  const hoy = new Date();
+interface EfemerideState {
+  text: string;
+  year: number | null;
+  language: "es" | "en" | null;
+  source: string | null;
+}
 
-  const dia = hoy.getDate();
-  const mes = hoy.getMonth() + 1;
-  const anio = hoy.getFullYear();
-
-  const mesesNombres = [
-    "ENE",
-    "FEB",
-    "MAR",
-    "ABR",
-    "MAY",
-    "JUN",
-    "JUL",
-    "AGO",
-    "SEP",
-    "OCT",
-    "NOV",
-    "DIC",
-  ];
-
-  const nombreMes = mesesNombres[mes - 1];
-  const diaFormateado = String(dia).padStart(2, "0");
-  const fechaFormateada = `${diaFormateado} ${nombreMes} ${anio}`;
-
-  if (mes === 10 && dia === 1) {
-    return {
-      icono1: "☕",
-      icono2: "🏛️",
-      fecha: fechaFormateada,
-      titulo: "DÍA INTERNACIONAL DEL CAFÉ Y DEL ARQUITECTO",
-      frase:
-        "Celebrando la innovación, el diseño urbano y la cultura cafetera.",
-    };
-  }
-
-  return {
-    icono1: "⚡",
-    icono2: "🚀",
-    fecha: fechaFormateada,
-    titulo: "EFEMÉRIDE DEL DÍA",
-    frase: "Innovación, tecnología y alto rendimiento sin límites.",
-  };
+function formatearFecha(
+  fecha: Date
+): string {
+  return new Intl.DateTimeFormat(
+    "es-MX",
+    {
+      day: "numeric",
+      month: "long",
+    }
+  ).format(fecha);
 }
 
 export default function BarraEfemeride() {
-  const [posX, setPosX] = useState<number>(10);
+  const [efemeride, setEfemeride] =
+    useState<EfemerideState | null>(
+      null
+    );
 
-  const barraRef = useRef<HTMLDivElement>(null);
-  const contenidoRef = useRef<HTMLDivElement>(null);
-  const velocidadRef = useRef<number>(1.2);
-
-  const efemerideTexto = obtenerEfemerideActual();
+  const [cargando, setCargando] =
+    useState(true);
 
   useEffect(() => {
-    let animacionId = 0;
+    const controller =
+      new AbortController();
 
-    const actualizarMovimiento = () => {
-      const barra = barraRef.current;
-      const contenido = contenidoRef.current;
+    const timer =
+      window.setTimeout(
+        async () => {
+          const hoy = new Date();
 
-      if (barra && contenido) {
-        const anchoContenedor = barra.clientWidth;
-        const anchoContenido = contenido.clientWidth;
+          try {
+            const response =
+              await fetch(
+                `/api/efemeride?month=${
+                  hoy.getMonth() + 1
+                }&day=${hoy.getDate()}`,
+                {
+                  signal:
+                    controller.signal,
+                }
+              );
 
-        const limiteMinimo = 10;
-        const limiteMaximo = Math.max(
-          limiteMinimo,
-          anchoContenedor - anchoContenido - 10
-        );
+            if (!response.ok) {
+              throw new Error(
+                "No disponible"
+              );
+            }
 
-        setPosX((posicionAnterior) => {
-          const siguienteX =
-            posicionAnterior + velocidadRef.current;
+            const data =
+              (await response.json()) as EfemerideResponse;
 
-          if (siguienteX >= limiteMaximo) {
-            velocidadRef.current =
-              -Math.abs(velocidadRef.current);
+            if (!data.text) {
+              throw new Error(
+                "Sin contenido"
+              );
+            }
 
-            return limiteMaximo;
+            setEfemeride({
+              text: data.text,
+              year:
+                data.year ?? null,
+              language:
+                data.language ?? null,
+              source:
+                data.source ?? null,
+            });
+          } catch (error) {
+            if (
+              error instanceof DOMException &&
+              error.name === "AbortError"
+            ) {
+              return;
+            }
+
+            setEfemeride(null);
+          } finally {
+            setCargando(false);
           }
-
-          if (siguienteX <= limiteMinimo) {
-            velocidadRef.current =
-              Math.abs(velocidadRef.current);
-
-            return limiteMinimo;
-          }
-
-          return siguienteX;
-        });
-      }
-
-      animacionId =
-        requestAnimationFrame(actualizarMovimiento);
-    };
-
-    animacionId =
-      requestAnimationFrame(actualizarMovimiento);
+        },
+        0
+      );
 
     return () => {
-      cancelAnimationFrame(animacionId);
+      window.clearTimeout(timer);
+      controller.abort();
     };
   }, []);
 
+  const hoy = new Date();
+
   return (
-    <div
-      ref={barraRef}
-      className="w-full bg-[#03070b] border-t border-cyan-500/30 py-4 overflow-hidden relative shadow-[inset_0_0_25px_rgba(6,182,212,0.1)]"
-    >
-      <div className="w-full relative h-14 flex items-center">
-        <div
-          ref={contenidoRef}
-          className="flex items-center gap-3 text-3xl select-none absolute whitespace-nowrap"
-          style={{
-            transform: `translateX(${posX}px)`,
-          }}
-        >
-          <div
-            className="relative filter drop-shadow-[0_0_15px_rgba(6,182,212,0.8)] animate-bounce"
-            aria-hidden="true"
-          >
-            {efemerideTexto.icono1}
+    <section className="border-t border-slate-200 bg-[#eef4fb]">
+      <div className="mx-auto flex min-h-24 w-full max-w-7xl flex-col gap-4 px-5 py-5 sm:px-6 md:flex-row md:items-center md:justify-between lg:px-8">
+        <div className="flex shrink-0 items-center gap-4">
+          <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-white text-cyan-600 shadow-sm">
+            <svg
+              viewBox="0 0 24 24"
+              fill="none"
+              aria-hidden="true"
+              className="h-5 w-5"
+            >
+              <rect
+                x="4"
+                y="5.5"
+                width="16"
+                height="14"
+                rx="2.5"
+                stroke="currentColor"
+                strokeWidth="1.6"
+              />
+              <path
+                d="M8 3.5v4M16 3.5v4M4 9.5h16"
+                stroke="currentColor"
+                strokeWidth="1.6"
+                strokeLinecap="round"
+              />
+            </svg>
           </div>
 
-          <div className="text-cyan-400 font-black text-xs md:text-sm uppercase tracking-wider bg-cyan-500/10 border border-cyan-500/30 px-5 py-2 rounded-full shadow-[0_0_20px_rgba(6,182,212,0.25)] flex items-center gap-2">
-            <span className="text-rose-400 font-extrabold">
-              📅 {efemerideTexto.fecha}
-            </span>
+          <div>
+            <p className="text-[11px] font-extrabold uppercase tracking-[0.18em] text-cyan-700">
+              Un día como hoy
+            </p>
 
-            <span className="text-cyan-300 font-extrabold">
-              | 📌 {efemerideTexto.titulo}:
-            </span>
-
-            <span className="text-gray-200 font-medium">
-              {efemerideTexto.frase}
-            </span>
-          </div>
-
-          <div
-            className="relative filter drop-shadow-[0_0_15px_rgba(244,63,94,0.8)] animate-bounce"
-            aria-hidden="true"
-          >
-            {efemerideTexto.icono2}
+            <p className="mt-1 text-base font-bold capitalize text-slate-950">
+              {formatearFecha(hoy)}
+            </p>
           </div>
         </div>
+
+        <div className="min-w-0 md:max-w-4xl md:text-right">
+          {cargando ? (
+            <p className="text-base text-slate-500">
+              Consultando efeméride mundial…
+            </p>
+          ) : efemeride ? (
+            <>
+              <p className="text-[15px] leading-7 text-slate-700 md:text-base">
+                {efemeride.year !== null && (
+                  <strong className="mr-1 text-slate-950">
+                    {efemeride.year}.
+                  </strong>
+                )}
+
+                {efemeride.text}
+              </p>
+
+              <div className="mt-2 flex items-center gap-2 md:justify-end">
+                {efemeride.language ===
+                  "en" && (
+                  <span className="text-[11px] font-medium text-slate-400">
+                    Fuente disponible en inglés
+                  </span>
+                )}
+
+                {efemeride.source && (
+                  <a
+                    href={
+                      efemeride.source
+                    }
+                    target="_blank"
+                    rel="noreferrer"
+                    className="text-[11px] font-bold text-cyan-700 hover:underline"
+                  >
+                    Wikipedia
+                  </a>
+                )}
+              </div>
+            </>
+          ) : (
+            <p className="text-base text-slate-500">
+              La efeméride de hoy no está disponible temporalmente.
+            </p>
+          )}
+        </div>
       </div>
-    </div>
+    </section>
   );
 }

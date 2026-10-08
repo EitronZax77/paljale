@@ -8,59 +8,54 @@ const COOKIE_PREFERENCES_EVENT =
 export default function LegalBar() {
   const abrirPreferencias = () => {
     window.dispatchEvent(
-      new Event(COOKIE_PREFERENCES_EVENT)
+      new Event(
+        COOKIE_PREFERENCES_EVENT
+      )
     );
   };
 
   return (
-    <div className="w-full border-t border-cyan-900/40 bg-[#04080c] px-6 py-5">
-      <div className="mx-auto flex max-w-6xl flex-col items-center justify-center gap-3 text-center text-xs text-gray-500 sm:flex-row sm:flex-wrap sm:gap-x-5">
+    <div className="border-t border-[var(--pal-border)] bg-white">
+      <div className="mx-auto flex max-w-[1600px] flex-wrap items-center justify-center gap-x-5 gap-y-2 px-5 py-5 text-sm font-medium text-slate-700">
         <Link
           href="/privacidad"
-          className="transition hover:text-cyan-400"
+          className="transition hover:text-[var(--pal-accent)]"
         >
           Privacidad
         </Link>
 
-        <span
-          className="hidden text-gray-700 sm:inline"
-          aria-hidden="true"
-        >
+        <span className="text-slate-300">
           •
         </span>
 
         <Link
           href="/terminos"
-          className="transition hover:text-cyan-400"
+          className="transition hover:text-[var(--pal-accent)]"
         >
-          Términos de Uso
+          Términos de uso
         </Link>
 
-        <span
-          className="hidden text-gray-700 sm:inline"
-          aria-hidden="true"
-        >
+        <span className="text-slate-300">
           •
         </span>
 
         <Link
           href="/contacto"
-          className="transition hover:text-cyan-400"
+          className="transition hover:text-[var(--pal-accent)]"
         >
           Contacto
         </Link>
 
-        <span
-          className="hidden text-gray-700 sm:inline"
-          aria-hidden="true"
-        >
+        <span className="text-slate-300">
           •
         </span>
 
         <button
           type="button"
-          onClick={abrirPreferencias}
-          className="transition hover:text-cyan-400"
+          onClick={
+            abrirPreferencias
+          }
+          className="transition hover:text-[var(--pal-accent)]"
         >
           Preferencias de cookies
         </button>

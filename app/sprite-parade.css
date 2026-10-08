@@ -1,0 +1,338 @@
+/* =========================================
+   PALJALE — SPRITE PARADE
+   Franja animada debajo de la efeméride
+   ========================================= */
+
+.pal-parade {
+  position: relative;
+  isolation: isolate;
+  width: 100%;
+  height: 84px;
+  overflow: hidden;
+  border-top: 1px solid var(--pal-border);
+  border-bottom: 1px solid var(--pal-border);
+
+  background:
+    linear-gradient(
+      90deg,
+      color-mix(in srgb, var(--pal-accent) 6%, white),
+      #ffffff 45%,
+      color-mix(in srgb, var(--pal-accent-2) 6%, white)
+    );
+
+  pointer-events: none;
+}
+
+.pal-parade-floor {
+  position: absolute;
+  z-index: 0;
+  left: 0;
+  right: 0;
+  bottom: 10px;
+  height: 1px;
+  background: color-mix(
+    in srgb,
+    var(--pal-accent) 20%,
+    transparent
+  );
+}
+
+.pal-parade-scene {
+  display: none;
+  position: absolute;
+  inset: 0;
+}
+
+.pal-parade-traveler {
+  position: absolute;
+  z-index: 2;
+  left: -120px;
+  bottom: 2px;
+  width: 100px;
+  height: 80px;
+
+  animation: pal-travel-across 23s linear infinite;
+  will-change: transform;
+}
+
+.pal-sprite {
+  display: block;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+  animation: pal-sprite-bob 450ms ease-in-out infinite alternate;
+}
+
+.pal-sprite-leg,
+.pal-sprite-arm {
+  transform-box: fill-box;
+  transform-origin: top center;
+}
+
+.pal-sprite-leg-left {
+  animation: pal-walk-left 450ms ease-in-out infinite alternate;
+}
+
+.pal-sprite-leg-right {
+  animation: pal-walk-right 450ms ease-in-out infinite alternate;
+}
+
+.pal-sprite-arm-left {
+  animation: pal-walk-right 450ms ease-in-out infinite alternate;
+}
+
+.pal-sprite-arm-right {
+  animation: pal-walk-left 450ms ease-in-out infinite alternate;
+}
+
+.pal-sprite-robot {
+  animation: pal-robot-roll 900ms ease-in-out infinite alternate;
+}
+
+.pal-parade-flying {
+  bottom: 6px;
+}
+
+.pal-parade-flying .pal-sprite {
+  animation: pal-floating 2.5s ease-in-out infinite alternate;
+}
+
+.pal-butterfly-wing {
+  transform-box: fill-box;
+  transform-origin: center center;
+}
+
+.pal-wing-left {
+  animation: pal-wing-left-motion 340ms ease-in-out infinite alternate;
+}
+
+.pal-wing-right {
+  animation: pal-wing-right-motion 340ms ease-in-out infinite alternate;
+}
+
+.pal-parade-trail {
+  position: absolute;
+  display: block;
+  opacity: 0.28;
+  font-size: 20px;
+  animation: pal-trail-glow 4s ease-in-out infinite alternate;
+}
+
+.pal-trail-flower {
+  bottom: 17px;
+  right: 17%;
+  color: #e58d2e;
+}
+
+.pal-trail-star {
+  top: 16px;
+  right: 15%;
+  color: #8370c2;
+}
+
+@keyframes pal-travel-across {
+  from {
+    transform: translateX(0);
+  }
+
+  to {
+    transform: translateX(calc(100vw + 150px));
+  }
+}
+
+@keyframes pal-sprite-bob {
+  from {
+    transform: translateY(0);
+  }
+
+  to {
+    transform: translateY(-3px);
+  }
+}
+
+@keyframes pal-walk-left {
+  from {
+    transform: rotate(-14deg);
+  }
+
+  to {
+    transform: rotate(17deg);
+  }
+}
+
+@keyframes pal-walk-right {
+  from {
+    transform: rotate(17deg);
+  }
+
+  to {
+    transform: rotate(-14deg);
+  }
+}
+
+@keyframes pal-robot-roll {
+  from {
+    transform: translateY(0);
+  }
+
+  to {
+    transform: translateY(-2px);
+  }
+}
+
+@keyframes pal-floating {
+  from {
+    transform: translateY(3px) rotate(-2deg);
+  }
+
+  to {
+    transform: translateY(-8px) rotate(3deg);
+  }
+}
+
+@keyframes pal-wing-left-motion {
+  from {
+    transform: scaleX(1);
+  }
+
+  to {
+    transform: scaleX(0.48);
+  }
+}
+
+@keyframes pal-wing-right-motion {
+  from {
+    transform: scaleX(1);
+  }
+
+  to {
+    transform: scaleX(0.48);
+  }
+}
+
+@keyframes pal-trail-glow {
+  from {
+    opacity: 0.12;
+    transform: scale(0.85);
+  }
+
+  to {
+    opacity: 0.4;
+    transform: scale(1.15);
+  }
+}
+
+/* Temas activos */
+
+html[data-paljale-theme="septiembre"]
+  .pal-parade-septiembre,
+html[data-paljale-theme="muertos"]
+  .pal-parade-muertos,
+html[data-paljale-theme="espacial"]
+  .pal-parade-espacial,
+html[data-paljale-theme="tecnologia"]
+  .pal-parade-tecnologia,
+html[data-paljale-theme="ciencia"]
+  .pal-parade-ciencia,
+html[data-paljale-theme="naturaleza"]
+  .pal-parade-naturaleza,
+html[data-paljale-theme="invierno"]
+  .pal-parade-invierno,
+html[data-paljale-theme="arte"]
+  .pal-parade-arte,
+html[data-paljale-theme="primavera"]
+  .pal-parade-primavera,
+html[data-paljale-theme="verano"]
+  .pal-parade-verano,
+html[data-paljale-theme="oceano"]
+  .pal-parade-oceano {
+  display: block;
+}
+
+/* Respaldo antes de que el navegador reciba
+   el tema automático del servidor */
+
+html:not([data-paljale-theme])
+  .pal-parade-tecnologia {
+  display: block;
+}
+
+/* Conmemoraciones solemnes */
+
+.pal-parade-solemn {
+  display: none;
+}
+
+html[data-paljale-tone="commemoration"]
+  .pal-parade-scene {
+  display: none;
+}
+
+html[data-paljale-tone="commemoration"]
+  .pal-parade-solemn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+}
+
+.pal-solemn-candle {
+  width: 55px;
+  height: 72px;
+}
+
+.pal-candle-flame {
+  transform-box: fill-box;
+  transform-origin: center bottom;
+  animation: pal-flame-soft 3s ease-in-out infinite alternate;
+}
+
+@keyframes pal-flame-soft {
+  from {
+    transform: scale(0.95) rotate(-3deg);
+    opacity: 0.8;
+  }
+
+  to {
+    transform: scale(1.05) rotate(3deg);
+    opacity: 1;
+  }
+}
+
+/* Pantallas móviles */
+
+@media (max-width: 767px) {
+  .pal-parade {
+    height: 70px;
+  }
+
+  .pal-parade-traveler {
+    width: 80px;
+    height: 65px;
+    left: -95px;
+  }
+
+  .pal-parade-floor {
+    bottom: 7px;
+  }
+
+  .pal-parade-traveler {
+    animation-duration: 17s;
+  }
+}
+
+/* Ahorro de recursos y accesibilidad */
+
+@media (prefers-reduced-motion: reduce) {
+  .pal-parade-traveler,
+  .pal-parade-traveler *,
+  .pal-parade-trail,
+  .pal-candle-flame {
+    animation: none !important;
+  }
+
+  .pal-parade-traveler {
+    left: 12%;
+    transform: none;
+  }
+}

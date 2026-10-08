@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import BarraEfemeride from "@/components/BarraEfemeride";
+import InstitutionalShell from "@/components/InstitutionalShell";
 import { siteConfig } from "@/lib/site";
 
 export const metadata: Metadata = {
@@ -29,43 +29,15 @@ export const metadata: Metadata = {
 
 export default function PrivacidadPage() {
   return (
-    <div className="min-h-screen bg-[#060D14] text-gray-100 font-sans selection:bg-cyan-500 selection:text-black flex flex-col">
-      <header className="sticky top-0 z-50 bg-[#060D14]/90 backdrop-blur-xl border-b border-cyan-900/40">
-        <div className="w-full px-6 md:px-12 h-20 flex items-center justify-between">
-          <Link
-            href="/"
-            className="text-2xl md:text-3xl font-black tracking-wider bg-gradient-to-r from-rose-500 via-orange-400 to-cyan-400 bg-clip-text text-transparent"
-          >
-            PALJALE
-          </Link>
+    <InstitutionalShell
+      eyebrow="Centro legal"
+      title="Política de Privacidad"
+      introduction="Consulta cómo protegemos la privacidad y cómo funcionan los servicios digitales de PALJALE."
+      updatedAt="6 de octubre de 2026"
+    >
 
-          <Link
-            href="/"
-            className="text-sm font-semibold text-cyan-400 hover:underline"
-          >
-            ← Volver al inicio
-          </Link>
-        </div>
-      </header>
-
-      <main className="w-full max-w-4xl mx-auto px-6 py-14 md:py-20 flex-1">
-        <div className="mb-12">
-          <p className="text-sm font-bold uppercase tracking-[0.2em] text-cyan-400 mb-3">
-            Legal
-          </p>
-
-          <h1 className="text-3xl md:text-5xl font-extrabold text-white mb-5">
-            Política de Privacidad
-          </h1>
-
-          <p className="text-gray-400">
-            Última actualización: 6 de octubre de 2026
-          </p>
-        </div>
-
-        <div className="space-y-10 text-gray-300 leading-8">
-          <section>
-            <h2 className="text-2xl font-bold text-white mb-4">
+          <section className="rounded-[24px] border border-[var(--pal-border)] bg-white p-5 shadow-[0_5px_20px_rgba(15,23,42,0.035)] sm:p-7">
+            <h2 className="text-xl font-extrabold text-[var(--pal-text)] mb-4 sm:text-2xl">
               1. Introducción
             </h2>
 
@@ -82,8 +54,8 @@ export default function PrivacidadPage() {
             </p>
           </section>
 
-          <section>
-            <h2 className="text-2xl font-bold text-white mb-4">
+          <section className="rounded-[24px] border border-[var(--pal-border)] bg-white p-5 shadow-[0_5px_20px_rgba(15,23,42,0.035)] sm:p-7">
+            <h2 className="text-xl font-extrabold text-[var(--pal-text)] mb-4 sm:text-2xl">
               2. Procesamiento de archivos
             </h2>
 
@@ -106,7 +78,7 @@ export default function PrivacidadPage() {
               procesas mediante estas herramientas.
             </p>
 
-            <div className="mt-5 rounded-2xl border border-cyan-500/20 bg-cyan-500/5 p-5 text-cyan-100">
+            <div className="mt-5 rounded-2xl border border-[var(--pal-border)] bg-[var(--pal-tint)] p-5 text-slate-700">
               Aun así, recomendamos no utilizar ningún servicio en línea
               para procesar información extremadamente sensible,
               confidencial o cuya manipulación esté sujeta a requisitos
@@ -115,8 +87,8 @@ export default function PrivacidadPage() {
             </div>
           </section>
 
-          <section>
-            <h2 className="text-2xl font-bold text-white mb-4">
+          <section className="rounded-[24px] border border-[var(--pal-border)] bg-white p-5 shadow-[0_5px_20px_rgba(15,23,42,0.035)] sm:p-7">
+            <h2 className="text-xl font-extrabold text-[var(--pal-text)] mb-4 sm:text-2xl">
               3. Información de uso y analítica
             </h2>
 
@@ -154,8 +126,8 @@ export default function PrivacidadPage() {
             </p>
           </section>
 
-          <section>
-            <h2 className="text-2xl font-bold text-white mb-4">
+          <section className="rounded-[24px] border border-[var(--pal-border)] bg-white p-5 shadow-[0_5px_20px_rgba(15,23,42,0.035)] sm:p-7">
+            <h2 className="text-xl font-extrabold text-[var(--pal-text)] mb-4 sm:text-2xl">
               4. Cookies y tecnologías similares
             </h2>
 
@@ -172,8 +144,8 @@ export default function PrivacidadPage() {
             </p>
           </section>
 
-          <section>
-            <h2 className="text-2xl font-bold text-white mb-4">
+          <section className="rounded-[24px] border border-[var(--pal-border)] bg-white p-5 shadow-[0_5px_20px_rgba(15,23,42,0.035)] sm:p-7">
+            <h2 className="text-xl font-extrabold text-[var(--pal-text)] mb-4 sm:text-2xl">
               5. Direcciones IP
             </h2>
 
@@ -190,8 +162,8 @@ export default function PrivacidadPage() {
             </p>
           </section>
 
-          <section>
-            <h2 className="text-2xl font-bold text-white mb-4">
+          <section className="rounded-[24px] border border-[var(--pal-border)] bg-white p-5 shadow-[0_5px_20px_rgba(15,23,42,0.035)] sm:p-7">
+            <h2 className="text-xl font-extrabold text-[var(--pal-text)] mb-4 sm:text-2xl">
               6. Información que no solicitamos
             </h2>
 
@@ -208,8 +180,8 @@ export default function PrivacidadPage() {
             </p>
           </section>
 
-          <section>
-            <h2 className="text-2xl font-bold text-white mb-4">
+          <section className="rounded-[24px] border border-[var(--pal-border)] bg-white p-5 shadow-[0_5px_20px_rgba(15,23,42,0.035)] sm:p-7">
+            <h2 className="text-xl font-extrabold text-[var(--pal-text)] mb-4 sm:text-2xl">
               7. Servicios de terceros
             </h2>
 
@@ -227,8 +199,8 @@ export default function PrivacidadPage() {
             </p>
           </section>
 
-          <section>
-            <h2 className="text-2xl font-bold text-white mb-4">
+          <section className="rounded-[24px] border border-[var(--pal-border)] bg-white p-5 shadow-[0_5px_20px_rgba(15,23,42,0.035)] sm:p-7">
+            <h2 className="text-xl font-extrabold text-[var(--pal-text)] mb-4 sm:text-2xl">
               8. Conservación de información
             </h2>
 
@@ -245,8 +217,8 @@ export default function PrivacidadPage() {
             </p>
           </section>
 
-          <section>
-            <h2 className="text-2xl font-bold text-white mb-4">
+          <section className="rounded-[24px] border border-[var(--pal-border)] bg-white p-5 shadow-[0_5px_20px_rgba(15,23,42,0.035)] sm:p-7">
+            <h2 className="text-xl font-extrabold text-[var(--pal-text)] mb-4 sm:text-2xl">
               9. Seguridad
             </h2>
 
@@ -262,8 +234,8 @@ export default function PrivacidadPage() {
             </p>
           </section>
 
-          <section>
-            <h2 className="text-2xl font-bold text-white mb-4">
+          <section className="rounded-[24px] border border-[var(--pal-border)] bg-white p-5 shadow-[0_5px_20px_rgba(15,23,42,0.035)] sm:p-7">
+            <h2 className="text-xl font-extrabold text-[var(--pal-text)] mb-4 sm:text-2xl">
               10. Privacidad de menores
             </h2>
 
@@ -275,8 +247,8 @@ export default function PrivacidadPage() {
             </p>
           </section>
 
-          <section>
-            <h2 className="text-2xl font-bold text-white mb-4">
+          <section className="rounded-[24px] border border-[var(--pal-border)] bg-white p-5 shadow-[0_5px_20px_rgba(15,23,42,0.035)] sm:p-7">
+            <h2 className="text-xl font-extrabold text-[var(--pal-text)] mb-4 sm:text-2xl">
               11. Derechos y opciones del usuario
             </h2>
 
@@ -294,8 +266,8 @@ export default function PrivacidadPage() {
             </p>
           </section>
 
-          <section>
-            <h2 className="text-2xl font-bold text-white mb-4">
+          <section className="rounded-[24px] border border-[var(--pal-border)] bg-white p-5 shadow-[0_5px_20px_rgba(15,23,42,0.035)] sm:p-7">
+            <h2 className="text-xl font-extrabold text-[var(--pal-text)] mb-4 sm:text-2xl">
               12. Cambios a esta política
             </h2>
 
@@ -312,8 +284,8 @@ export default function PrivacidadPage() {
             </p>
           </section>
 
-          <section>
-            <h2 className="text-2xl font-bold text-white mb-4">
+          <section className="rounded-[24px] border border-[var(--pal-border)] bg-white p-5 shadow-[0_5px_20px_rgba(15,23,42,0.035)] sm:p-7">
+            <h2 className="text-xl font-extrabold text-[var(--pal-text)] mb-4 sm:text-2xl">
               13. Responsable y contacto
             </h2>
 
@@ -329,23 +301,6 @@ export default function PrivacidadPage() {
               solicitudes vinculadas con el tratamiento de información.
             </p>
           </section>
-
-          <div className="pt-4 border-t border-cyan-900/40">
-            <Link
-              href="/"
-              className="inline-flex items-center text-cyan-400 font-bold hover:underline"
-            >
-              ← Regresar a PALJALE
-            </Link>
-          </div>
-        </div>
-      </main>
-
-      <BarraEfemeride />
-
-      <footer className="w-full border-t border-cyan-900/40 py-8 text-center text-xs text-gray-500 bg-[#04080c]">
-        PALJALE © 2026 — Todos los derechos reservados.
-      </footer>
-    </div>
+    </InstitutionalShell>
   );
 }
