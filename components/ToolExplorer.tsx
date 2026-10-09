@@ -220,7 +220,7 @@ export default function ToolExplorer({
 
             <p className="mt-2 max-w-2xl text-sm leading-6 text-slate-600">
               {category
-                ? (group ? localizedGroup(group,en).description : "")
+                ? (group ? (category === "PDF" ? (en ? "Edit, convert and optimize PDF documents with free tools in your browser." : "Edita, convierte y optimiza documentos PDF con herramientas gratuitas desde tu navegador.") : localizedGroup(group,en).description) : "")
                 : (en ? "Choose a category to explore its tools." : "Selecciona una categoría para descubrir sus herramientas.")}
             </p>
           </div>
@@ -288,7 +288,7 @@ export default function ToolExplorer({
             </p>
 
             <p className="mt-1 text-sm text-slate-600">
-              {localizedGroup(group,en).shortDescription}
+              {category === "PDF" ? (en ? "Tools for working with PDF documents." : "Soluciones para trabajar con documentos PDF.") : localizedGroup(group,en).shortDescription}
             </p>
           </div>
         </div>

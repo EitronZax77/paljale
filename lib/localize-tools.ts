@@ -18,6 +18,10 @@ const tools: Record<string,[string,string]> = {
 "Extraer páginas PDF":["Extract PDF pages","Select specific pages and create a new PDF."],
 "Herramientas de imágenes":["Image tools","Compress and convert JPG, PNG and WebP images."],
 "Audio y multimedia":["Audio and multimedia","Convert audio and extract soundtracks from multimedia files."],
+"Imagenes a PDF":["Images to PDF","Convert JPG and PNG images into one PDF document."],
+"PDF a imagenes":["PDF to images","Convert PDF pages into downloadable JPG or PNG images."],
+"Firmar PDF":["Sign PDF","Add a visible handwritten signature to a PDF page."],
+"Proteger PDF":["Password-protect PDF","Protect your PDF with an opening password and AES-256 encryption."],
 "Generador QR":["QR code generator","Generate downloadable, shareable QR codes."]
 };
 export function localizedGroup(group:ToolGroup,en:boolean) {return en ? {...group,nameDisplay:names[group.name] ?? group.name,description:descriptions[group.name]?.[0] ?? group.description,shortDescription:descriptions[group.name]?.[1] ?? group.shortDescription} : {...group,nameDisplay:group.name};}

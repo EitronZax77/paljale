@@ -14,6 +14,7 @@
     "@ffmpeg/ffmpeg": "^0.12.15",
     "@ffmpeg/util": "^0.12.2",
     "@next/third-parties": "^16.3.8",
+    "@pdfsmaller/pdf-encrypt": "^1.2.0",
     "browser-image-compression": "^2.0.2",
     "next": "^16.3.8",
     "pdf-lib": "^1.17.1",

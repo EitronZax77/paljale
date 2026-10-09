@@ -5,7 +5,7 @@ import Link from "next/link";
 import type { CSSProperties, ReactNode } from "react";
 
 import { useLanguage } from "@/components/LanguageProvider";
-import { localizedGroup, localizedTool } from "@/lib/localize-tools";
+import { localizedGroup } from "@/lib/localize-tools";
 import type { ToolGroup } from "@/lib/tools";
 import styles from "./CategoryFlipCard.module.css";
 
@@ -33,6 +33,7 @@ export default function CategoryFlipCard({
   const { language } = useLanguage();
   const en = language === "en";
   const displayed = localizedGroup(group,en);
+  const categoryDescription = group.name === "PDF" ? (en ? "Edit, convert and optimize PDF documents easily and securely, directly in your browser." : "Edita, convierte y optimiza documentos PDF de manera sencilla y segura, directamente desde tu navegador.") : displayed.description;
   const [flipped, setFlipped] = useState(false);
 
   const accent =
@@ -42,7 +43,7 @@ export default function CategoryFlipCard({
     "--flip-accent": accent,
   } as CSSProperties;
 
-  const examples = group.tools.slice(0, 4);
+
 
   return (
     <article
@@ -111,18 +112,11 @@ export default function CategoryFlipCard({
           </h2>
 
           <p className={styles.description}>
-            {displayed.description}
+            {categoryDescription}
           </p>
 
           {group.isAvailable ? (
             <>
-              <div className={styles.toolList}>
-                {examples.map((tool) => (
-                  <span key={tool.href} className={styles.toolTag}>
-                    {localizedTool(tool,en).name}
-                  </span>
-                ))}
-              </div>
 
               {group.href && (
                 <Link

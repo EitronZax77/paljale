@@ -94,6 +94,42 @@ export const pdfTools: PaljaleTool[] = [
     icon: "extract",
     keywords: ["pdf", "extraer", "dividir", "separar", "páginas"],
   },
+  {
+    name: "Imagenes a PDF",
+    href: "/imagenes-a-pdf",
+    description: "Convierte imagenes JPG y PNG en un archivo PDF.",
+    category: "PDF",
+    eyebrow: "PDF",
+    icon: "image",
+    keywords: ["imagenes", "jpg", "png", "pdf", "convertir"],
+  },
+  {
+    name: "PDF a imagenes",
+    href: "/pdf-a-imagenes",
+    description: "Convierte paginas PDF en imagenes JPG o PNG descargables.",
+    category: "PDF",
+    eyebrow: "PDF",
+    icon: "image",
+    keywords: ["pdf", "imagenes", "jpg", "png", "convertir"],
+  },
+  {
+    name: "Firmar PDF",
+    href: "/firmar-pdf",
+    description: "Coloca una firma manuscrita visible en una página de tu PDF.",
+    category: "PDF",
+    eyebrow: "PDF",
+    icon: "pdf",
+    keywords: ["firmar", "firma", "pdf", "manuscrita"],
+  },
+  {
+    name: "Proteger PDF",
+    href: "/proteger-pdf",
+    description: "Protege un documento PDF con una contraseña de apertura y cifrado AES-256.",
+    category: "PDF",
+    eyebrow: "PDF",
+    icon: "pdf",
+    keywords: ["proteger", "contraseña", "cifrar", "pdf", "aes"],
+  },
 ];
 
 const imagenesTools: PaljaleTool[] = [
