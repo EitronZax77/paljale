@@ -4,7 +4,7 @@ import { useEffect, useRef, useState } from "react";
 import { useLanguage } from "@/components/LanguageProvider";
 import ImageToolShell from "@/components/images/ImageToolShell";
 
-type Stage = "edit" | "preview" | "ready";
+type Stage = "edit" | "confirm" | "preview" | "ready";
 const MAX_BYTES = 10 * 1024 * 1024;
 
 export default function RemoveBackgroundClient() {
@@ -107,9 +107,23 @@ export default function RemoveBackgroundClient() {
         </label>
         {file && <div className="space-y-4">
           <div className="flex items-center justify-between gap-3 rounded-xl border border-slate-200 bg-slate-50 p-4 text-sm"><span className="min-w-0 truncate">{file.name} · {(file.size / 1024 / 1024).toFixed(2)} MB</span><button onClick={reset} type="button" className="font-semibold text-rose-600">{t("Quitar", "Remove")}</button></div>
-          <button type="button" disabled={busy} onClick={() => void process()} className={primary}>{busy ? t("Procesando...", "Processing...") : t("Quitar fondo", "Remove background")}</button>
+          <button type="button" disabled={busy} onClick={() => { setError(""); setStage("confirm"); }} className={primary}>{t("Continuar", "Continue")}</button>
           {busy && <p role="status" className="text-center text-sm text-slate-600">{t("Procesando imagen. Puede tardar unos momentos.", "Processing image. This may take a moment.")}</p>}
         </div>}
+      </div>}
+      {stage === "confirm" && file && original && <div className="space-y-5">
+        <h2 className="text-base font-bold text-slate-800">{t("Confirma la eliminación del fondo", "Confirm background removal")}</h2>
+        <figure className="rounded-2xl border border-slate-200 bg-slate-50 p-4">
+          <figcaption className="mb-3 text-sm font-semibold text-slate-700">{t("Vista previa de tu imagen original", "Preview of your original image")}</figcaption>
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img src={original} alt={t("Imagen antes de procesar", "Image before processing")} className="mx-auto max-h-80 w-full object-contain" />
+        </figure>
+        <p className="text-sm leading-6 text-slate-600">{t("Al confirmar, procesaremos la imagen y, si el fondo se elimina correctamente, se descontará 1 de tus 3 usos gratuitos. Podrás descargar el resultado sin descuentos adicionales. Cancelar antes de confirmar no consume usos.", "By confirming, we will process your image. A successful removal uses 1 of your 3 free attempts. Downloading the result does not use an additional attempt. Canceling now costs nothing.")}</p>
+        <div className="grid gap-3 sm:grid-cols-2">
+          <button type="button" disabled={busy} onClick={() => setStage("edit")} className="min-h-12 rounded-2xl border border-slate-300 bg-white px-5 text-sm font-bold text-slate-800 transition hover:bg-slate-50 disabled:opacity-50">{t("Volver sin gastar usos", "Back without using an attempt")}</button>
+          <button type="button" disabled={busy} onClick={() => void process()} className={primary}>{busy ? t("Procesando...", "Processing...") : t("Confirmar y quitar fondo", "Confirm and remove background")}</button>
+        </div>
+        {busy && <p role="status" className="text-center text-sm text-slate-600">{t("Procesando imagen. Puede tardar unos momentos.", "Processing image. This may take a moment.")}</p>}
       </div>}
       {stage === "preview" && original && processed && <div className="space-y-5">
         <h2 className="text-base font-bold text-slate-800">{t("Compara antes de descargar", "Compare before downloading")}</h2>

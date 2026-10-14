@@ -2,6 +2,7 @@
 
 import { useLanguage } from "@/components/LanguageProvider";
 import Link from "next/link";
+import { createPortal } from "react-dom";
 import {
   useCallback,
   useEffect,
@@ -230,15 +231,16 @@ export default function CookieConsent() {
     return null;
   }
 
-  return (
+  return createPortal(
     <div
-      className="fixed inset-x-0 bottom-0 z-[100] px-4 pb-4 sm:px-6 sm:pb-6"
+      className="inset-x-0 bottom-0 px-4 pb-4 sm:px-6 sm:pb-6 pointer-events-none"
+      style={{ position: "fixed", left: 0, right: 0, bottom: 0, zIndex: 2147483000 }}
       role="dialog"
       aria-modal="true"
       aria-labelledby="cookie-consent-title"
       aria-describedby="cookie-consent-description"
     >
-      <div className="mx-auto max-w-5xl rounded-2xl border border-cyan-500/20 bg-[#08111a]/95 p-5 shadow-2xl shadow-black/40 backdrop-blur-xl sm:p-6">
+      <div className="pointer-events-auto mx-auto max-w-4xl rounded-2xl border border-cyan-500/20 bg-[#08111a]/95 p-5 shadow-2xl shadow-black/40 backdrop-blur-xl sm:p-6">
         <div className="flex flex-col gap-5 lg:flex-row lg:items-center lg:justify-between">
           <div className="max-w-3xl">
             <h2
@@ -285,6 +287,7 @@ export default function CookieConsent() {
           </div>
         </div>
       </div>
-    </div>
+    </div>,
+    document.body
   );
 }
