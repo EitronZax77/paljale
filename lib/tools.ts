@@ -115,7 +115,7 @@ export const pdfTools: PaljaleTool[] = [
   {
     name: "Firmar PDF",
     href: "/firmar-pdf",
-    description: "Coloca una firma manuscrita visible en una página de tu PDF.",
+    description: "Coloca una firma manuscrita visible en una pÃ¡gina de tu PDF.",
     category: "PDF",
     eyebrow: "PDF",
     icon: "pdf",
@@ -124,25 +124,21 @@ export const pdfTools: PaljaleTool[] = [
   {
     name: "Proteger PDF",
     href: "/proteger-pdf",
-    description: "Protege un documento PDF con una contraseña de apertura y cifrado AES-256.",
+    description: "Protege un documento PDF con una contraseÃ±a de apertura y cifrado AES-256.",
     category: "PDF",
     eyebrow: "PDF",
     icon: "pdf",
-    keywords: ["proteger", "contraseña", "cifrar", "pdf", "aes"],
+    keywords: ["proteger", "contraseÃ±a", "cifrar", "pdf", "aes"],
   },
 ];
 
 const imagenesTools: PaljaleTool[] = [
-  {
-    name: "Herramientas de imágenes",
-    href: "/imagenes",
-    description:
-      "Comprime y convierte imágenes JPG, PNG y WebP.",
-    category: "Imágenes",
-    eyebrow: "Imagen",
-    icon: "image",
-    keywords: ["imagen", "jpg", "png", "webp", "comprimir", "convertir"],
-  },
+  {name:"Comprimir imágenes",href:"/comprimir-imagenes",description:"Reduce el peso de JPG, PNG y WebP.",category:"Imágenes",eyebrow:"Imagen",icon:"image",keywords:["comprimir", "optimizar", "imagen"]},
+  {name:"Convertir imágenes",href:"/convertir-imagenes",description:"Convierte imágenes JPG, PNG y WebP.",category:"Imágenes",eyebrow:"Imagen",icon:"image",keywords:["convertir", "formato", "jpg", "png", "webp"]},
+  {name:"Redimensionar imágenes",href:"/redimensionar-imagenes",description:"Ajusta el ancho y alto de tus imágenes.",category:"Imágenes",eyebrow:"Imagen",icon:"image",keywords:["redimensionar", "dimensiones", "escala"]},
+  {name:"Recortar imágenes",href:"/recortar-imagenes",description:"Selecciona visualmente el área que deseas conservar.",category:"Imágenes",eyebrow:"Imagen",icon:"image",keywords:["recortar", "encuadrar", "seleccionar"]},
+  {name:"Quitar fondo de imágenes",href:"/quitar-fondo-imagen",description:"Elimina el fondo y descarga un PNG transparente.",category:"Imágenes",eyebrow:"Imagen",icon:"image",keywords:["eliminar fondo", "quitar fondo", "transparencia"]},
+  {name:"Convertir HEIC a JPG",href:"/heic-a-jpg",description:"Convierte fotografías HEIC o HEIF a JPG.",category:"Imágenes",eyebrow:"Imagen",icon:"image",keywords:["heic", "heif", "iphone", "jpg"]},
 ];
 
 const audioTools: PaljaleTool[] = [
@@ -175,7 +171,7 @@ export const toolGroups: ToolGroup[] = [
   {
     name: "PDF",
     href: "/pdf",
-    description: "Herramientas para unir, comprimir, rotar y extraer PDF.",
+    description: "Edita, convierte y optimiza documentos PDF.",
     shortDescription: "Documentos PDF y edición rápida.",
     icon: "pdf",
     isAvailable: true,
@@ -194,7 +190,7 @@ export const toolGroups: ToolGroup[] = [
     name: "Imágenes",
     href: "/imagenes",
     description: "Compresión, conversión y optimización de imágenes.",
-    shortDescription: "Trabaja con JPG, PNG y WebP.",
+    shortDescription: "Procesa, convierte y optimiza imágenes.",
     icon: "image",
     isAvailable: true,
     keywords: ["imagenes", "imagen", "jpg", "png", "webp"],

@@ -1,6 +1,7 @@
+import WeeklySpriteController from "@/components/WeeklySpriteController";
 export default function AnimatedSpriteParade() {
   return (
-    <section
+    <><WeeklySpriteController /><section
       className="pal-parade"
       aria-label="Decoración animada de temporada"
     >
@@ -278,6 +279,6 @@ export default function AnimatedSpriteParade() {
           />
         </svg>
       </div>
-    </section>
+    </section></>
   );
 }

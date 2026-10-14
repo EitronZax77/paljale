@@ -336,3 +336,17 @@ html[data-paljale-tone="commemoration"]
     transform: none;
   }
 }
+
+/* PALJALE: selección semanal de personajes. No interfiere con conmemoraciones. */
+html[data-paljale-weekly-sprite]:not([data-paljale-tone="commemoration"]) .pal-parade .pal-parade-scene { display: none; }
+html[data-paljale-weekly-sprite="tecnologia"]:not([data-paljale-tone="commemoration"]) .pal-parade .pal-parade-tecnologia { display: block; }
+html[data-paljale-weekly-sprite="naturaleza"]:not([data-paljale-tone="commemoration"]) .pal-parade .pal-parade-naturaleza { display: block; }
+html[data-paljale-weekly-sprite="espacial"]:not([data-paljale-tone="commemoration"]) .pal-parade .pal-parade-espacial { display: block; }
+html[data-paljale-weekly-sprite="arte"]:not([data-paljale-tone="commemoration"]) .pal-parade .pal-parade-arte { display: block; }
+html[data-paljale-weekly-sprite="oceano"]:not([data-paljale-tone="commemoration"]) .pal-parade .pal-parade-oceano { display: block; }
+html[data-paljale-weekly-sprite="ciencia"]:not([data-paljale-tone="commemoration"]) .pal-parade .pal-parade-ciencia { display: block; }
+html[data-paljale-weekly-sprite="primavera"]:not([data-paljale-tone="commemoration"]) .pal-parade .pal-parade-primavera { display: block; }
+html[data-paljale-weekly-sprite="verano"]:not([data-paljale-tone="commemoration"]) .pal-parade .pal-parade-verano { display: block; }
+html[data-paljale-weekly-sprite="invierno"]:not([data-paljale-tone="commemoration"]) .pal-parade .pal-parade-invierno { display: block; }
+html[data-paljale-weekly-sprite="septiembre"]:not([data-paljale-tone="commemoration"]) .pal-parade .pal-parade-septiembre { display: block; }
+html[data-paljale-weekly-sprite="muertos"]:not([data-paljale-tone="commemoration"]) .pal-parade .pal-parade-muertos { display: block; }

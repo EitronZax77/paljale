@@ -15,7 +15,7 @@ export default function SiteHeader() {
     }
   };
   return (
-    <header className="relative z-50 border-b border-[var(--pal-border)] bg-white/95 backdrop-blur-xl">
+    <header className="relative z-[100] border-b border-[var(--pal-border)] bg-white/95 backdrop-blur-xl">
       <div className="mx-auto flex h-24 w-full max-w-[1600px] items-center justify-between gap-3 px-3 sm:gap-5 sm:px-6 md:h-32 lg:px-8">
 
         <Link

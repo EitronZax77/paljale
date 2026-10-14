@@ -1016,3 +1016,10 @@ html[data-paljale-theme="invierno"]
     height: 19px;
   }
 }
+/* PALJALE: respuesta visible para hipervínculos de texto y navegación */
+a[href] { cursor: pointer; text-underline-offset: 3px; }
+a[href]:focus-visible { outline: 2px solid var(--pal-accent); outline-offset: 3px; }
+a[href]:active { opacity: .78; }
+/* El subrayado se aplica a enlaces de texto: no se interfiere con tarjetas o botones completos. */
+nav a[href]:hover, footer a[href]:hover, main p a[href]:hover { text-decoration: underline; }
+@media (prefers-reduced-motion: reduce) { a[href] { transition: none !important; } }
