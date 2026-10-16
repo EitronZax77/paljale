@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useRef } from "react";
 import { useLanguage } from "@/components/LanguageProvider";
 
 const STRIPE_PAYMENT_LINK = "https://buy.stripe.com/4gM6oHf8B9XCbVD4AD3ks00";
@@ -8,17 +8,9 @@ const PAYMENTS_ENABLED = process.env.NEXT_PUBLIC_PALJALE_DONATIONS_ENABLED === "
 
 export default function FloatingDonationButton() {
   const { language } = useLanguage();
-  const [open, setOpen] = useState(false);
+  const dialogRef = useRef<HTMLDialogElement>(null);
   const en = language === "en";
 
-  useEffect(() => {
-    if (!open) return;
-    const onKeyDown = (event: KeyboardEvent) => {
-      if (event.key === "Escape") setOpen(false);
-    };
-    window.addEventListener("keydown", onKeyDown);
-    return () => window.removeEventListener("keydown", onKeyDown);
-  }, [open]);
 
   return (
     <>
@@ -27,7 +19,7 @@ export default function FloatingDonationButton() {
           type="button"
           aria-label={en ? "Support PALJALE" : "Apoyar PALJALE"}
           title={en ? "Support PALJALE" : "Apoyar PALJALE"}
-          onClick={() => setOpen(true)}
+          onClick={() => dialogRef.current?.showModal()}
           className="group relative flex h-14 w-14 items-center justify-center rounded-full border border-[var(--pal-border)] bg-white text-[var(--pal-accent)] shadow-[0_14px_35px_rgba(7,21,44,0.16)] transition duration-200 hover:-translate-y-1 hover:shadow-[0_18px_42px_rgba(7,21,44,0.20)] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--pal-accent)]"
         >
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true" className="h-6 w-6">
@@ -39,14 +31,12 @@ export default function FloatingDonationButton() {
         </button>
       </div>
 
-      {open && (
-        <div className="fixed inset-0 z-[110] flex items-center justify-center bg-[#07152c]/55 p-4 backdrop-blur-[3px]" onMouseDown={(event) => { if (event.target === event.currentTarget) setOpen(false); }}>
-          <section role="dialog" aria-modal="true" aria-labelledby="paljale-donation-title" aria-describedby="paljale-donation-description" className="w-full max-w-[460px] rounded-[30px] border border-[var(--pal-border)] bg-white p-6 shadow-[0_28px_100px_rgba(7,21,44,0.28)] sm:p-8">
+      <dialog ref={dialogRef} aria-labelledby="paljale-donation-title" aria-describedby="paljale-donation-description" className="fixed inset-0 m-auto max-h-[calc(100dvh-2rem)] w-[min(460px,calc(100vw-2rem))] max-w-none overflow-y-auto rounded-[30px] border border-[var(--pal-border)] bg-white p-6 text-left text-slate-900 shadow-[0_28px_100px_rgba(7,21,44,0.28)] backdrop:bg-[#07152c]/55 backdrop:backdrop-blur-[3px] sm:p-8" onClick={(event) => { if (event.target === event.currentTarget) { const bounds = event.currentTarget.getBoundingClientRect(); if (event.clientX < bounds.left || event.clientX > bounds.right || event.clientY < bounds.top || event.clientY > bounds.bottom) event.currentTarget.close(); } }}>
             <div className="flex items-start justify-between gap-4">
               <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-[var(--pal-tint)] text-[var(--pal-accent)]" aria-hidden="true">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" className="h-6 w-6"><path d="M20.8 4.6a5.3 5.3 0 0 0-7.5 0L12 5.9l-1.3-1.3a5.3 5.3 0 0 0-7.5 7.5L12 20.9l8.8-8.8a5.3 5.3 0 0 0 0-7.5Z" /></svg>
               </div>
-              <button type="button" onClick={() => setOpen(false)} aria-label={en ? "Close" : "Cerrar"} className="flex h-10 w-10 items-center justify-center rounded-xl text-slate-500 transition hover:bg-slate-100 hover:text-slate-900 focus-visible:outline-2 focus-visible:outline-[var(--pal-accent)]">
+              <button type="button" onClick={() => dialogRef.current?.close()} aria-label={en ? "Close" : "Cerrar"} className="flex h-10 w-10 items-center justify-center rounded-xl text-slate-500 transition hover:bg-slate-100 hover:text-slate-900 focus-visible:outline-2 focus-visible:outline-[var(--pal-accent)]">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" aria-hidden="true" className="h-5 w-5"><path d="M5 5l14 14M19 5 5 19" /></svg>
               </button>
             </div>
@@ -72,9 +62,7 @@ export default function FloatingDonationButton() {
             <p className="mt-4 text-center text-xs leading-5 text-slate-500">
               {en ? "PALJALE is not presenting this as a charitable tax-deductible donation." : "PALJALE no presenta este apoyo como un donativo benéfico deducible de impuestos."}
             </p>
-          </section>
-        </div>
-      )}
+      </dialog>
     </>
   );
 }
