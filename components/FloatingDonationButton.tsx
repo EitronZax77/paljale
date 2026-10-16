@@ -22,7 +22,7 @@ export default function FloatingDonationButton() {
 
   return (
     <>
-      <div className="fixed bottom-24 right-6 z-[90]">
+      <div className="fixed bottom-24 right-6 z-[90]" style={{ position: "fixed", right: "24px", bottom: "96px", zIndex: 90 }}>
         <button
           type="button"
           aria-label={en ? "Support PALJALE" : "Apoyar PALJALE"}

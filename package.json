@@ -19,6 +19,7 @@
     "@supabase/supabase-js": "2.117.3",
     "browser-image-compression": "^2.0.2",
     "heic2any": "0.0.4",
+    "jszip": "3.10.1",
     "next": "^16.3.8",
     "pdf-lib": "^1.17.1",
     "pdfjs-dist": "^6.3.289",
@@ -26,7 +27,9 @@
     "react": "19.2.8",
     "react-dom": "19.2.8",
     "react-qr-code": "^2.2.0",
-    "source-map-js": "^1.2.2"
+    "source-map-js": "^1.2.2",
+    "tesseract.js": "6.0.1",
+    "xlsx-js-style": "^1.2.0"
   },
   "devDependencies": {
     "@tailwindcss/postcss": "^4",

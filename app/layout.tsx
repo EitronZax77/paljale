@@ -4,7 +4,8 @@ import { LanguageProvider } from "@/components/LanguageProvider";
 import AnalyticsTracker from "@/components/AnalyticsTracker";
 import CookieConsent from "@/components/CookieConsent";
 import DynamicTheme from "@/components/DynamicTheme";
-import LegalBar from "@/components/LegalBar";
+import LegacyLegalBar from "@/components/layout/LegacyLegalBar";
+import SectionFooter from "@/components/layout/SectionFooter";
 
 import { siteConfig } from "@/lib/site";
 
@@ -96,7 +97,9 @@ export default function RootLayout({
 
         {children}
 
-        <LegalBar />
+        <SectionFooter />
+
+        <LegacyLegalBar />
 
         <AnalyticsTracker />
 

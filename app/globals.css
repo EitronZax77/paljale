@@ -1023,3 +1023,17 @@ a[href]:active { opacity: .78; }
 /* El subrayado se aplica a enlaces de texto: no se interfiere con tarjetas o botones completos. */
 nav a[href]:hover, footer a[href]:hover, main p a[href]:hover { text-decoration: underline; }
 @media (prefers-reduced-motion: reduce) { a[href] { transition: none !important; } }
+
+
+/* PALJALE UI V8: layout compartido sin espacio vacio bajo enlaces. */
+body:has(> .paljale-section-footer) {
+  display: flex;
+  min-height: 100vh;
+  flex-direction: column;
+}
+body > .paljale-section-footer {
+  margin-top: auto;
+  width: 100%;
+}
+/* La barra de navegación mantiene énfasis sin subrayado. */
+nav a[aria-current="page"], nav a:hover { text-decoration: none !important; }

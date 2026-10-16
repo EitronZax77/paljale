@@ -4,7 +4,7 @@ const descriptions: Record<string,[string,string]> = {
 "PDF":["Tools to merge, compress, rotate and extract PDF pages.","PDF files and quick editing."],
 "Imágenes":["Image compression, conversion and optimization.","Process, convert and optimize images."],
 "Audio":["Audio and multimedia conversion and processing.","Audio and multimedia formats."],
-"Video":["Video conversion, compression and export.","Video tools planned."],
+"Video":["Video conversion, compression and export.","Compress and export videos."],
 "Calculadoras":["Practical calculations for personal and professional use.","Percentages, units and more."],
 "Crypto":["Cryptocurrency tools, calculations and conversion.","BTC, ETH and crypto utilities."],
 "Plantillas":["Editable digital templates and downloadable resources.","Formats, resources and templates."],
@@ -26,7 +26,16 @@ const tools: Record<string,[string,string]> = {
 "Quitar fondo de imágenes":["Remove image background", "Remove the background and export a transparent PNG."],
 "Convertir HEIC a JPG":["Convert HEIC to JPG", "Convert iPhone HEIC and HEIF images to JPG."],
 "Audio y multimedia":["Audio and multimedia","Convert audio and extract soundtracks from multimedia files."],
-"Generador QR":["QR code generator","Generate downloadable, shareable QR codes."]
+"Generador QR":["QR code generator","Generate downloadable, shareable QR codes."],
+"PDF a Word":["PDF to Word","Extract PDF text into an editable DOCX document (basic text conversion)."],
+"Word a PDF":["Word to PDF","Convert simple DOCX text into a downloadable PDF."],
+"OCR: extraer texto":["OCR: extract text","Recognize Spanish and English text in images."],
+"Comprimir video":["Compress video","Compress MP4 video locally in your browser."],
+"MP4 a MP3":["MP4 to MP3","Extract MP3 audio from video in your browser."],
+"Generador de contraseñas":["Password generator","Create secure passwords without uploading data."],
+"Calculadora de porcentajes":["Percentage calculator","Calculate percentages and percentage changes."],
+"Conversor de unidades":["Unit converter","Convert measurements and temperatures."],
+"Conversor de divisas":["Currency converter","Convert currencies using dated reference exchange rates."]
 };
 export function localizedGroup(group:ToolGroup,en:boolean) {return en ? {...group,nameDisplay:names[group.name] ?? group.name,description:descriptions[group.name]?.[0] ?? group.description,shortDescription:descriptions[group.name]?.[1] ?? group.shortDescription} : {...group,nameDisplay:group.name};}
 export function localizedTool(tool:PaljaleTool,en:boolean) {return en ? {name:tools[tool.name]?.[0] ?? tool.name,description:tools[tool.name]?.[1] ?? tool.description} : {name:tool.name,description:tool.description};}

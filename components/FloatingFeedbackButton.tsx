@@ -9,7 +9,7 @@ export default function FloatingFeedbackButton() {
   return (
     <>
       <FloatingDonationButton />
-      <div className="fixed bottom-6 right-6 z-[90]">
+      <div className="fixed bottom-6 right-6 z-[90]" style={{ position: "fixed", right: "24px", bottom: "24px", zIndex: 90 }}>
         <Link
           href="/contacto#opiniones"
           aria-label={language === "es" ? "Enviar opinión o sugerencia" : "Send feedback"}

@@ -54,6 +54,9 @@ export interface ToolGroup {
 }
 
 export const pdfTools: PaljaleTool[] = [
+  { name: "PDF a Word", href: "/pdf-a-word", description: "Extrae texto del PDF a un DOCX editable. Conversión básica de texto.", category: "PDF", eyebrow: "PALJALE", icon: "pdf", keywords: ["pdf","word","docx","texto","convertir"] },
+  { name: "Word a PDF", href: "/word-a-pdf", description: "Convierte el texto de un DOCX sencillo en PDF.", category: "PDF", eyebrow: "PALJALE", icon: "pdf", keywords: ["word","pdf","docx","convertir"] },
+
   {
     name: "Unir PDF",
     href: "/unir-pdf",
@@ -133,6 +136,8 @@ export const pdfTools: PaljaleTool[] = [
 ];
 
 const imagenesTools: PaljaleTool[] = [
+  { name: "OCR: extraer texto", href: "/ocr-imagen", description: "Reconoce texto de fotografías e imágenes en español e inglés.", category: "Imágenes", eyebrow: "PALJALE", icon: "image", keywords: ["ocr","imagen","texto","extraer"] },
+
   {name:"Comprimir imágenes",href:"/comprimir-imagenes",description:"Reduce el peso de JPG, PNG y WebP.",category:"Imágenes",eyebrow:"Imagen",icon:"image",keywords:["comprimir", "optimizar", "imagen"]},
   {name:"Convertir imágenes",href:"/convertir-imagenes",description:"Convierte imágenes JPG, PNG y WebP.",category:"Imágenes",eyebrow:"Imagen",icon:"image",keywords:["convertir", "formato", "jpg", "png", "webp"]},
   {name:"Redimensionar imágenes",href:"/redimensionar-imagenes",description:"Ajusta el ancho y alto de tus imágenes.",category:"Imágenes",eyebrow:"Imagen",icon:"image",keywords:["redimensionar", "dimensiones", "escala"]},
@@ -142,6 +147,8 @@ const imagenesTools: PaljaleTool[] = [
 ];
 
 const audioTools: PaljaleTool[] = [
+  { name: "MP4 a MP3", href: "/mp4-a-mp3", description: "Extrae audio MP3 desde videos con FFmpeg local.", category: "Audio", eyebrow: "PALJALE", icon: "audio", keywords: ["mp4","mp3","audio","convertir"] },
+
   {
     name: "Audio y multimedia",
     href: "/conversores",
@@ -155,6 +162,8 @@ const audioTools: PaljaleTool[] = [
 ];
 
 const utilidadesTools: PaljaleTool[] = [
+  { name: "Generador de contraseñas", href: "/generador-contrasenas", description: "Genera contraseñas seguras sin enviarlas al servidor.", category: "Utilidades", eyebrow: "PALJALE", icon: "crypto", keywords: ["password","contraseña","seguridad"] },
+
   {
     name: "Generador QR",
     href: "/qr",
@@ -167,7 +176,18 @@ const utilidadesTools: PaljaleTool[] = [
   },
 ];
 
-export const toolGroups: ToolGroup[] = [
+const videoTop20Tools: PaljaleTool[] = [
+  { name: "Comprimir video", href: "/comprimir-video", description: "Reduce videos MP4 en el navegador con FFmpeg.", category: "Video", eyebrow: "PALJALE", icon: "video", keywords: ["mp4","video","comprimir"] },
+];
+
+const calculadorasTop20Tools: PaljaleTool[] = [
+  { name: "Calculadora de porcentajes", href: "/calculadora-porcentajes", description: "Calcula proporciones y variaciones.", category: "Calculadoras", eyebrow: "PALJALE", icon: "calculator", keywords: ["porcentaje","calculadora","variacion"] },
+  { name: "Conversor de unidades", href: "/conversor-unidades", description: "Convierte medidas y temperatura.", category: "Calculadoras", eyebrow: "PALJALE", icon: "calculator", keywords: ["unidades","medidas","peso","longitud"] },
+  { name: "Conversor de divisas", href: "/conversor-divisas", description: "Consulta tasas de referencia fechadas.", category: "Calculadoras", eyebrow: "PALJALE", icon: "calculator", keywords: ["divisas","monedas","mexico","usd","mxn"] },
+];
+
+// PALJALE_TOP20_MASS_INSTALL_V1
+const paljaleLegacyGroups: ToolGroup[] = [
   {
     name: "PDF",
     href: "/pdf",
@@ -224,10 +244,11 @@ export const toolGroups: ToolGroup[] = [
   },
   {
     name: "Video",
+    href: "/comprimir-video",
     description: "Conversión, compresión y exportación de video.",
     shortDescription: "Módulo planeado para video.",
     icon: "video",
-    isAvailable: false,
+    isAvailable: true,
     keywords: ["video", "mp4", "mov", "avi"],
     color: {
       soft: "bg-[#f3f0fb]",
@@ -237,14 +258,15 @@ export const toolGroups: ToolGroup[] = [
       button: "bg-[#faf8ff] hover:bg-[#f3efff]",
       chip: "bg-[#7157b4] text-white",
     },
-    tools: [],
+    tools: videoTop20Tools,
   },
   {
     name: "Calculadoras",
+    href: "/calculadora-porcentajes",
     description: "Cálculos prácticos para uso diario y profesional.",
     shortDescription: "Porcentajes, medidas y más.",
     icon: "calculator",
-    isAvailable: false,
+    isAvailable: true,
     keywords: ["calculadora", "porcentaje", "conversion", "medidas"],
     color: {
       soft: "bg-[#eef8f3]",
@@ -254,7 +276,7 @@ export const toolGroups: ToolGroup[] = [
       button: "bg-[#f7fcf9] hover:bg-[#eef8f3]",
       chip: "bg-[#2d7d5f] text-white",
     },
-    tools: [],
+    tools: calculadorasTop20Tools,
   },
   {
     name: "Crypto",
@@ -327,6 +349,21 @@ export const toolGroups: ToolGroup[] = [
   },
 ];
 
+// PALJALE20_CATALOG_START - enfoque en calculadoras y utilidades. Las rutas antiguas siguen intactas.
+const paljaleCommercialTools: PaljaleTool[] = [
+  { name: "Calculadora de margen de ganancia", href: "/calculadora-margen-ganancia", description: "Margen sobre venta, utilidad y recargo sobre costo.", category: "Calculadoras", eyebrow: "Negocios", icon: "calculator", keywords: ["margen", "ganancia", "utilidad", "comercio"] },
+  { name: "Calculadora de precio de venta", href: "/calculadora-precio-venta", description: "Determina el precio con margen deseado e IVA.", category: "Calculadoras", eyebrow: "Negocios", icon: "calculator", keywords: ["precio", "venta", "margen", "negocio"] },
+  { name: "Calculadora de IVA MÃ©xico", href: "/calculadora-iva-mexico", description: "Calcula y desglosa el IVA incluido o agregado.", category: "Calculadoras", eyebrow: "Negocios", icon: "calculator", keywords: ["iva", "mexico", "impuesto", "16"] },
+  { name: "Calculadora de descuentos", href: "/calculadora-descuentos", description: "Descuentos sucesivos, precio final y ahorro.", category: "Calculadoras", eyebrow: "Negocios", icon: "calculator", keywords: ["descuento", "rebaja", "oferta", "porcentaje"] },
+  { name: "Calculadora de punto de equilibrio", href: "/calculadora-punto-equilibrio", description: "Calcula las unidades necesarias para cubrir costos.", category: "Calculadoras", eyebrow: "Negocios", icon: "calculator", keywords: ["punto", "equilibrio", "costos", "ventas"] },
+];
+const paljalePublicGroups = new Set<ToolCategory>(["Calculadoras", "Utilidades", "Plantillas", "Crypto", "Traductores"]);
+export const toolGroups: ToolGroup[] = paljaleLegacyGroups.filter(group => paljalePublicGroups.has(group.name)).map(group => {
+  if (group.name !== "Calculadoras") return group;
+  const currentTools = group.tools.filter(tool => !paljaleCommercialTools.some(next => next.href === tool.href));
+  return { ...group, href: "/calculadoras", isAvailable: true, description: "Calculadoras y simuladores para MÃ©xico.", shortDescription: "Precios, IVA, descuentos, margen y mÃ¡s.", tools: [...paljaleCommercialTools, ...currentTools] };
+});
+// PALJALE20_CATALOG_END
 export const paljaleTools = toolGroups.flatMap((group) => group.tools);
 
 export const activeToolGroups = toolGroups.filter(
