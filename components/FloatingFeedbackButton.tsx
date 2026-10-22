@@ -1,14 +1,12 @@
 "use client";
 
 import { useLanguage } from "@/components/LanguageProvider";
-import FloatingDonationButton from "@/components/FloatingDonationButton";
 import Link from "next/link";
 
 export default function FloatingFeedbackButton() {
   const { language } = useLanguage();
   return (
     <>
-      <FloatingDonationButton />
       <div className="fixed bottom-6 right-6 z-[90]" style={{ position: "fixed", right: "24px", bottom: "24px", zIndex: 90 }}>
         <Link
           href="/contacto#opiniones"

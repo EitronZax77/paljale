@@ -41,12 +41,12 @@ export default function AcercaDePage() {
       <LocaleOnly language="es">      <section className={card}>
         <h2 className={heading}>¿Qué es PALJALE?</h2>
         <p>PALJALE es un proyecto de herramientas digitales en línea que busca facilitar tareas cotidianas sin complicaciones ni instalaciones innecesarias. Su biblioteca está organizada por categorías para ayudarte a encontrar lo que necesitas en un mismo lugar.</p>
-        <p className="mt-4">La plataforma se desarrolla por etapas e incorpora soluciones para documentos, imágenes, audio y otras necesidades digitales. Algunas categorías se encuentran en preparación y se habilitarán progresivamente.</p>
+        <p className="mt-4">La plataforma reúne Calculadoras, Utilidades, Plantillas, Cripto y Texto e idiomas. Su enfoque actual es facilitar cálculos comerciales y tareas prácticas con información clara. Algunas funciones se desarrollan por etapas.</p>
       </section>
       <section className={card}>
         <h2 className={heading}>Nuestro propósito</h2>
         <p>Construir herramientas prácticas, fáciles de entender y disponibles desde el navegador; reducir pasos innecesarios y mejorar continuamente a partir de lo que nos comparte la comunidad.</p>
-        <p className="mt-4">Siempre que sea técnicamente posible, priorizamos el procesamiento local de archivos para reducir la necesidad de transferirlos a servidores externos.</p>
+        <p className="mt-4">Priorizamos experiencias rápidas, resultados comprensibles y cálculos locales cuando es técnicamente posible. El acceso a las herramientas públicas no requiere una donación.</p>
       </section>
       <section className="rounded-[24px] border border-[var(--pal-border)] bg-gradient-to-br from-[var(--pal-tint)] via-white to-white px-6 py-9 text-center sm:px-10">
         <p className="text-sm font-extrabold uppercase tracking-[0.18em] text-[var(--pal-accent)]">Nuestra inspiración</p>

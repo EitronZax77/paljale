@@ -41,7 +41,7 @@ export default function ContactoPage() {
       <LocaleOnly language="es">      <FeedbackForm />
       <section className={sectionClass}>
         <h2 className="mb-3 text-xl font-extrabold text-[var(--pal-text)] sm:text-2xl">¿En qué podemos ayudarte?</h2>
-        <p>Utiliza el formulario para compartir opiniones, solicitar nuevas herramientas, reportar fallas o hacernos llegar consultas sobre el sitio.</p>
+        <p>Utiliza el formulario para proponer calculadoras, solicitar utilidades, reportar fallas o consultar sobre PALJALE. También puedes escribirnos sobre privacidad y cookies.</p>
         <p className="mt-3">Si reportas un problema, describe lo que ocurrió e indica la herramienta utilizada. No envíes contraseñas, datos bancarios ni documentos confidenciales.</p>
         <p className="mt-3 text-sm text-slate-500">Los mensajes se gestionan mediante nuestro proveedor de formularios. Puedes consultar cómo tratamos los datos en nuestra Política de Privacidad.</p>
         <Link href="/privacidad" className="mt-4 inline-flex rounded-xl border border-[var(--pal-border)] px-5 py-3 text-sm font-bold text-[var(--pal-accent)] transition hover:bg-[var(--pal-tint)]">Política de Privacidad →</Link>

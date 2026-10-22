@@ -43,7 +43,7 @@ export default function InstitutionalShell({
             <h1 className="mt-3 text-3xl font-black tracking-[-0.05em] text-[var(--pal-text)] sm:text-[44px]">{en ? (titleEn ?? title) : title}</h1>
             <p className="mt-4 max-w-3xl text-sm leading-7 text-slate-600 sm:text-base">{en ? (introductionEn ?? introduction) : introduction}</p>
             {updatedAt ? (
-              <p className="mt-4 text-xs font-semibold text-slate-500">{en ? "Last updated:" : "Última actualización:"} {en ? "October 6, 2026" : updatedAt}</p>
+              <p className="mt-4 text-xs font-semibold text-slate-500">{en ? "Last updated:" : "Última actualización:"} {en ? "October 21, 2026" : updatedAt}</p>
             ) : null}
           </div>
           <div className="px-5 py-7 sm:px-10 sm:py-10">
