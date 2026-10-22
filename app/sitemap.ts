@@ -3,6 +3,12 @@ import { siteConfig } from "@/lib/site";
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const rutas = [
+    '/texto-idiomas',
+    '/contador-palabras',
+    '/contador-caracteres',
+    '/convertir-mayusculas-minusculas',
+    '/eliminar-espacios-texto',
+    '/eliminar-lineas-duplicadas',
     // PALJALE20_SITEMAP_START
     "/calculadoras",
     "/calculadora-margen-ganancia",

@@ -1,0 +1,12 @@
+export function wordCount(value: string): number;
+export function charCount(value: string): number;
+export function sentenceCount(value: string): number;
+export function paragraphCount(value: string): number;
+export function readingMinutes(value: string): number;
+export function nonSpaceCount(value: string): number;
+export function whitespaceCount(value: string): number;
+export function lineCount(value: string): number;
+export function normalizeSpaces(value: string, mode?: string): string;
+export function uniqueLines(value: string, options?: {ignoreCase?: boolean;trimComparison?: boolean;skipEmpty?: boolean}): string;
+export function textCase(value: string, mode: string): string;
+export function processText(value: string,kind:string,mode?:string,options?:{ignoreCase?:boolean;trimComparison?:boolean;skipEmpty?:boolean}):string;
