@@ -3,6 +3,9 @@ import { siteConfig } from "@/lib/site";
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const rutas = [
+    '/regla-de-tres',
+    '/calculadora-edad',
+    '/diferencia-entre-fechas',
     '/texto-idiomas',
     '/contador-palabras',
     '/contador-caracteres',
