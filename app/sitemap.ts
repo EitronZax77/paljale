@@ -3,6 +3,10 @@ import { siteConfig } from "@/lib/site";
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const rutas = [
+    '/interes-compuesto',
+    '/calculadora-ahorro',
+    '/calculadora-propinas',
+    '/calculadora-prestamos',
     '/regla-de-tres',
     '/calculadora-edad',
     '/diferencia-entre-fechas',
