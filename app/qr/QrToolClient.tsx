@@ -3,248 +3,133 @@
 import { useRef, useState } from "react";
 import Link from "next/link";
 import { QRCodeCanvas } from "qrcode.react";
-import BarraEfemeride from "@/components/BarraEfemeride";
+import SiteHeader from "@/components/SiteHeader";
+import StudioIcon from "@/components/decision/StudioIcon";
 import { trackEvent } from "@/lib/analytics";
-import { siteConfig } from "@/lib/site";
+
+const related = [
+  { href: "/generador-contrasenas", title: "Generador de contraseñas", icon: "lock" },
+  { href: "/conversor-unidades", title: "Conversor de unidades", icon: "calculator" },
+];
 
 export default function QrToolClient() {
-  const [textoQr, setTextoQr] = useState<string>("");
+  const [textoQr, setTextoQr] = useState("");
+  const [notice, setNotice] = useState("");
   const qrRef = useRef<HTMLDivElement>(null);
-
-  const valorQr =
-    textoQr.trim() !== ""
-      ? textoQr.trim()
-      : `${siteConfig.url}/`;
-
+  const content = textoQr.trim();
   const parametrosQr = () => ({
     tool: "qr",
-    content_length: valorQr.length,
-    content_type: textoQr.trim() === "" ? "default" : "custom",
+    content_length: content.length,
+    content_type: "custom",
   });
 
   const descargarQr = () => {
+    if (!content) return;
     try {
       const canvas = qrRef.current?.querySelector("canvas");
-
-      if (!canvas) {
-        throw new Error("No se encontró el código QR para descargar.");
-      }
-
-      const url = canvas.toDataURL("image/png");
+      if (!canvas) throw new Error("No se encontró el código QR para descargar.");
       const enlace = document.createElement("a");
-
-      enlace.href = url;
+      enlace.href = canvas.toDataURL("image/png");
       enlace.download = "PALJALE_Codigo_QR.png";
       enlace.click();
-
-      // La generación del PNG ha terminado y se ha solicitado su descarga.
-      // El navegador no confirma si el usuario guardó finalmente el archivo.
-      trackEvent("tool_success", {
-        ...parametrosQr(),
-        action: "generate_png",
-        output_format: "png",
-      });
+      trackEvent("tool_success", { ...parametrosQr(), action: "generate_png", output_format: "png" });
+      setNotice("Descarga de PNG solicitada al navegador.");
     } catch (error) {
       console.error("Error al descargar código QR:", error);
-      trackEvent("tool_error", {
-        ...parametrosQr(),
-        action: "generate_png",
-        error_type: "png_generation_failed",
-      });
-      alert("No se pudo generar la imagen del código QR.");
+      trackEvent("tool_error", { ...parametrosQr(), action: "generate_png", error_type: "png_generation_failed" });
+      setNotice("No se pudo generar el archivo PNG.");
     }
   };
 
   const compartirQr = async () => {
+    if (!content) return;
     let action = "share_image";
-
     try {
       const canvas = qrRef.current?.querySelector("canvas");
-
-      if (!canvas) {
-        throw new Error("No se encontró el código QR para compartir.");
-      }
-
-      const blob = await new Promise<Blob | null>((resolve) => {
-        canvas.toBlob(resolve, "image/png");
-      });
-
-      if (!blob) {
-        throw new Error("No se pudo generar la imagen del código QR.");
-      }
-
-      const archivo = new File(
-        [blob],
-        "PALJALE_Codigo_QR.png",
-        { type: "image/png" }
-      );
-
-      if (
-        navigator.share &&
-        navigator.canShare?.({ files: [archivo] })
-      ) {
-        await navigator.share({
-          title: "Código QR de PALJALE",
-          text: "Código QR generado con PALJALE.",
-          files: [archivo],
-        });
-
-        trackEvent("tool_success", {
-          ...parametrosQr(),
-          action,
-          output_format: "png",
-          result_size_bytes: blob.size,
-        });
+      if (!canvas) throw new Error("No se encontró el código QR para compartir.");
+      const blob = await new Promise<Blob | null>((resolve) => canvas.toBlob(resolve, "image/png"));
+      if (!blob) throw new Error("No se pudo generar la imagen del código QR.");
+      const archivo = new File([blob], "PALJALE_Codigo_QR.png", { type: "image/png" });
+      if (navigator.share && navigator.canShare?.({ files: [archivo] })) {
+        await navigator.share({ title: "Código QR de PALJALE", text: "Código QR generado con PALJALE.", files: [archivo] });
+        trackEvent("tool_success", { ...parametrosQr(), action, output_format: "png", result_size_bytes: blob.size });
+        setNotice("Se abrió la función de compartir.");
         return;
       }
-
-      if (navigator.share) {
-        action = "share_link";
-        await navigator.share({
-          title: "Código QR de PALJALE",
-          text: `Código QR generado para: ${
-            textoQr.trim() || "PALJALE"
-          }`,
-          url: window.location.href,
-        });
-
-        trackEvent("tool_success", {
-          ...parametrosQr(),
-          action,
-        });
-        return;
-      }
-
       if (navigator.clipboard) {
         action = "copy_content";
-        await navigator.clipboard.writeText(
-          textoQr.trim() || window.location.href
-        );
-
-        trackEvent("tool_success", {
-          ...parametrosQr(),
-          action,
-        });
-        alert("Contenido copiado al portapapeles.");
+        await navigator.clipboard.writeText(content);
+        trackEvent("tool_success", { ...parametrosQr(), action });
+        setNotice("Contenido del QR copiado al portapapeles.");
         return;
       }
-
-      trackEvent("tool_error", {
-        ...parametrosQr(),
-        action: "share",
-        error_type: "sharing_not_supported",
-      });
-      alert("Tu navegador no permite compartir este código QR.");
+      if (navigator.share) {
+        action = "share_text";
+        await navigator.share({ title: "Código QR de PALJALE", text: content });
+        trackEvent("tool_success", { ...parametrosQr(), action });
+        setNotice("Se abrió la función de compartir.");
+        return;
+      }
+      trackEvent("tool_error", { ...parametrosQr(), action: "share", error_type: "sharing_not_supported" });
+      setNotice("Tu navegador no permite compartir; puedes descargar el PNG.");
     } catch (error) {
-      // Cancelar el diálogo de compartir es una decisión del usuario.
-      if (error instanceof Error && error.name === "AbortError") {
-        return;
-      }
-
+      if (error instanceof Error && error.name === "AbortError") return;
       console.error("Error al compartir código QR:", error);
-      trackEvent("tool_error", {
-        ...parametrosQr(),
-        action,
-        error_type: "sharing_failed",
-      });
-      alert("No se pudo compartir el código QR.");
+      trackEvent("tool_error", { ...parametrosQr(), action, error_type: "sharing_failed" });
+      setNotice("No se pudo compartir el código QR.");
     }
   };
 
-  return (
-    <div className="min-h-screen bg-[#060D14] text-gray-100 font-sans selection:bg-cyan-500 selection:text-black flex flex-col justify-between overflow-x-hidden">
-      <header className="sticky top-0 z-50 bg-[#060D14]/90 backdrop-blur-xl border-b border-cyan-900/40">
-        <div className="w-full px-6 md:px-12 h-20 flex items-center justify-between">
-          <Link
-            href="/"
-            className="text-2xl md:text-3xl font-black tracking-wider bg-gradient-to-r from-rose-500 via-orange-400 to-cyan-400 bg-clip-text text-transparent drop-shadow-[0_0_20px_rgba(244,63,94,0.3)]"
-          >
-            PALJALE
-          </Link>
+  return <>
+    <SiteHeader />
+    <main className="mx-auto w-full max-w-7xl space-y-6 px-4 py-8 sm:px-6 lg:px-8">
+      <nav aria-label="Volver a Utilidades" className="flex items-center gap-3 text-sm font-bold text-slate-700">
+        <Link href="/utilidades" className="inline-flex items-center gap-2 rounded-xl border border-slate-200 bg-white px-4 py-3 transition hover:-translate-y-0.5 hover:border-teal-300 hover:bg-teal-50">
+          <span aria-hidden="true">←</span> Todas las utilidades
+        </Link>
+        <span className="hidden text-slate-400 sm:inline" aria-hidden="true">/</span>
+        <span className="hidden sm:inline">Generador de código QR</span>
+      </nav>
 
-          <Link
-            href="/"
-            className="text-sm font-semibold text-cyan-400 hover:underline"
-          >
-            ← Volver al inicio
-          </Link>
+      <section className="rounded-[27px] border border-slate-200 bg-white p-7 sm:p-10">
+        <span className="inline-flex rounded-xl bg-teal-50 p-3 text-teal-700"><StudioIcon name="tools" size={30}/></span>
+        <h1 className="mt-5 text-[34px] font-black tracking-tight text-slate-900 sm:text-[42px]">Generador de código QR</h1>
+        <p className="mt-3 max-w-3xl text-[15px] leading-7 text-slate-600">Crea códigos QR para enlaces o textos de forma gratuita. Descarga la imagen PNG o compártela desde tu navegador.</p>
+      </section>
+
+      <div className="grid items-start gap-5 lg:grid-cols-2">
+        <section className="rounded-[25px] border border-slate-200 bg-white p-6 sm:p-8">
+          <h2 className="text-xl font-black text-slate-900">Contenido del código QR</h2>
+          <p className="mt-2 text-sm leading-6 text-slate-600">Introduce el contenido que deseas codificar. El procesamiento ocurre en tu navegador.</p>
+          <label htmlFor="qr-content" className="mt-6 block text-sm font-bold text-slate-800">Enlace o texto</label>
+          <textarea id="qr-content" rows={5} maxLength={2400} value={textoQr} onChange={e => {setTextoQr(e.target.value); setNotice("");}} placeholder="Escribe o pega aquí el enlace o texto..." className="mt-2 w-full resize-y rounded-2xl border border-slate-300 bg-white p-4 text-sm leading-7 text-slate-900 outline-offset-2 focus:border-teal-600 focus:outline-teal-600" />
+          <div className="mt-4 flex items-center justify-between gap-3">
+            <p className="text-xs text-slate-500">{textoQr.length} / 2400 caracteres</p>
+            <button type="button" disabled={!textoQr} onClick={() => {setTextoQr("");setNotice("");}} className="rounded-xl border border-slate-300 px-4 py-2 text-sm font-bold text-slate-700 transition hover:bg-slate-50 disabled:cursor-not-allowed disabled:opacity-40">Limpiar</button>
+          </div>
+        </section>
+        <section className="rounded-[25px] border border-slate-200 bg-white p-6 sm:p-8" aria-label="Vista previa del código QR">
+          <h2 className="text-xl font-black text-slate-900">Tu código QR</h2>
+          <p className="mt-2 text-sm leading-6 text-slate-600">La vista previa se actualiza al escribir.</p>
+          <div className="mt-6 flex min-h-[275px] items-center justify-center rounded-2xl border border-dashed border-slate-200 bg-slate-50 p-5">
+            {content ? <div ref={qrRef} className="max-w-full rounded-2xl bg-white p-4 shadow-sm"><QRCodeCanvas value={content} size={210} level="H" marginSize={2}/></div> : <p className="max-w-xs text-center text-sm leading-7 text-slate-500">Introduce un enlace o texto para generar tu código QR.</p>}
+          </div>
+          <div className="mt-5 flex flex-wrap gap-3">
+            <button type="button" onClick={descargarQr} disabled={!content} className="rounded-xl bg-teal-700 px-5 py-3 text-sm font-extrabold text-white transition hover:-translate-y-0.5 hover:bg-teal-800 disabled:cursor-not-allowed disabled:opacity-40">Descargar PNG</button>
+            <button type="button" onClick={compartirQr} disabled={!content} className="rounded-xl border border-slate-300 px-5 py-3 text-sm font-extrabold text-slate-700 transition hover:bg-teal-50 disabled:cursor-not-allowed disabled:opacity-40">Compartir QR</button>
+          </div>
+          <p role="status" aria-live="polite" className="mt-4 min-h-5 text-sm text-slate-600">{notice}</p>
+        </section>
+      </div>
+
+      <section className="rounded-[25px] border border-slate-200 bg-white p-6 sm:p-8">
+        <h2 className="text-lg font-black text-slate-900">Explora otras utilidades</h2>
+        <div className="mt-4 grid gap-3 sm:grid-cols-2">
+          {related.map(x => <Link key={x.href} href={x.href} className="flex items-center justify-between gap-3 rounded-xl border border-slate-200 bg-white px-4 py-4 text-sm font-bold text-slate-700 transition hover:-translate-y-0.5 hover:border-teal-300 hover:bg-teal-50">
+            <span className="flex items-center gap-3"><span className="rounded-lg bg-teal-50 p-2 text-teal-700"><StudioIcon name={x.icon} size={19}/></span>{x.title}</span><span aria-hidden="true">→</span>
+          </Link>)}
         </div>
-      </header>
-
-      <main className="w-full max-w-4xl mx-auto px-6 py-16 flex flex-col items-center my-auto">
-        <div className="relative mb-6">
-          <div className="absolute inset-0 bg-cyan-500 rounded-3xl blur-xl opacity-20 animate-pulse" />
-
-          <div className="relative w-20 h-20 rounded-3xl bg-[#0a1622] border border-cyan-500/30 text-cyan-400 flex items-center justify-center text-4xl shadow-[0_0_20px_rgba(6,182,212,0.2)]">
-            🔲
-          </div>
-        </div>
-
-        <h1 className="text-3xl md:text-5xl font-extrabold tracking-tight text-white mb-4 text-center drop-shadow-[0_0_15px_rgba(6,182,212,0.6)] text-cyan-300">
-          Generador de Código QR
-        </h1>
-
-        <p className="text-gray-300 font-bold mb-10 text-center text-base md:text-lg max-w-lg">
-          Escribe un enlace o texto y genera un código QR listo para
-          descargar o compartir.
-        </p>
-
-        <div className="w-full max-w-xl bg-[#0a1622]/80 backdrop-blur-2xl border border-cyan-500/20 rounded-[32px] p-8 md:p-12 shadow-[0_0_30px_rgba(0,0,0,0.5)] flex flex-col items-center">
-          <div className="w-full mb-6">
-            <label
-              htmlFor="qr-content"
-              className="block text-xs font-bold text-gray-400 uppercase tracking-wider mb-2"
-            >
-              Ingresa tu enlace o texto
-            </label>
-
-            <input
-              id="qr-content"
-              type="text"
-              value={textoQr}
-              onChange={(event) => setTextoQr(event.target.value)}
-              placeholder="Ejemplo: https://mi-sitio.com"
-              className="w-full py-3.5 px-4 rounded-2xl border border-cyan-900/50 bg-[#060D14] font-medium text-white focus:outline-none focus:ring-2 focus:ring-cyan-500 shadow-sm"
-            />
-          </div>
-
-          <div
-            ref={qrRef}
-            className="p-6 bg-white rounded-3xl border border-cyan-500/30 shadow-[0_0_20px_rgba(6,182,212,0.15)] mb-6 flex items-center justify-center min-h-[224px] min-w-[224px]"
-          >
-            <QRCodeCanvas
-              value={valorQr}
-              size={200}
-              level="H"
-              marginSize={1}
-            />
-          </div>
-
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 w-full">
-            <button
-              type="button"
-              onClick={descargarQr}
-              className="w-full bg-gradient-to-r from-cyan-500 to-blue-600 text-black font-bold py-4 px-6 rounded-2xl shadow-[0_0_20px_rgba(6,182,212,0.3)] hover:opacity-90 transition"
-            >
-              Descargar Código QR
-            </button>
-
-            <button
-              type="button"
-              onClick={compartirQr}
-              className="w-full bg-[#060D14] border border-cyan-500/30 text-cyan-400 font-bold py-4 px-6 rounded-2xl hover:bg-cyan-500/10 transition shadow-sm"
-            >
-              Compartir QR 🔗
-            </button>
-          </div>
-        </div>
-      </main>
-
-      <BarraEfemeride />
-
-      <footer className="w-full border-t border-cyan-900/40 py-8 text-center text-xs text-gray-500 flex items-center justify-center bg-[#04080c]">
-        <span>PALJALE © 2026 — Todos los derechos reservados.</span>
-      </footer>
-    </div>
-  );
+      </section>
+    </main>
+  </>;
 }
