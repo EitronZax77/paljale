@@ -3,6 +3,9 @@ import { siteConfig } from "@/lib/site";
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const rutas = [
+    '/conversor-colores',
+    '/temporizador',
+    '/generador-cotizaciones',
     '/interes-compuesto',
     '/calculadora-ahorro',
     '/calculadora-propinas',

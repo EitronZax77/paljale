@@ -1,3 +1,4 @@
+
 import type { Metadata } from "next";
 import Link from "next/link";
 import SiteHeader from "@/components/SiteHeader";
@@ -12,6 +13,8 @@ export const metadata: Metadata = {
 };
 
 const tools = [
+  { href: '/conversor-colores', title: 'Conversor de colores', detail: 'Convierte HEX, RGB y HSL con vista previa.', icon: 'compare', accent: '#7c3aed' },
+  { href: '/temporizador', title: 'Temporizador', detail: 'Cuenta regresiva con pausa y reinicio.', icon: 'info', accent: '#ea580c' },
   { href: "/qr", title: "Generador QR", detail: "Crea códigos para enlaces y textos.", icon: "business", accent: "#0d9488" },
   { href: "/generador-contrasenas", title: "Generador de contraseñas", detail: "Genera claves aleatorias seguras.", icon: "lock", accent: "#2563eb" },
   { href: "/conversor-unidades", title: "Conversor de unidades", detail: "Convierte medidas y temperaturas.", icon: "calculator", accent: "#ea580c" },
@@ -42,7 +45,9 @@ export default function Page() {
             </Link>
           </article>)}
         </section>
-      </main>
+      
+        
+</main>
     </StudioFrame>
   </>;
 }
