@@ -3,6 +3,9 @@ import { siteConfig } from "@/lib/site";
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const rutas = [
+    '/conversor-criptomonedas',
+    '/precios-criptomonedas',
+    '/orden-de-compra',
     '/conversor-colores',
     '/temporizador',
     '/generador-cotizaciones',
